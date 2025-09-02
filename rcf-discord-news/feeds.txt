@@ -1,3 +1,4 @@
 # Lisää tai poista lähteitä. Yksi URL per rivi. Rivin alussa # = kommentti.
 https://zwiftinsider.com/feed/
 https://mywhoosh.com/news-articles/
+https://www.dcrainmaker.com/feed/
