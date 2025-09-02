@@ -1,8 +1,9 @@
 name: RCF Zwift & MyWhoosh uutiset
+
 on:
+  workflow_dispatch:       # Mahdollistaa manuaalisen ajon
   schedule:
-    - cron: "*/30 * * * *"
-  workflow_dispatch:
+    - cron: "*/30 * * * *" # Ajetaan myös automaattisesti 30 min välein
 
 permissions:
   contents: write
@@ -10,24 +11,27 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rcf-discord-news   # Tämä varmistaa, että kaikki ajetaan alikansiossa
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install deps
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r rcf-discord-news/requirements.txt
+          pip install -r requirements.txt
 
       - name: Run fetcher
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          python rcf-discord-news/fetch_and_post.py
+          python fetch_and_post.py
 
       - name: Commit seen.json if changed
         run: |
-          cd rcf-discord-news
           if [[ -n "$(git status --porcelain seen.json)" ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -37,28 +41,3 @@ jobs:
           else
             echo "No changes to commit"
           fi
-- name: Install deps
-  working-directory: rcf-discord-news
-  run: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-
-- name: Run fetcher
-  working-directory: rcf-discord-news
-  env:
-    DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-  run: |
-    python fetch_and_post.py
-
-- name: Commit seen.json if changed
-  working-directory: rcf-discord-news
-  run: |
-    if [[ -n "$(git status --porcelain seen.json)" ]]; then
-      git config user.name "github-actions[bot]"
-      git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      git add seen.json
-      git commit -m "chore: update seen.json [skip ci]" || true
-      git push
-    else
-      echo "No changes to commit"
-    fi
