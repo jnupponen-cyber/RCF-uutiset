@@ -11,3 +11,7 @@ shorts
 # Lähdekohtaiset estot:
 source=DC Rainmaker|watch
 source=DC Rainmaker|wrist
+# Estetään kaikki YouTube Shorts -videot kaikilta kanavilta
+shorts
+# Tai estetään Shorts vain MyWhooshin YouTube-kanavalta:
+source=MyWhoosh|shorts
