@@ -2,5 +2,7 @@
 https://zwiftinsider.com/feed/
 https://mywhoosh.com/news-articles/
 https://www.dcrainmaker.com/feed/
-https://gplama.com/
 https://news.zwift.com
+https://www.youtube.com/feeds/videos.xml?channel_id=UCMuQZgYeohj9kRvgqMjIZ4Q
+https://www.youtube.com/feeds/videos.xml?channel_id=UCGQm9LKEDTtlj57ZzWZz1gA
+https://www.youtube.com/feeds/videos.xml?channel_id=UCMuQZgYeohj9kRvgqMjIZ4Q
