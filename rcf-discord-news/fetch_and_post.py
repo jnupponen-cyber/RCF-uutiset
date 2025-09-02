@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """
-RCF Discord -uutisbotti (embedit + luokittelu)
+RCF Discord -uutisbotti (rich embed: iso kuva + parempi tiivistelmä + linkkipainike)
 
-- Lukee RSS-lähteet feeds.txt:stä (samasta kansiosta kuin tämä skripti)
+- Lukee RSS-lähteet feeds.txt:stä (samasta kansiosta)
 - Estää duplikaatit seen.jsonilla
-- Postaa Discordiin webhookilla embed-kortteina:
+- Hakee kuvan ja kuvauksen myös sivun Open Graph -tageista (og:image, og:description)
+- Postaa Discordiin webhookilla:
   - otsikko linkkinä
-  - lähde
-  - lyhyt tiivistelmä
-  - värikoodattu tagi
-  - pikkukuva, jos saatavilla
+  - lähde + favicon
+  - napakka kuvaus
+  - iso kuva (tai thumbnail)
+  - linkkipainike
 """
 
 import os
@@ -20,6 +21,7 @@ import html
 import hashlib
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urlparse
 
 import requests
 import feedparser
@@ -31,9 +33,12 @@ FEEDS_FILE = SCRIPT_DIR / "feeds.txt"
 
 WEBHOOK = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
 
-MAX_ITEMS_PER_FEED = 10   # montako uusinta merkintää / feed tarkistetaan
-POST_DELAY_SEC = 1        # pieni tauko viestien väliin
-SUMMARY_MAXLEN = 160      # tiivistelmän pituus
+MAX_ITEMS_PER_FEED = 10
+POST_DELAY_SEC = 1
+SUMMARY_MAXLEN = 200
+REQUEST_TIMEOUT = 12
+# Aseta 0, jos haluat mieluummin pienen kuvan kortin sivuun
+PREFER_LARGE_IMAGE = int(os.environ.get("PREFER_LARGE_IMAGE", "1")) == 1
 
 # --- Apufunktiot ---
 
@@ -68,18 +73,30 @@ def uid_from_entry(entry) -> str:
     base = entry.get("id") or entry.get("link") or entry.get("title", "")
     return hashlib.sha256(base.encode("utf-8")).hexdigest()
 
-def clean_summary(s: str | None, maxlen: int = SUMMARY_MAXLEN) -> str:
+def clean_text(s: str | None) -> str:
     if not s:
         return ""
-    s = re.sub(r"<[^>]+>", "", s)            # poista HTML-tagit
+    s = re.sub(r"<[^>]+>", "", s)      # strip HTML
     s = html.unescape(s).strip()
     s = re.sub(r"\s+", " ", s)
-    if len(s) > maxlen:
-        s = s[: maxlen - 1].rstrip() + "…"
     return s
 
+def truncate(s: str, maxlen: int) -> str:
+    if len(s) <= maxlen:
+        return s
+    return s[:maxlen-1].rstrip() + "…"
+
+def domain_favicon(url: str) -> str | None:
+    try:
+        host = urlparse(url).netloc
+        if not host:
+            return None
+        # Google s2 favicon -palvelu (kevyt & luotettava)
+        return f"https://www.google.com/s2/favicons?sz=64&domain={host}"
+    except Exception:
+        return None
+
 def image_from_entry(entry) -> str | None:
-    # Yritä media_thumbnail / media_content
     for key in ("media_thumbnail", "media_content"):
         if key in entry and entry[key]:
             try:
@@ -88,13 +105,40 @@ def image_from_entry(entry) -> str | None:
                     return url
             except Exception:
                 pass
-    # Fallback: etsi <img src="..."> summarystä
+    # Fallback: <img src> summarystä
     html_part = entry.get("summary") or ""
     m = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', html_part, flags=re.I)
     return m.group(1) if m else None
 
+OG_IMG_RE = re.compile(r'<meta[^>]+property=["\']og:image["\'][^>]*content=["\']([^"\']+)["\']', re.I)
+TW_IMG_RE = re.compile(r'<meta[^>]+name=["\']twitter:image["\'][^>]*content=["\']([^"\']+)["\']', re.I)
+OG_DESC_RE = re.compile(r'<meta[^>]+property=["\']og:description["\'][^>]*content=["\']([^"\']+)["\']', re.I)
+TW_DESC_RE = re.compile(r'<meta[^>]+name=["\']twitter:description["\'][^>]*content=["\']([^"\']+)["\']', re.I)
+
+def fetch_og_meta(url: str) -> tuple[str | None, str | None]:
+    """Palauttaa (og_image, og_description) jos löytyy."""
+    try:
+        r = requests.get(url, timeout=REQUEST_TIMEOUT, headers={"User-Agent":"Mozilla/5.0 (RCF News Bot)"})
+        if r.status_code >= 400 or not r.text:
+            return None, None
+        html_txt = r.text
+        img = None
+        desc = None
+        for rx in (OG_IMG_RE, TW_IMG_RE):
+            m = rx.search(html_txt)
+            if m:
+                img = m.group(1).strip()
+                break
+        for rx in (OG_DESC_RE, TW_DESC_RE):
+            m = rx.search(html_txt)
+            if m:
+                desc = clean_text(m.group(1))
+                break
+        return img, desc
+    except Exception:
+        return None, None
+
 def classify(title: str) -> tuple[str, int]:
-    """Palauta (tagi, väri) Discordin embedille."""
     t = (title or "").lower()
     if any(k in t for k in ["update", "release", "patch", "notes", "päivitys"]):
         return ("#päivitys", int("0x00A3FF", 16))   # sininen
@@ -104,29 +148,47 @@ def classify(title: str) -> tuple[str, int]:
         return ("#reitti", int("0x66BB6A", 16))     # vihreä
     if any(k in t for k in ["bike", "wheel", "frame", "hardware", "equipment"]):
         return ("#kalusto", int("0x9C27B0", 16))    # violetti
-    return ("#uutinen", int("0x5865F2", 16))        # Discordin “blurple”
+    return ("#uutinen", int("0x5865F2", 16))        # blurple
 
 def post_to_discord(title: str, url: str, source: str, summary: str | None, image_url: str | None) -> None:
     if not WEBHOOK:
         raise RuntimeError("DISCORD_WEBHOOK_URL ei ole asetettu ympäristömuuttujaksi.")
     tag, color = classify(title)
 
+    # Linkkinappi
+    components = [{
+        "type": 1,  # ACTION_ROW
+        "components": [{
+            "type": 2,  # BUTTON
+            "style": 5, # LINK
+            "label": "Avaa artikkeli",
+            "url": url
+        }]
+    }]
+
+    author = {"name": source}
+    fav = domain_favicon(url)
+    if fav:
+        author["icon_url"] = fav
+
     embed = {
         "type": "rich",
         "title": title,
         "url": url,
-        "description": summary or "",
+        "description": truncate(summary or "", SUMMARY_MAXLEN),
         "color": color,
-        "author": {"name": source},
+        "author": author,
         "footer": {"text": f"{tag} · RCF-uutiset"},
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
-    # Pidetään viesti matalana → käytä thumbnailia ison kuvan sijaan
     if image_url:
-        embed["thumbnail"] = {"url": image_url}
+        if PREFER_LARGE_IMAGE:
+            embed["image"] = {"url": image_url}
+        else:
+            embed["thumbnail"] = {"url": image_url}
 
-    payload = {"embeds": [embed]}
-    resp = requests.post(WEBHOOK, json=payload, timeout=20)
+    payload = {"embeds": [embed], "components": components}
+    resp = requests.post(WEBHOOK, json=payload, timeout=REQUEST_TIMEOUT)
     if resp.status_code >= 300:
         raise RuntimeError(f"Discord POST failed: {resp.status_code} {resp.text}")
 
@@ -135,7 +197,7 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
 def main() -> None:
     feeds = read_feeds()
     if not feeds:
-        print("[ERROR] feeds.txt on tyhjä tai puuttuu. Lisää RSS-osoitteet.")
+        print("[ERROR] feeds.txt on tyhjä tai puuttuu.")
         return
 
     seen = load_seen()
@@ -151,11 +213,19 @@ def main() -> None:
                 continue
             title = e.get("title") or "Uusi artikkeli"
             link = e.get("link") or feed_url
-            summary = clean_summary(e.get("summary"))
+            summary = clean_text(e.get("summary"))
             img = image_from_entry(e)
+
+            # Paranna kuvalla ja kuvauksella OG-metasta
+            og_img, og_desc = fetch_og_meta(link)
+            if not img and og_img:
+                img = og_img
+            if (not summary or len(summary) < 40) and og_desc:
+                summary = og_desc
+
             all_new.append((u, title, link, source, summary, img))
 
-    # Postataan kronologisesti (vanhin ensin), jotta “livenä” järjestys on luonnollinen
+    # Postataan vanhimmasta uusimpaan
     all_new.reverse()
     print(f"[INFO] Uusia julkaisuja: {len(all_new)}")
 
