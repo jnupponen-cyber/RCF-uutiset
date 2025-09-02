@@ -191,6 +191,43 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
     resp = requests.post(WEBHOOK, json=payload, timeout=REQUEST_TIMEOUT)
     if resp.status_code >= 300:
         raise RuntimeError(f"Discord POST failed: {resp.status_code} {resp.text}")
+# --- Estolistat ---
+BLOCKLIST_FILE = SCRIPT_DIR / "blocklist.txt"
+
+def load_blocklist(path: Path = BLOCKLIST_FILE):
+    """
+    Palauttaa kaksi listaa:
+    - global_terms: [ "smartwatch", "apple watch", ... ]
+    - source_terms: [ ("dc rainmaker", "watch"), ... ]  # molemmat lowercasena
+    """
+    global_terms, source_terms = [], []
+    if not path.exists():
+        return global_terms, source_terms
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.lower().startswith("source=") and "|" in line:
+            # muoto: source=Nimi|hakusana
+            left, term = line.split("|", 1)
+            src = left.split("=", 1)[1].strip().lower()
+            source_terms.append((src, term.strip().lower()))
+        else:
+            global_terms.append(line.lower())
+    return global_terms, source_terms
+
+def should_skip_article(source_name: str, title: str, summary: str, global_terms, source_terms) -> bool:
+    text = f"{title} {summary}".lower()
+    # Yleiset termit
+    for t in global_terms:
+        if t in text:
+            return True
+    # Lähdekohtaiset termit
+    src_lower = (source_name or "").lower()
+    for src, t in source_terms:
+        if src in src_lower and t in text:
+            return True
+    return False
 
 # --- Päätoiminto ---
 
