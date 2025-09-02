@@ -4,6 +4,10 @@ suunto
 Pixel watch
 Coros Nomad
 
+# Estetään YouTube Shorts -videot
+#shorts
+shorts
+
 # Lähdekohtaiset estot:
 source=DC Rainmaker|watch
 source=DC Rainmaker|wrist
