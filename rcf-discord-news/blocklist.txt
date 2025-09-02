@@ -1,0 +1,6 @@
+# Yleiset estot (kaikilta lähteiltä)
+insta360
+
+# Lähdekohtaiset estot:
+source=DC Rainmaker|watch
+source=DC Rainmaker|wrist
