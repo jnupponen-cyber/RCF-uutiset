@@ -1,5 +1,8 @@
 # Yleiset estot (kaikilta lähteiltä)
 insta360
+suunto
+Pixel watch
+Coros Nomad
 
 # Lähdekohtaiset estot:
 source=DC Rainmaker|watch
