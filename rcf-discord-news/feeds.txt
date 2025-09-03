@@ -3,6 +3,7 @@ https://zwiftinsider.com/feed/
 https://mywhoosh.com/news-articles/feed/
 https://www.dcrainmaker.com/feed
 https://news.zwift.com/feed/
+https://www.bikeradar.com/
 
 # --- YouTube ---
 https://www.youtube.com/feeds/videos.xml?channel_id=UC9pXQGJZ2t-F3W6aZztYUTA
