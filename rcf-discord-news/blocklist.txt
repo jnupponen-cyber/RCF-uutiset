@@ -4,6 +4,7 @@ suunto
 Pixel watch
 Coros Nomad
 Polar Loop
+Join Team Italy
 
 # Estetään YouTube Shorts -videot
 #shorts
