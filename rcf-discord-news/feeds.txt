@@ -3,7 +3,6 @@ https://zwiftinsider.com/feed/                   # Zwift Insider – uutiset, ki
 https://mywhoosh.com/news-articles/feed/         # MyWhoosh News – päivitykset ja tapahtumat
 https://www.dcrainmaker.com/feed                 # DC Rainmaker – testit, arvostelut, softapäivitykset
 https://news.zwift.com/feed/                     # Zwift.com News – viralliset Zwift-julkaisut
-
 # --- YouTube-kanavat ---
 https://www.youtube.com/feeds/videos.xml?channel_id=UC9pXQGJZ2t-F3W6aZztYUTA    # GPLama
 https://www.youtube.com/feeds/videos.xml?channel_id=UCuTaETsuCOkJ0H_GAztWt0Q    # GCN
