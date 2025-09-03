@@ -34,6 +34,8 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 STATE_FILE = SCRIPT_DIR / "seen.json"
 FEEDS_FILE = SCRIPT_DIR / "feeds.txt"
 BLOCKLIST_FILE = SCRIPT_DIR / "blocklist.txt"
+
+# Estä YouTube Shorts -URLit kovasäännöllä (oletus: päällä)
 BLOCK_YT_SHORTS = int(os.environ.get("BLOCK_YT_SHORTS", "1")) == 1
 
 WEBHOOK = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
@@ -208,16 +210,38 @@ def load_blocklist(path: Path = BLOCKLIST_FILE):
             global_terms.append(line.lower())
     return global_terms, source_terms
 
-def should_skip_article(source_name: str, title: str, summary: str,
-                        global_terms, source_terms) -> bool:
+def should_skip_article(source_name: str,
+                        title: str,
+                        summary: str,
+                        link: str,
+                        global_terms,
+                        source_terms) -> bool:
+    """
+    Palauttaa True jos artikkeli pitää ohittaa.
+    - Hakee termejä otsikosta, kuvauksesta JA linkistä
+    - Erikoissääntö: blokkaa YouTube Shorts -URLit (youtube.com/shorts/...), jos BLOCK_YT_SHORTS=1
+    """
     text = f"{title} {summary}".lower()
-    for t in global_terms:
-        if t and t in text:
-            return True
+    link_l = (link or "").lower()
     src_lower = (source_name or "").lower()
-    for src, t in source_terms:
-        if src in src_lower and t in text:
+
+    # 1) Kovasääntö: blokkaa YouTube Shorts -URLit
+    if BLOCK_YT_SHORTS and ("youtube.com/shorts/" in link_l):
+        return True
+
+    # 2) Globaalit termit: täsmäävät jos osuvat joko tekstiin TAI linkkiin
+    for t in global_terms:
+        t = t.strip().lower()
+        if not t:
+            continue
+        if t in text or t in link_l:
             return True
+
+    # 3) Lähdekohtaiset termit (source=...|...)
+    for src, t in source_terms:
+        if src in src_lower and (t in text or t in link_l):
+            return True
+
     return False
 
 # -------- Discord-postaus --------
@@ -322,8 +346,8 @@ def main() -> None:
             if (not summary or len(summary) < 40) and og_desc:
                 summary = og_desc
 
-            # ⛔ Esto-lista: ohita, jos täsmää
-            if should_skip_article(source, title, summary, global_terms, source_terms):
+            # ⛔ Esto-lista: ohita, jos täsmää (HUOM: nyt myös linkki mukana!)
+            if should_skip_article(source, title, summary, link, global_terms, source_terms):
                 continue
 
             all_new.append((u, title, link, source, summary, img))
