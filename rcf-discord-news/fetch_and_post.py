@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-RCF Discord -uutisbotti (embedit + OG-kuvat + esto-lista + ping)
+RCF Discord -uutisbotti (embedit + OG-kuvat + esto-lista + ping + per-lähde värit)
 
 - Lukee RSS-lähteet feeds.txt:stä (samasta kansiosta)
 - Estää duplikaatit seen.jsonilla
@@ -12,7 +12,8 @@ RCF Discord -uutisbotti (embedit + OG-kuvat + esto-lista + ping)
   - napakka kuvaus
   - iso kuva (tai thumbnail)
   - linkkipainike
-  - (uusi) pingi: käyttäjä tai rooli, jos MENTION_* -ympäristömuuttuja asetettu
+  - pingi: käyttäjä tai rooli, jos MENTION_* -ympäristömuuttuja asetettu
+  - per-lähde värikoodit (SOURCE_COLORS)
 """
 
 import os
@@ -46,6 +47,23 @@ SUMMARY_MAXLEN = 200
 REQUEST_TIMEOUT = 12
 # Aseta 0, jos haluat mieluummin pienen kuvan kortin sivuun
 PREFER_LARGE_IMAGE = int(os.environ.get("PREFER_LARGE_IMAGE", "1")) == 1
+
+# --- Per-lähde värikoodit (voit laajentaa listaa vapaasti) ---
+SOURCE_COLORS = {
+    "Zwift Insider": int("0xFF6B00", 16),        # oranssi (Zwift)
+    "Zwift.com News": int("0xFF6B00", 16),       # oranssi (Zwift)
+    "MyWhoosh": int("0x2196F3", 16),             # sininen
+    "DC Rainmaker": int("0x9C27B0", 16),         # violetti
+    "GPLama": int("0x00BCD4", 16),               # turkoosi
+    "GCN": int("0xE91E63", 16),                  # pinkki
+    "GCN Tech": int("0x3F51B5", 16),             # sinivioletti
+    "ZRace Central": int("0x4CAF50", 16),        # vihreä
+    "Smart Bike Trainers": int("0x795548", 16),  # ruskea
+    "Dylan Johnson Cycling": int("0x009688", 16),# teal
+    "TrainerRoad": int("0xF44336", 16),          # punainen
+    "Everything’s Been Done": int("0x607D8B", 16), # harmaa/sinertävä
+    "Cycling Weekly": int("0x8BC34A", 16)        # kirkas vihreä
+}
 
 # --- Regex OG-metaan ---
 OG_IMG_RE = re.compile(r'<meta[^>]+property=["\']og:image["\'][^>]*content=["\']([^"\']+)["\']', re.I)
@@ -206,7 +224,14 @@ def should_skip_article(source_name: str, title: str, summary: str,
 def post_to_discord(title: str, url: str, source: str, summary: str | None, image_url: str | None) -> None:
     if not WEBHOOK:
         raise RuntimeError("DISCORD_WEBHOOK_URL ei ole asetettu ympäristömuuttujaksi.")
-    tag, color = classify(title)
+
+    # --- Per-lähde väri, tai fallback classify() ---
+    if source in SOURCE_COLORS:
+        color = SOURCE_COLORS[source]
+        footer_text = f"{source} · RCF-uutiset"
+    else:
+        tag, color = classify(title)
+        footer_text = f"{tag} · RCF-uutiset"
 
     # Linkkinappi
     components = [{
@@ -231,7 +256,7 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
         "description": truncate(summary or "", SUMMARY_MAXLEN),
         "color": color,
         "author": author,
-        "footer": {"text": f"{tag} · RCF-uutiset"},
+        "footer": {"text": footer_text},
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
     if image_url:
@@ -240,9 +265,9 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
         else:
             embed["thumbnail"] = {"url": image_url}
 
-    # --- UUSI: pingi käyttäjälle tai roolille (turvallinen allowed_mentions) ---
+    # Pingi käyttäjälle tai roolille (turvallinen allowed_mentions)
     content = None
-    allowed = {"parse": []}  # estää @everyone/@here-mentionit
+    allowed = {"parse": []}
     if MENTION_USER_ID:
         content = f"<@{MENTION_USER_ID}>"
         allowed["users"] = [MENTION_USER_ID]
