@@ -1,15 +1,18 @@
 # --- Uutissivustot ---
-https://zwiftinsider.com/feed/                   # Zwift Insider – uutiset, kisat, taktiikat
-https://mywhoosh.com/news-articles/feed/         # MyWhoosh News – päivitykset ja tapahtumat
-https://www.dcrainmaker.com/feed                 # DC Rainmaker – testit, arvostelut, softapäivitykset
-https://news.zwift.com/feed/                     # Zwift.com News – viralliset Zwift-julkaisut
-# --- YouTube-kanavat ---
-https://www.youtube.com/feeds/videos.xml?channel_id=UC9pXQGJZ2t-F3W6aZztYUTA    # GPLama
-https://www.youtube.com/feeds/videos.xml?channel_id=UCuTaETsuCOkJ0H_GAztWt0Q    # GCN
-https://www.youtube.com/feeds/videos.xml?channel_id=UC8HxHpgEtdhG0LvfXK8p0xA    # GCN Tech
-https://www.youtube.com/feeds/videos.xml?channel_id=UCNvHuq4CPlYcMqLTeBZl-rQ    # ZRace Central
-https://www.youtube.com/feeds/videos.xml?channel_id=UC-MuQZgYeohj9kRvgqMjIZ4Q   # MyWhoosh
-https://www.youtube.com/feeds/videos.xml?channel_id=UCpnjfa1j5zfrGjbZzbhYU5g    # Smart Bike Trainers
-https://www.youtube.com/feeds/videos.xml?channel_id=UCzSVuL3DWtOdmx3LAy0pNnQ    # Dylan Johnson Cycling
-https://www.youtube.com/feeds/videos.xml?channel_id=UCx4bQ9DL4HPLMumVY1Umjew    # TrainerRoad
-https://www.youtube.com/feeds/videos.xml?channel_id=UCVwu4In3Mp9Qh1HlEwutALA    # Everything’s Been Done
+https://zwiftinsider.com/feed/
+https://mywhoosh.com/news-articles/feed/
+https://www.dcrainmaker.com/feed
+https://news.zwift.com/feed/
+
+# --- YouTube ---
+https://www.youtube.com/feeds/videos.xml?channel_id=UC9pXQGJZ2t-F3W6aZztYUTA
+https://www.youtube.com/feeds/videos.xml?channel_id=UCuTaETsuCOkJ0H_GAztWt0Q
+https://www.youtube.com/feeds/videos.xml?channel_id=UC8HxHpgEtdhG0LvfXK8p0xA
+https://www.youtube.com/feeds/videos.xml?channel_id=UCNvHuq4CPlYcMqLTeBZl-rQ
+https://www.youtube.com/feeds/videos.xml?channel_id=UC-MuQZgYeohj9kRvgqMjIZ4Q
+https://www.youtube.com/feeds/videos.xml?channel_id=UCpnjfa1j5zfrGjbZzbhYU5g
+https://www.youtube.com/feeds/videos.xml?channel_id=UCzSVuL3DWtOdmx3LAy0pNnQ
+https://www.youtube.com/feeds/videos.xml?channel_id=UCx4bQ9DL4HPLMumVY1Umjew
+https://www.youtube.com/feeds/videos.xml?channel_id=UCVwu4In3Mp9Qh1HlEwutALA
+https://www.youtube.com/feeds/videos.xml?channel_id=UCviKf0QAj8DWkMrW33UJWqQ
+https://www.youtube.com/feeds/videos.xml?channel_id=UCviKf0QAj8DWkMrW33UJWqQ
