@@ -3,6 +3,7 @@ https://zwiftinsider.com/feed/
 https://mywhoosh.com/news-articles/feed/
 https://www.dcrainmaker.com/feed
 https://news.zwift.com/feed/
+https://www.bikeradar.com/news
 
 # --- YouTube ---
 https://www.youtube.com/feeds/videos.xml?channel_id=UC9pXQGJZ2t-F3W6aZztYUTA
@@ -16,3 +17,4 @@ https://www.youtube.com/feeds/videos.xml?channel_id=UCx4bQ9DL4HPLMumVY1Umjew
 https://www.youtube.com/feeds/videos.xml?channel_id=UCVwu4In3Mp9Qh1HlEwutALA
 https://www.youtube.com/feeds/videos.xml?channel_id=UCviKf0QAj8DWkMrW33UJWqQ
 https://www.youtube.com/feeds/videos.xml?channel_id=UCviKf0QAj8DWkMrW33UJWqQ
+https://www.youtube.com/feeds/videos.xml?channel_id=UCyrQSvn6_25rINepVZ6H0qQ
