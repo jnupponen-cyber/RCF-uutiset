@@ -34,6 +34,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 STATE_FILE = SCRIPT_DIR / "seen.json"
 FEEDS_FILE = SCRIPT_DIR / "feeds.txt"
 BLOCKLIST_FILE = SCRIPT_DIR / "blocklist.txt"
+BLOCK_YT_SHORTS = int(os.environ.get("BLOCK_YT_SHORTS", "1")) == 1
 
 WEBHOOK = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
 
