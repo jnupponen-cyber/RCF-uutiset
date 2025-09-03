@@ -3,6 +3,7 @@ insta360
 suunto
 Pixel watch
 Coros Nomad
+Polar Loop
 
 # Estetään YouTube Shorts -videot
 #shorts
