@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-RCF Discord -uutisbotti (embedit + OG-kuvat + esto-lista + ping + per-lähde värit)
+RCF Discord -uutisbotti (embedit + OG-kuvat + esto-lista + ping + per-lähde värit + suodatusraportti)
 
 - Lukee RSS-lähteet feeds.txt:stä (samasta kansiosta)
 - Estää duplikaatit seen.jsonilla
@@ -14,6 +14,7 @@ RCF Discord -uutisbotti (embedit + OG-kuvat + esto-lista + ping + per-lähde vä
   - linkkipainike
   - pingi: käyttäjä tai rooli, jos MENTION_* -ympäristömuuttuja asetettu
   - per-lähde värikoodit (SOURCE_COLORS)
+  - lokiin yhteenveto skippauksista (Shorts / globaali / lähdekohtainen)
 """
 
 import os
@@ -215,11 +216,12 @@ def should_skip_article(source_name: str,
                         summary: str,
                         link: str,
                         global_terms,
-                        source_terms) -> bool:
+                        source_terms) -> tuple[bool, str | None]:
     """
-    Palauttaa True jos artikkeli pitää ohittaa.
+    Palauttaa (skip, reason) jos artikkeli pitää ohittaa.
     - Hakee termejä otsikosta, kuvauksesta JA linkistä
     - Erikoissääntö: blokkaa YouTube Shorts -URLit (youtube.com/shorts/...), jos BLOCK_YT_SHORTS=1
+    reason-arvot: 'shorts' | 'global:<termi>' | 'source:<src>|<termi>' | None
     """
     text = f"{title} {summary}".lower()
     link_l = (link or "").lower()
@@ -227,22 +229,22 @@ def should_skip_article(source_name: str,
 
     # 1) Kovasääntö: blokkaa YouTube Shorts -URLit
     if BLOCK_YT_SHORTS and ("youtube.com/shorts/" in link_l):
-        return True
+        return True, "shorts"
 
     # 2) Globaalit termit: täsmäävät jos osuvat joko tekstiin TAI linkkiin
     for t in global_terms:
-        t = t.strip().lower()
-        if not t:
+        t_norm = t.strip().lower()
+        if not t_norm:
             continue
-        if t in text or t in link_l:
-            return True
+        if t_norm in text or t_norm in link_l:
+            return True, f"global:{t_norm}"
 
     # 3) Lähdekohtaiset termit (source=...|...)
     for src, t in source_terms:
         if src in src_lower and (t in text or t in link_l):
-            return True
+            return True, f"source:{src}|{t}"
 
-    return False
+    return False, None
 
 # -------- Discord-postaus --------
 
@@ -325,11 +327,18 @@ def main() -> None:
     seen = load_seen()
     all_new = []
 
+    # --- Suodatusraportin laskurit ---
+    found_total = 0
+    skip_stats = {"shorts": 0, "global": 0, "source": 0}
+    examples_global = []   # esim. 'pixel watch'
+    examples_source = []   # esim. 'dc rainmaker|watch'
+
     for feed_url in feeds:
         parsed = feedparser.parse(feed_url)
         source = parsed.feed.get("title", feed_url)
         entries = parsed.entries[:MAX_ITEMS_PER_FEED]
         for e in entries:
+            found_total += 1
             u = uid_from_entry(e)
             if u in seen:
                 continue
@@ -347,14 +356,33 @@ def main() -> None:
                 summary = og_desc
 
             # ⛔ Esto-lista: ohita, jos täsmää (HUOM: nyt myös linkki mukana!)
-            if should_skip_article(source, title, summary, link, global_terms, source_terms):
+            skip, reason = should_skip_article(source, title, summary, link, global_terms, source_terms)
+            if skip:
+                if reason == "shorts":
+                    skip_stats["shorts"] += 1
+                elif reason and reason.startswith("global:"):
+                    skip_stats["global"] += 1
+                    term = reason.split(":", 1)[1]
+                    if term not in examples_global and len(examples_global) < 3:
+                        examples_global.append(term)
+                elif reason and reason.startswith("source:"):
+                    skip_stats["source"] += 1
+                    term = reason.split(":", 1)[1]
+                    if term not in examples_source and len(examples_source) < 3:
+                        examples_source.append(term)
                 continue
 
             all_new.append((u, title, link, source, summary, img))
 
     # Postataan vanhimmasta uusimpaan
     all_new.reverse()
+    print(f"[INFO] Löydetty yhteensä: {found_total} kpl")
     print(f"[INFO] Uusia julkaisuja (suodatuksen jälkeen): {len(all_new)}")
+    print(f"[INFO] Skippaukset: shorts={skip_stats['shorts']}, global={skip_stats['global']}, source={skip_stats['source']}")
+    if examples_global:
+        print(f"[INFO] Esimerkit globaaleista termeistä: {', '.join(examples_global)}")
+    if examples_source:
+        print(f"[INFO] Esimerkit lähdekohtaisista: {', '.join(examples_source)}")
 
     for u, title, link, source, summary, img in all_new:
         try:
