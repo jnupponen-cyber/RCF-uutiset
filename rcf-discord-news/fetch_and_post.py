@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-RCF Discord -uutisbotti (embedit + OG-kuvat + esto-lista)
+RCF Discord -uutisbotti (embedit + OG-kuvat + esto-lista + ping)
 
 - Lukee RSS-lähteet feeds.txt:stä (samasta kansiosta)
 - Estää duplikaatit seen.jsonilla
@@ -12,6 +12,7 @@ RCF Discord -uutisbotti (embedit + OG-kuvat + esto-lista)
   - napakka kuvaus
   - iso kuva (tai thumbnail)
   - linkkipainike
+  - (uusi) pingi: käyttäjä tai rooli, jos MENTION_* -ympäristömuuttuja asetettu
 """
 
 import os
@@ -34,6 +35,10 @@ FEEDS_FILE = SCRIPT_DIR / "feeds.txt"
 BLOCKLIST_FILE = SCRIPT_DIR / "blocklist.txt"
 
 WEBHOOK = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
+
+# (uusi) ping-asetukset: määritä jompikumpi GitHub-sekreteihin
+MENTION_USER_ID = os.environ.get("MENTION_USER_ID", "").strip()   # esim. 123456789012345678
+MENTION_ROLE_ID = os.environ.get("MENTION_ROLE_ID", "").strip()   # roolin ID; vaatii roolin @-maininnan sallittuna
 
 MAX_ITEMS_PER_FEED = 10
 POST_DELAY_SEC = 1
@@ -74,6 +79,7 @@ def read_feeds(path: Path = FEEDS_FILE) -> list:
     feeds = []
     if path.exists():
         for line in path.read_text(encoding="utf-8").splitlines():
+            # HUOM: rivillä saa olla vain URL (kommentit erilliselle riville #)
             url = line.strip()
             if url and not url.startswith("#"):
                 feeds.append(url)
@@ -101,7 +107,7 @@ def domain_favicon(url: str) -> str | None:
         host = urlparse(url).netloc
         if not host:
             return None
-        # Google s2 favicon -palustus
+        # Google s2 favicon -palvelu
         return f"https://www.google.com/s2/favicons?sz=64&domain={host}"
     except Exception:
         return None
@@ -234,7 +240,21 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
         else:
             embed["thumbnail"] = {"url": image_url}
 
+    # --- UUSI: pingi käyttäjälle tai roolille (turvallinen allowed_mentions) ---
+    content = None
+    allowed = {"parse": []}  # estää @everyone/@here-mentionit
+    if MENTION_USER_ID:
+        content = f"<@{MENTION_USER_ID}>"
+        allowed["users"] = [MENTION_USER_ID]
+    elif MENTION_ROLE_ID:
+        content = f"<@&{MENTION_ROLE_ID}>"
+        allowed["roles"] = [MENTION_ROLE_ID]
+
     payload = {"embeds": [embed], "components": components}
+    if content:
+        payload["content"] = content
+        payload["allowed_mentions"] = allowed
+
     resp = requests.post(WEBHOOK, json=payload, timeout=REQUEST_TIMEOUT)
     if resp.status_code >= 300:
         raise RuntimeError(f"Discord POST failed: {resp.status_code} {resp.text}")
