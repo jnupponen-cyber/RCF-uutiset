@@ -5,6 +5,11 @@ https://www.dcrainmaker.com/feed
 https://news.zwift.com/feed/
 https://www.bikeradar.com/news
 https://www.cyclingweekly.com/news
+https://velo.outsideonline.com/category/news/
+https://velo.outsideonline.com/category/road/road-gear/
+https://velo.outsideonline.com/tag/velo-buyers-guide/
+https://velo.outsideonline.com/category/road/road-training/
+https://velo.outsideonline.com/category/gravel/gravel-gear/
 
 # --- YouTube ---
 https://www.youtube.com/feeds/videos.xml?channel_id=UC9pXQGJZ2t-F3W6aZztYUTA
