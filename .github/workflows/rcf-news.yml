@@ -5,7 +5,6 @@ on:
   schedule:
     - cron: "*/10 * * * *"
 
-
 permissions:
   contents: write
 
@@ -28,6 +27,7 @@ jobs:
       - name: Run fetcher
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DEBUG: "1"   # <- Näyttää debug-lokit ajossa
         run: |
           python fetch_and_post.py
 
