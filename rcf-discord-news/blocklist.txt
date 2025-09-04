@@ -71,3 +71,26 @@ source=DC Rainmaker|wrist
 shorts
 # Tai estetään Shorts vain MyWhooshin YouTube-kanavalta:
 source=MyWhoosh|shorts
+
+# Grand Tours ja kilpailut
+Vuelta a España
+Vuelta
+Tour of Britain
+stage victory
+stage win
+stage results
+stage report
+stage recap
+
+# Ajajanimet (uutiset ja siirtohuhut)
+Juan Ayuso
+Matthew Brennan
+Remco Evenepoel
+Tom Pidcock
+
+# Kilpailuorganisaatiot / politiikka
+USA Cycling
+transfer
+transfer saga
+transgender
+policy
