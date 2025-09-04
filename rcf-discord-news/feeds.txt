@@ -4,7 +4,6 @@ https://mywhoosh.com/news-articles/feed/
 https://www.dcrainmaker.com/feed
 https://news.zwift.com/feed/
 https://www.bikeradar.com/news
-http://feeds2.feedburner.com/cyclingnews/news
 
 # --- YouTube ---
 https://www.youtube.com/feeds/videos.xml?channel_id=UC9pXQGJZ2t-F3W6aZztYUTA
