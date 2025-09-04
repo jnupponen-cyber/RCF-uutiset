@@ -1,10 +1,8 @@
 # Yleiset estot (kaikilta lähteiltä)
 insta360
-suunto
 Pixel watch
 Coros Nomad
 Polar
-Join Team Italy
 
 # Maastopyöräily
 mountain bike
@@ -34,6 +32,21 @@ Oura Ring
 smartwatch
 fitness tracker
 activity band
+
+# Action cameras
+GoPro
+DJI Osmo Action
+DJI Action
+Insta360
+Insta360 One
+Insta360 X
+Insta360 Ace
+action cam
+action camera
+helmet cam
+sports camera
+4K action
+360 camera
 
 # Race results
 results
