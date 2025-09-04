@@ -3,6 +3,8 @@ insta360
 Pixel watch
 Coros Nomad
 Polar
+ebike
+ebikes
 
 # Maastopyöräily
 mountain bike
