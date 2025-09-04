@@ -33,7 +33,7 @@ import feedparser
 # --- Perusasetukset ---
 SCRIPT_DIR = Path(__file__).resolve().parent
 STATE_FILE = SCRIPT_DIR / "seen.json"
-FEEDS_FILE = SCRIPT_DIR / "feeds.txt"
+FEEDS_FILE = SCRIPT_DIR / "temp_feeds.txt"
 BLOCKLIST_FILE = SCRIPT_DIR / "blocklist.txt"
 
 # Estä YouTube Shorts -URLit kovasäännöllä (oletus: päällä)
