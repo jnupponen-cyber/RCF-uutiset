@@ -67,7 +67,8 @@ SOURCE_COLORS = {
     "TrainerRoad": int("0xF44336", 16),          # punainen
     "Everything’s Been Done": int("0x607D8B", 16), # harmaa/sinertävä
     "Cycling Weekly": int("0x8BC34A", 16),       # kirkas vihreä
-    "BikeRadar": int("0x1E88E5", 16)             # sininen (BikeRadar)
+    "BikeRadar": int("0x1E88E5", 16),            # sininen (BikeRadar)
+    "Velo": int("0x00F7FF", 16)                  # kirkas turkoosi (Velo)
 }
 
 # --- Regex OG-metaan ---
