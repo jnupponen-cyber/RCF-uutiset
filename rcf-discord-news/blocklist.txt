@@ -5,9 +5,35 @@ Pixel watch
 Coros Nomad
 Polar
 Join Team Italy
+
+# Maastopyöräily
 mountain bike
 hardtail
 trail bike
+downhill
+enduro
+full suspension
+MTB
+XC bike
+fatbike
+singletrack
+
+# Urheilukellot ja -rannekkeet
+Fenix
+Forerunner
+Venu
+Vivoactive
+Apple Watch
+Samsung Galaxy Watch
+Huawei Watch
+Fitbit
+Amazfit
+Xiaomi Watch
+Whoop
+Oura Ring
+smartwatch
+fitness tracker
+activity band
 
 # Estetään YouTube Shorts -videot
 #shorts
