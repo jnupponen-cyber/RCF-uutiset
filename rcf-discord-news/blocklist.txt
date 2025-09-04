@@ -3,8 +3,6 @@ insta360
 Pixel watch
 Coros Nomad
 Polar
-ebike
-ebikes
 
 # Maastopyöräily
 mountain bike
@@ -62,24 +60,13 @@ race recap
 race summary
 race highlights
 
-# Estetään YouTube Shorts -videot
-#shorts
-shorts
-
-# Lähdekohtaiset estot:
-source=DC Rainmaker|watch
-source=DC Rainmaker|wrist
-# Estetään kaikki YouTube Shorts -videot kaikilta kanavilta
-shorts
-# Tai estetään Shorts vain MyWhooshin YouTube-kanavalta:
-source=MyWhoosh|shorts
-
 # Grand Tours ja kilpailut
 Vuelta a España
 Vuelta
 Tour of Britain
 stage victory
 stage win
+stage
 stage results
 stage report
 stage recap
@@ -95,4 +82,40 @@ USA Cycling
 transfer
 transfer saga
 transgender
+ban
 policy
+neutralised
+neutralized
+
+# Katseluohjeet (ei Zwift, vain kilpailu-uusinnat yms.)
+how to watch
+watch live
+broadcast
+TV coverage
+coverage
+start time
+schedule
+where to watch
+live coverage
+race start
+air time
+
+# Maryland Cycling Classic
+Maryland Cycling Classic
+Maryland Classic
+Baltimore race
+Baltimore Classic
+Maryland stage
+Maryland race
+
+# Estetään YouTube Shorts -videot
+#shorts
+shorts
+
+# Lähdekohtaiset estot:
+source=DC Rainmaker|watch
+source=DC Rainmaker|wrist
+# Estetään kaikki YouTube Shorts -videot kaikilta kanavilta
+shorts
+# Tai estetään Shorts vain MyWhooshin YouTube-kanavalta:
+source=MyWhoosh|shorts
