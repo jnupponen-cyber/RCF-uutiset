@@ -4,7 +4,7 @@ https://mywhoosh.com/news-articles/feed/
 https://www.dcrainmaker.com/feed
 https://news.zwift.com/feed/
 https://www.bikeradar.com/news
-https://www.cyclingweekly.com/news
+https://www.cyclingweekly.com/rss
 https://velo.outsideonline.com/feed/
 https://velo.outsideonline.com/category/news/feed/
 https://velo.outsideonline.com/category/road/road-gear/feed/
