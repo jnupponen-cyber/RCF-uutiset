@@ -35,6 +35,18 @@ smartwatch
 fitness tracker
 activity band
 
+# Race results
+results
+race results
+final results
+standings
+final standings
+classification
+race report
+race recap
+race summary
+race highlights
+
 # Estetään YouTube Shorts -videot
 #shorts
 shorts
