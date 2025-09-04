@@ -398,3 +398,78 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+diff --git a/fetch_and_post.py b/fetch_and_post.py
+--- a/fetch_and_post.py
++++ b/fetch_and_post.py
+@@
+-STATE_FILE = SCRIPT_DIR / "seen.json"
++STATE_FILE = SCRIPT_DIR / "seen.json"
+@@
+-def uid_from_entry(entry) -> str:
+-    base = entry.get("id") or entry.get("link") or entry.get("title", "")
+-    return hashlib.sha256(base.encode("utf-8")).hexdigest()
++DROP_QS_KEYS = {"utm_source","utm_medium","utm_campaign","utm_term","utm_content","gclid","fbclid","mc_cid","mc_eid"}
++def normalize_url(url: str) -> str:
++    try:
++        from urllib.parse import urlparse, urlunparse, parse_qsl, urlencode
++        u = urlparse(url)
++        # siivoa query-parametrit
++        q = [(k,v) for k,v in parse_qsl(u.query, keep_blank_values=True) if k not in DROP_QS_KEYS]
++        # domain pieneksi, poista lopun peräslashi, tyhjennä fragment
++        netloc = (u.netloc or "").lower()
++        path = (u.path or "").rstrip("/")
++        return urlunparse((u.scheme, netloc, path, "", urlencode(q, doseq=True), ""))
++    except Exception:
++        return url or ""
++
++def norm_title(title: str | None) -> str:
++    t = (title or "").lower()
++    t = re.sub(r"[^a-z0-9åäöéáàèùüß ]+", " ", t)  # poista erikoismerkit
++    t = re.sub(r"\s+", " ", t).strip()
++    return t
++
++def uid_from_entry(entry) -> tuple[str, str]:
++    """
++    Palauttaa kaksi avainta:
++      - u_url: hash(normalized_url) TAI id -> ensisijainen
++      - u_title: "t:" + hash(normalized_title) -> varakerros
++    """
++    link = entry.get("link") or ""
++    link_n = normalize_url(link) if link else ""
++    base = link_n or (entry.get("id") or "")
++    if not base:
++        base = (entry.get("title") or "") + "|" + str(entry.get("published") or entry.get("updated") or "")
++    u_url = hashlib.sha256(base.encode("utf-8")).hexdigest()
++    u_title = "t:" + hashlib.sha256(norm_title(entry.get("title")).encode("utf-8")).hexdigest()
++    return u_url, u_title
+@@
+-        for e in entries:
++        for e in entries:
+             found_total += 1
+-            u = uid_from_entry(e)
+-            if u in seen:
+-                continue
+-
+-            title = e.get("title") or "Uusi artikkeli"
+-            link = e.get("link") or feed_url
++            title = e.get("title") or "Uusi artikkeli"
++            link = e.get("link") or feed_url
++            u_url, u_title = uid_from_entry(e)
++            if (u_url in seen) or (u_title in seen):
++                continue
+@@
+-            all_new.append((u, title, link, source, summary, img))
++            all_new.append(((u_url, u_title), title, link, source, summary, img))
+@@
+-    for item in all_new:
+-        u, title, link, source, summary, img = item
++    for item in all_new:
++        (u_url, u_title), title, link, source, summary, img = item
+         try:
+             post_to_discord(title, link, source, summary, img)
+-            seen.add(u)
++            seen.add(u_url)
++            seen.add(u_title)
+             save_seen(seen)
+             time.sleep(POST_DELAY_SEC)
