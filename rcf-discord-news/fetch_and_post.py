@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 RCF Discord -uutisbotti (embedit + OG-kuvat + esto-lista + ping + per-lähde värit + suodatusraportti)
 
-- Lukee RSS-lähteet feeds.txt:stä (samasta kansiosta)
+- Lukee RSS-lähteet FEEDS_FILE-ympäristömuuttujasta tai oletuksena feeds.txt (samassa kansiossa)
 - Estää duplikaatit seen.jsonilla
 - Hakee kuvan ja kuvauksen myös sivun OG-tageista (og:image, og:description)
 - Suodattaa artikkelit blocklist.txt:n (esto-lista) perusteella
@@ -15,6 +16,10 @@ RCF Discord -uutisbotti (embedit + OG-kuvat + esto-lista + ping + per-lähde vä
   - pingi: käyttäjä tai rooli, jos MENTION_* -ympäristömuuttuja asetettu
   - per-lähde värikoodit (SOURCE_COLORS)
   - lokiin yhteenveto skippauksista (Shorts / globaali / lähdekohtainen)
+
+Käyttövinkit:
+- DEBUG=1 näyttää ajolokit (luetut feedit, entries-määrät, SKIP/POST-syyt).
+- FEEDS_FILE=polku.txt vaihtaa syötetiedoston (esim. temp-ajoon).
 """
 
 import os
@@ -30,10 +35,11 @@ from urllib.parse import urlparse
 import requests
 import feedparser
 
+
 # --- Perusasetukset ---
 SCRIPT_DIR = Path(__file__).resolve().parent
 STATE_FILE = SCRIPT_DIR / "seen.json"
-FEEDS_FILE = SCRIPT_DIR / "feeds.txt"
+FEEDS_FILE = Path(os.environ.get("FEEDS_FILE", SCRIPT_DIR / "feeds.txt")).resolve()
 BLOCKLIST_FILE = SCRIPT_DIR / "blocklist.txt"
 
 # Estä YouTube Shorts -URLit kovasäännöllä (oletus: päällä)
@@ -41,16 +47,22 @@ BLOCK_YT_SHORTS = int(os.environ.get("BLOCK_YT_SHORTS", "1")) == 1
 
 WEBHOOK = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
 
-# (uusi) ping-asetukset: määritä jompikumpi GitHub-sekreteihin
+# Ping-asetukset: määritä jompikumpi GitHub-sekreteihin
 MENTION_USER_ID = os.environ.get("MENTION_USER_ID", "").strip()   # esim. 123456789012345678
-MENTION_ROLE_ID = os.environ.get("MENTION_ROLE_ID", "").strip()   # roolin ID; vaatii roolin @-maininnan sallittuna
+MENTION_ROLE_ID = os.environ.get("MENTION_ROLE_ID", "").strip()   # roolin ID
 
+# Ajotapa
 MAX_ITEMS_PER_FEED = 10
 POST_DELAY_SEC = 1
 SUMMARY_MAXLEN = 200
 REQUEST_TIMEOUT = 12
-# Aseta 0, jos haluat mieluummin pienen kuvan kortin sivuun
 PREFER_LARGE_IMAGE = int(os.environ.get("PREFER_LARGE_IMAGE", "1")) == 1
+
+# DEBUG-moodi
+DEBUG = int(os.environ.get("DEBUG", "0")) == 1
+def logd(*args):
+    if DEBUG:
+        print("[DEBUG]", *args)
 
 # --- Per-lähde värikoodit (voit laajentaa listaa vapaasti) ---
 SOURCE_COLORS = {
@@ -72,10 +84,11 @@ SOURCE_COLORS = {
 }
 
 # --- Regex OG-metaan ---
-OG_IMG_RE = re.compile(r'<meta[^>]+property=["\']og:image["\'][^>]*content=["\']([^"\']+)["\']', re.I)
-TW_IMG_RE = re.compile(r'<meta[^>]+name=["\']twitter:image["\'][^>]*content=["\']([^"\']+)["\']', re.I)
+OG_IMG_RE  = re.compile(r'<meta[^>]+property=["\']og:image["\'][^>]*content=["\']([^"\']+)["\']', re.I)
+TW_IMG_RE  = re.compile(r'<meta[^>]+name=["\']twitter:image["\'][^>]*content=["\']([^"\']+)["\']', re.I)
 OG_DESC_RE = re.compile(r'<meta[^>]+property=["\']og:description["\'][^>]*content=["\']([^"\']+)["\']', re.I)
 TW_DESC_RE = re.compile(r'<meta[^>]+name=["\']twitter:description["\'][^>]*content=["\']([^"\']+)["\']', re.I)
+
 
 # -------------------------
 #        Apufunktiot
@@ -103,10 +116,12 @@ def read_feeds(path: Path = FEEDS_FILE) -> list:
     feeds = []
     if path.exists():
         for line in path.read_text(encoding="utf-8").splitlines():
-            # HUOM: rivillä saa olla vain URL (kommentit erilliselle riville #)
             url = line.strip()
+            # sallitaan tyhjät ja kommenttirivit
             if url and not url.startswith("#"):
                 feeds.append(url)
+    else:
+        print(f"[WARN] feeds file not found: {path}")
     return feeds
 
 def uid_from_entry(entry) -> str:
@@ -312,3 +327,106 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
     resp = requests.post(WEBHOOK, json=payload, timeout=REQUEST_TIMEOUT)
     if resp.status_code >= 300:
         raise RuntimeError(f"Discord POST failed: {resp.status_code} {resp.text}")
+
+
+# -------- Pääsilmukka --------
+
+def source_name_from_feed(parsed, fallback_url: str) -> str:
+    try:
+        name = parsed.feed.get("title")
+        if name:
+            return clean_text(name)
+    except Exception:
+        pass
+    return urlparse(fallback_url).netloc
+
+def process_feed(url: str, seen: set, global_terms, source_terms) -> dict:
+    """Palauttaa tilaston: {'total': N, 'posted': M, 'skipped': K}"""
+    stats = {"total": 0, "posted": 0, "skipped": 0}
+    d = feedparser.parse(url, request_headers={"User-Agent": "RCF News Bot"})
+    if getattr(d, "bozo", 0) and not getattr(d, "entries", None):
+        logd("FEED ERROR:", url, "| bozo:", getattr(d, "bozo", 0), "| error:", getattr(d, "bozo_exception", None))
+        return stats
+
+    source_name = source_name_from_feed(d, url)
+    entries = list(d.entries or [])
+    stats["total"] = len(entries)
+    logd("feed parsed:", source_name, "| entries:", len(entries))
+
+    # Uusimmat ensin jos mahdollista
+    try:
+        entries.sort(key=lambda e: e.get("published_parsed") or e.get("updated_parsed") or 0, reverse=True)
+    except Exception:
+        pass
+
+    for entry in entries[:MAX_ITEMS_PER_FEED]:
+        uid = uid_from_entry(entry)
+        title = clean_text(entry.get("title"))
+        link = entry.get("link") or ""
+        summary_html = entry.get("summary") or ""
+        summary = clean_text(summary_html)
+
+        # Skip jos olemme jo nähneet
+        if uid in seen:
+            stats["skipped"] += 1
+            logd("SKIP(seen):", source_name, "|", title)
+            continue
+
+        # Blocklist / shorts
+        skip, reason = should_skip_article(source_name, title, summary, link, global_terms, source_terms)
+        if skip:
+            stats["skipped"] += 1
+            logd("SKIP:", source_name, "| reason:", reason, "|", title)
+            continue
+
+        # Kuva: entry -> OG fallback
+        img = image_from_entry(entry)
+        if not img:
+            og_img, og_desc = fetch_og_meta(link)
+            if og_img:
+                img = og_img
+            if og_desc and not summary:
+                summary = og_desc
+
+        # Postaa
+        try:
+            logd("POST:", source_name, "|", title, "|", link)
+            post_to_discord(title=title, url=link, source=source_name, summary=summary, image_url=img)
+            stats["posted"] += 1
+            seen.add(uid)
+            time.sleep(POST_DELAY_SEC)
+        except Exception as e:
+            print(f"[WARN] Discord post failed for {link}: {e}")
+
+    return stats
+
+def main():
+    # Lataa tila ja asetukset
+    seen = load_seen()
+    global_terms, source_terms = load_blocklist()
+    feeds = read_feeds()
+
+    logd("FEEDS_FILE ->", str(FEEDS_FILE))
+    for f in feeds:
+        logd("  feed:", f)
+    logd("blocklist global terms:", len(global_terms), "source terms:", len(source_terms))
+
+    total_posted = 0
+    total_skipped = 0
+    total_entries = 0
+
+    for url in feeds:
+        stats = process_feed(url, seen, global_terms, source_terms)
+        total_posted += stats["posted"]
+        total_skipped += stats["skipped"]
+        total_entries += stats["total"]
+
+    save_seen(seen)
+    logd("run complete at", datetime.now(timezone.utc).isoformat(), "UTC",
+         "| feeds:", len(feeds),
+         "| entries:", total_entries,
+         "| posted:", total_posted,
+         "| skipped:", total_skipped)
+
+if __name__ == "__main__":
+    main()
