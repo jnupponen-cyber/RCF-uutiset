@@ -48,28 +48,25 @@ sports camera
 4K action
 360 camera
 
-# Race results
-results
-race results
-final results
-standings
-final standings
-classification
-race report
-race recap
-race summary
-race highlights
-
-# Grand Tours ja kilpailut
+# Grand Tours ja suuret kilpailut
 Vuelta a España
 Vuelta
 Tour of Britain
-stage victory
-stage win
-stage
-stage results
-stage report
-stage recap
+
+# Minor races (USA, UK, small national events)
+Tour of California
+Tour of Utah
+Tour of Colorado
+Colorado Classic
+Maryland Cycling Classic
+Women’s Tour
+Lincoln GP
+Rutland–Melton CiCLE Classic
+National Road Championships
+USA Cycling Nationals
+British Championships
+Yorkshire race
+Baltimore Classic
 
 # Ajajanimet (uutiset ja siirtohuhut)
 Juan Ayuso
@@ -87,7 +84,7 @@ policy
 neutralised
 neutralized
 
-# Katseluohjeet (ei Zwift, vain kilpailu-uusinnat yms.)
+# Katseluohjeet (ei Zwift, vain maantie- ja pienkisoihin liittyvät ohjeet)
 how to watch
 watch live
 broadcast
@@ -99,14 +96,6 @@ where to watch
 live coverage
 race start
 air time
-
-# Maryland Cycling Classic
-Maryland Cycling Classic
-Maryland Classic
-Baltimore race
-Baltimore Classic
-Maryland stage
-Maryland race
 
 # Estetään YouTube Shorts -videot
 #shorts
