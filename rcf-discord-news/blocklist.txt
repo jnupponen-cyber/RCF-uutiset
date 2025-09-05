@@ -94,9 +94,37 @@ did not start
 # Maailmanmestaruuskisat / aika-ajo
 World Championships
 Worlds
-time trial
-TT
 chrono
+
+# Sopimusuutiset, tiimit ja ammattilaisuus
+British champion
+new team
+pro contract
+signs with
+joins team
+contract breakup
+contract dispute
+contract drama
+ego
+salary
+money issues
+
+# Tapahtumat ja haasteet
+Big Ride Challenge
+finisher medal
+medals available
+challenge ride
+sportive
+gran fondo
+
+# UCI säännöt ja turvallisuus
+UCI rules
+UCI regulations
+weight safeguard
+weight rules
+rider safety
+safety measures
+petition
 
 # Kilpailuorganisaatiot / politiikka
 USA Cycling
