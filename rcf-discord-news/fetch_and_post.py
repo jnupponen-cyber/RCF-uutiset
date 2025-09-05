@@ -58,7 +58,7 @@ SUMMARY_MAXLEN = 200
 REQUEST_TIMEOUT = 12
 PREFER_LARGE_IMAGE = int(os.environ.get("PREFER_LARGE_IMAGE", "1")) == 1
 
-# DEBUG-moodi
+# DEBUG-moodi (oletuksena päällä tässä versiossa)
 DEBUG = int(os.environ.get("DEBUG", "1")) == 1
 def logd(*args):
     if DEBUG:
@@ -89,6 +89,20 @@ TW_IMG_RE  = re.compile(r'<meta[^>]+name=["\']twitter:image["\'][^>]*content=["\
 OG_DESC_RE = re.compile(r'<meta[^>]+property=["\']og:description["\'][^>]*content=["\']([^"\']+)["\']', re.I)
 TW_DESC_RE = re.compile(r'<meta[^>]+name=["\']twitter:description["\'][^>]*content=["\']([^"\']+)["\']', re.I)
 
+# --- Blocklist sanahaku: kokonaiset sanat + termipituusraja ---
+_WORD_RE_CACHE = {}
+def _word_in(text: str, term: str) -> bool:
+    term = term.strip()
+    if not term or len(term) < 3:
+        return False  # estä lyhyiden (kuten 'tt') aiheuttamat vääräosumat
+    rx = _WORD_RE_CACHE.get(term)
+    if rx is None:
+        rx = re.compile(rf"\b{re.escape(term)}\b", flags=re.I)
+        _WORD_RE_CACHE[term] = rx
+    return rx.search(text) is not None
+
+def _valid_discord_id(s: str) -> bool:
+    return bool(s) and s.isdigit() and s != "0" and len(s) >= 5
 
 # -------------------------
 #        Apufunktiot
@@ -225,7 +239,7 @@ def load_blocklist(path: Path = BLOCKLIST_FILE):
             src = left.split("=", 1)[1].strip().lower()
             source_terms.append((src, term.strip().lower()))
         else:
-            global_terms.append(line.lower())
+            global_terms.append(line)
     return global_terms, source_terms
 
 def should_skip_article(source_name: str,
@@ -236,29 +250,27 @@ def should_skip_article(source_name: str,
                         source_terms) -> tuple[bool, str | None]:
     """
     Palauttaa (skip, reason) jos artikkeli pitää ohittaa.
-    - Hakee termejä otsikosta, kuvauksesta JA linkistä
+    - Hakee termejä otsikosta, kuvauksesta JA linkistä kokonaisina sanoina
     - Erikoissääntö: blokkaa YouTube Shorts -URLit (youtube.com/shorts/...), jos BLOCK_YT_SHORTS=1
     reason-arvot: 'shorts' | 'global:<termi>' | 'source:<src>|<termi>' | None
     """
-    text = f"{title} {summary}".lower()
-    link_l = (link or "").lower()
+    text = f"{title} {summary}"
+    link_l = (link or "")
     src_lower = (source_name or "").lower()
 
     # 1) Kovasääntö: blokkaa YouTube Shorts -URLit
-    if BLOCK_YT_SHORTS and ("youtube.com/shorts/" in link_l):
+    if BLOCK_YT_SHORTS and ("youtube.com/shorts/" in link_l.lower()):
         return True, "shorts"
 
-    # 2) Globaalit termit: täsmäävät jos osuvat joko tekstiin TAI linkkiin
+    # 2) Globaalit termit: kokonaiset sanat (ja ohitetaan liian lyhyet)
     for t in global_terms:
-        t_norm = t.strip().lower()
-        if not t_norm:
-            continue
-        if t_norm in text or t_norm in link_l:
-            return True, f"global:{t_norm}"
+        t_norm = t.strip()
+        if _word_in(text, t_norm) or _word_in(link_l, t_norm):
+            return True, f"global:{t_norm.lower()}"
 
-    # 3) Lähdekohtaiset termit (source=...|...)
+    # 3) Lähdekohtaiset termit (source=...|...): kokonaiset sanat
     for src, t in source_terms:
-        if src in src_lower and (t in text or t in link_l):
+        if src in src_lower and (_word_in(text, t) or _word_in(link_l, t)):
             return True, f"source:{src}|{t}"
 
     return False, None
@@ -312,10 +324,10 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
     # Pingi käyttäjälle tai roolille (turvallinen allowed_mentions)
     content = None
     allowed = {"parse": []}
-    if MENTION_USER_ID:
+    if _valid_discord_id(MENTION_USER_ID):
         content = f"<@{MENTION_USER_ID}>"
         allowed["users"] = [MENTION_USER_ID]
-    elif MENTION_ROLE_ID:
+    elif _valid_discord_id(MENTION_ROLE_ID):
         content = f"<@&{MENTION_ROLE_ID}>"
         allowed["roles"] = [MENTION_ROLE_ID]
 
@@ -324,10 +336,37 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
         payload["content"] = content
         payload["allowed_mentions"] = allowed
 
+    # Lähetys + kevyt 429-retry
     resp = requests.post(WEBHOOK, json=payload, timeout=REQUEST_TIMEOUT)
+    if resp.status_code == 429:
+        try:
+            delay = float(resp.headers.get("Retry-After", "1"))
+        except Exception:
+            delay = 1.0
+        time.sleep(max(delay, 1.0))
+        resp = requests.post(WEBHOOK, json=payload, timeout=REQUEST_TIMEOUT)
+
     if resp.status_code >= 300:
         raise RuntimeError(f"Discord POST failed: {resp.status_code} {resp.text}")
 
+# -------- Feed-haku paremmilla headereilla --------
+
+def parse_feed(url: str):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (RCF News Bot; +https://github.com/rcf)",
+        "Accept": "application/atom+xml, application/rss+xml;q=0.9, application/xml;q=0.8, text/xml;q=0.7, */*;q=0.5",
+        "Accept-Language": "en-US,en;q=0.9",
+    }
+    try:
+        r = requests.get(url, headers=headers, timeout=REQUEST_TIMEOUT)
+        if r.status_code == 200 and r.content:
+            return feedparser.parse(r.content)
+        else:
+            logd("FEED HTTP:", url, "| status:", r.status_code)
+    except Exception as e:
+        logd("FEED REQ EXC:", url, "| err:", e)
+    # Fallback: anna feedparserin yrittää suoraan
+    return feedparser.parse(url, request_headers=headers)
 
 # -------- Pääsilmukka --------
 
@@ -343,7 +382,8 @@ def source_name_from_feed(parsed, fallback_url: str) -> str:
 def process_feed(url: str, seen: set, global_terms, source_terms) -> dict:
     """Palauttaa tilaston: {'total': N, 'posted': M, 'skipped': K}"""
     stats = {"total": 0, "posted": 0, "skipped": 0}
-    d = feedparser.parse(url, request_headers={"User-Agent": "RCF News Bot"})
+
+    d = parse_feed(url)
     if getattr(d, "bozo", 0) and not getattr(d, "entries", None):
         logd("FEED ERROR:", url, "| bozo:", getattr(d, "bozo", 0), "| error:", getattr(d, "bozo_exception", None))
         return stats
