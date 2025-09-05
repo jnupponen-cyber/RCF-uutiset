@@ -13,15 +13,6 @@ https://velo.outsideonline.com/category/road/road-training/feed/
 https://velo.outsideonline.com/category/gravel/gravel-gear/feed/
 
 # --- YouTube ---
-https://www.youtube.com/feeds/videos.xml?channel_id=UC9pXQGJZ2t-F3W6aZztYUTA
 https://www.youtube.com/feeds/videos.xml?channel_id=UCuTaETsuCOkJ0H_GAztWt0Q
-https://www.youtube.com/feeds/videos.xml?channel_id=UC8HxHpgEtdhG0LvfXK8p0xA
-https://www.youtube.com/feeds/videos.xml?channel_id=UCNvHuq4CPlYcMqLTeBZl-rQ
-https://www.youtube.com/feeds/videos.xml?channel_id=UC-MuQZgYeohj9kRvgqMjIZ4Q
-https://www.youtube.com/feeds/videos.xml?channel_id=UCpnjfa1j5zfrGjbZzbhYU5g
-https://www.youtube.com/feeds/videos.xml?channel_id=UCzSVuL3DWtOdmx3LAy0pNnQ
-https://www.youtube.com/feeds/videos.xml?channel_id=UCx4bQ9DL4HPLMumVY1Umjew
-https://www.youtube.com/feeds/videos.xml?channel_id=UCVwu4In3Mp9Qh1HlEwutALA
-https://www.youtube.com/feeds/videos.xml?channel_id=UCviKf0QAj8DWkMrW33UJWqQ
 https://www.youtube.com/feeds/videos.xml?channel_id=UCyrQSvn6_25rINepVZ6H0qQ
 https://www.youtube.com/feeds/videos.xml?channel_id=UCbcwZ8hm18GK6on_S_CgmFA
