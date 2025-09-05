@@ -11,6 +11,7 @@ https://velo.outsideonline.com/category/road/road-gear/feed/
 https://velo.outsideonline.com/tag/velo-buyers-guide/feed/
 https://velo.outsideonline.com/category/road/road-training/feed/
 https://velo.outsideonline.com/category/gravel/gravel-gear/feed/
+https://rss.app/feeds/537gR9QnviItxNVD.xml
 
 # --- YouTube ---
 https://www.youtube.com/feeds/videos.xml?channel_id=UC9pXQGJZ2t-F3W6aZztYUTA
