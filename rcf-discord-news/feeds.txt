@@ -1,7 +1,6 @@
 # --- Uutissivustot ---
 https://zwiftinsider.com/feed/
 https://www.dcrainmaker.com/feed
-https://www.bikeradar.com/feed/
 https://www.cyclingweekly.com/rss
 https://velo.outsideonline.com/feed/
 https://velo.outsideonline.com/category/news/feed/
