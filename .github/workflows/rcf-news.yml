@@ -27,12 +27,9 @@ jobs:
       - name: Run fetcher
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          DEBUG: "1"                         # Näyttää debug-lokit ajossa
-          THREAD_NAME_PREFIX: "RCF-uutiset"  # Luo viestistä threadin: "RCF-uutiset: <otsikko>"
-          MENTION_IN_FOOTER: "1"             # Näytä nimi footerissa, EI oikeaa ping-notaria
-          MENTION_USER_ID: "921684376046141441"   # Näytetään footerissa <@ID> (ei pingaa)
-          # vaihtoehtoisesti voit käyttää roolia footerissa:
-          # MENTION_ROLE_ID: "987654321098765432"
+          DEBUG: "1"   # Näyttää debug-lokit ajossa
+          MENTION_USER_ID: "0"   # <-- Lisää tähän oma Discord User ID
+          # vaihtoehtoisesti: MENTION_ROLE_ID: "987654321098765432"
         run: |
           python fetch_and_post.py
 
@@ -47,5 +44,3 @@ jobs:
           else
             echo "No changes to commit"
           fi
-
-
