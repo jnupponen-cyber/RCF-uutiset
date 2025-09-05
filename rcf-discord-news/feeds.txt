@@ -8,7 +8,6 @@ https://velo.outsideonline.com/category/road/road-gear/feed/
 https://velo.outsideonline.com/tag/velo-buyers-guide/feed/
 https://velo.outsideonline.com/category/road/road-training/feed/
 https://velo.outsideonline.com/category/gravel/gravel-gear/feed/
-https://www.bikeradar.com/apple-news-rss
 
 # --- YouTube ---
 https://www.youtube.com/feeds/videos.xml?channel_id=UCuTaETsuCOkJ0H_GAztWt0Q
