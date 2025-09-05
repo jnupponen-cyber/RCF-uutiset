@@ -27,9 +27,7 @@ jobs:
       - name: Run fetcher
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          DEBUG: "1"   # Näyttää debug-lokit ajossa
-          MENTION_USER_ID: "0"   # <-- Lisää tähän oma Discord User ID
-          # vaihtoehtoisesti: MENTION_ROLE_ID: "987654321098765432"
+          DEBUG: "1"   # <- Näyttää debug-lokit ajossa
         run: |
           python fetch_and_post.py
 
