@@ -73,6 +73,8 @@ Juan Ayuso
 Matthew Brennan
 Remco Evenepoel
 Tom Pidcock
+Tadej Pogacar
+Pogačar
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
 Kristen Faulkner
@@ -86,6 +88,13 @@ sidelined
 withdraws
 DNS
 did not start
+
+# Maailmanmestaruuskisat / aika-ajo
+World Championships
+Worlds
+time trial
+TT
+chrono
 
 # Kilpailuorganisaatiot / politiikka
 USA Cycling
