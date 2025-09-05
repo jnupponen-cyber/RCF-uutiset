@@ -309,26 +309,6 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
         else:
             embed["thumbnail"] = {"url": image_url}
 
-    # Pingi käyttäjälle tai roolille (turvallinen allowed_mentions)
-    content = None
-    allowed = {"parse": []}
-    if MENTION_USER_ID:
-        content = f"<@{MENTION_USER_ID}>"
-        allowed["users"] = [MENTION_USER_ID]
-    elif MENTION_ROLE_ID:
-        content = f"<@&{MENTION_ROLE_ID}>"
-        allowed["roles"] = [MENTION_ROLE_ID]
-
-    payload = {"embeds": [embed], "components": components}
-    if content:
-        payload["content"] = content
-        payload["allowed_mentions"] = allowed
-
-    resp = requests.post(WEBHOOK, json=payload, timeout=REQUEST_TIMEOUT)
-    if resp.status_code >= 300:
-        raise RuntimeError(f"Discord POST failed: {resp.status_code} {resp.text}")
-
-
 # -------- Pääsilmukka --------
 
 def source_name_from_feed(parsed, fallback_url: str) -> str:
