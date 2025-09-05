@@ -35,7 +35,6 @@ from urllib.parse import urlparse
 import requests
 import feedparser
 
-
 # --- Perusasetukset ---
 SCRIPT_DIR = Path(__file__).resolve().parent
 STATE_FILE = SCRIPT_DIR / "seen.json"
@@ -64,23 +63,31 @@ def logd(*args):
     if DEBUG:
         print("[DEBUG]", *args)
 
+# Yhteiset HTTP-headerit feedeille ja OG-meta-haulle (näytetään selaimelta)
+REQ_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept": "application/atom+xml, application/rss+xml;q=0.9, application/xml;q=0.8, text/xml;q=0.7, */*;q=0.5",
+    "Accept-Language": "en-US,en;q=0.9",
+}
+
 # --- Per-lähde värikoodit (voit laajentaa listaa vapaasti) ---
 SOURCE_COLORS = {
-    "Zwift Insider": int("0xFF6B00", 16),        # oranssi (Zwift)
-    "Zwift.com News": int("0xFF6B00", 16),       # oranssi (Zwift)
-    "MyWhoosh": int("0x2196F3", 16),             # sininen
-    "DC Rainmaker": int("0x9C27B0", 16),         # violetti
-    "GPLama": int("0x00BCD4", 16),               # turkoosi
-    "GCN": int("0xE91E63", 16),                  # pinkki
-    "GCN Tech": int("0x3F51B5", 16),             # sinivioletti
-    "ZRace Central": int("0x4CAF50", 16),        # vihreä
-    "Smart Bike Trainers": int("0x795548", 16),  # ruskea
-    "Dylan Johnson Cycling": int("0x009688", 16),# teal
-    "TrainerRoad": int("0xF44336", 16),          # punainen
-    "Everything’s Been Done": int("0x607D8B", 16), # harmaa/sinertävä
-    "Cycling Weekly": int("0x8BC34A", 16),       # kirkas vihreä
-    "BikeRadar": int("0x1E88E5", 16),            # sininen (BikeRadar)
-    "Velo": int("0x00F7FF", 16)                  # kirkas turkoosi (Velo)
+    "Zwift Insider": int("0xFF6B00", 16),
+    "Zwift.com News": int("0xFF6B00", 16),
+    "MyWhoosh": int("0x2196F3", 16),
+    "DC Rainmaker": int("0x9C27B0", 16),
+    "GPLama": int("0x00BCD4", 16),
+    "GCN": int("0xE91E63", 16),
+    "GCN Tech": int("0x3F51B5", 16),
+    "ZRace Central": int("0x4CAF50", 16),
+    "Smart Bike Trainers": int("0x795548", 16),
+    "Dylan Johnson Cycling": int("0x009688", 16),
+    "TrainerRoad": int("0xF44336", 16),
+    "Everything’s Been Done": int("0x607D8B", 16),
+    "Cycling Weekly": int("0x8BC34A", 16),
+    "BikeRadar": int("0x1E88E5", 16),
+    "Velo": int("0x00F7FF", 16),
 }
 
 # --- Regex OG-metaan ---
@@ -131,8 +138,7 @@ def read_feeds(path: Path = FEEDS_FILE) -> list:
     if path.exists():
         for line in path.read_text(encoding="utf-8").splitlines():
             url = line.strip()
-            # sallitaan tyhjät ja kommenttirivit
-            if url and not url.startswith("#"):
+            if url and not url.startswith("#"):  # sallitaan tyhjät ja kommenttirivit
                 feeds.append(url)
     else:
         print(f"[WARN] feeds file not found: {path}")
@@ -160,7 +166,6 @@ def domain_favicon(url: str) -> str | None:
         host = urlparse(url).netloc
         if not host:
             return None
-        # Google s2 favicon -palvelu
         return f"https://www.google.com/s2/favicons?sz=64&domain={host}"
     except Exception:
         return None
@@ -182,7 +187,7 @@ def image_from_entry(entry) -> str | None:
 def fetch_og_meta(url: str) -> tuple[str | None, str | None]:
     """Palauttaa (og_image, og_description) jos löytyy."""
     try:
-        r = requests.get(url, timeout=REQUEST_TIMEOUT, headers={"User-Agent":"Mozilla/5.0 (RCF News Bot)"})
+        r = requests.get(url, timeout=REQUEST_TIMEOUT, headers=REQ_HEADERS)
         if r.status_code >= 400 or not r.text:
             return None, None
         html_txt = r.text
@@ -259,7 +264,8 @@ def should_skip_article(source_name: str,
     src_lower = (source_name or "").lower()
 
     # 1) Kovasääntö: blokkaa YouTube Shorts -URLit
-    if BLOCK_YT_SHORTS and ("youtube.com/shorts/" in link_l.lower()):
+    ll = link_l.lower()
+    if BLOCK_YT_SHORTS and ("/shorts/" in ll and ("youtube.com" in ll or "youtu.be" in ll)):
         return True, "shorts"
 
     # 2) Globaalit termit: kokonaiset sanat (ja ohitetaan liian lyhyet)
@@ -352,21 +358,15 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
 # -------- Feed-haku paremmilla headereilla --------
 
 def parse_feed(url: str):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (RCF News Bot; +https://github.com/rcf)",
-        "Accept": "application/atom+xml, application/rss+xml;q=0.9, application/xml;q=0.8, text/xml;q=0.7, */*;q=0.5",
-        "Accept-Language": "en-US,en;q=0.9",
-    }
     try:
-        r = requests.get(url, headers=headers, timeout=REQUEST_TIMEOUT)
+        r = requests.get(url, headers=REQ_HEADERS, timeout=REQUEST_TIMEOUT)
+        logd("FEED HTTP:", url, "| status:", r.status_code)
         if r.status_code == 200 and r.content:
             return feedparser.parse(r.content)
-        else:
-            logd("FEED HTTP:", url, "| status:", r.status_code)
     except Exception as e:
         logd("FEED REQ EXC:", url, "| err:", e)
-    # Fallback: anna feedparserin yrittää suoraan
-    return feedparser.parse(url, request_headers=headers)
+    # Fallback: anna feedparserin yrittää suoraan (myös 30x-redirectit yms.)
+    return feedparser.parse(url, request_headers=REQ_HEADERS)
 
 # -------- Pääsilmukka --------
 
