@@ -52,6 +52,8 @@ sports camera
 Vuelta a España
 Vuelta
 Tour of Britain
+Tour de France Femmes
+Tour de France
 
 # Minor races (USA, UK, small national events)
 Tour of California
@@ -67,7 +69,6 @@ USA Cycling Nationals
 British Championships
 Yorkshire race
 Baltimore Classic
-Tour de France Femmes
 
 # Ajajanimet (uutiset ja siirtohuhut)
 Juan Ayuso
