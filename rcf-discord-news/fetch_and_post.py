@@ -59,7 +59,7 @@ REQUEST_TIMEOUT = 12
 PREFER_LARGE_IMAGE = int(os.environ.get("PREFER_LARGE_IMAGE", "1")) == 1
 
 # DEBUG-moodi
-DEBUG = int(os.environ.get("DEBUG", "0")) == 1
+DEBUG = int(os.environ.get("DEBUG", "1")) == 1
 def logd(*args):
     if DEBUG:
         print("[DEBUG]", *args)
