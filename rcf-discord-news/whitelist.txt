@@ -1,0 +1,12 @@
+# Globaalit whitelistaustermit (kokonaiset sanat)
+zwift
+whoosh
+headphones
+ripT
+
+# Lähdekohtaiset whitelistaustermit
+source=GCN|headphones
+source=DC Rainmaker|Zwift
+
+# Lähteet jotka sallitaan aina
+allow_source=Zwift Insider
