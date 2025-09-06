@@ -1,12 +1,22 @@
-# Globaalit whitelistaustermit (kokonaiset sanat)
+cervelo
+pinarello
+colnago
+specialized
+trek
+canyon
+bike
+cycling
 zwift
-whoosh
-headphones
-ripT
-
-# Lähdekohtaiset whitelistaustermit
-source=GCN|headphones
-source=DC Rainmaker|Zwift
-
-# Lähteet jotka sallitaan aina
-allow_source=Zwift Insider
+mywhoosh
+indoor
+kit
+jersey
+clothing
+winter
+summer
+shoes
+helmet
+sunglasses
+training
+nutrition
+recovery
