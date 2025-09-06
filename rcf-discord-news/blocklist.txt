@@ -27,6 +27,7 @@ Polar Loop
 Suunto Race
 Pixel Watch
 Garmin Venu
+Suunto
 
 # Action cameras
 GoPro
