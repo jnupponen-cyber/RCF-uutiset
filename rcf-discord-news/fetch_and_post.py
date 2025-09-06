@@ -1,14 +1,36 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-RCF Discord -uutisbotti (embedit + OG-kuvat + esto-lista + whitelist + ping + per-lähde värit + monen tagin footer)
+RCF Discord -uutisbotti (embedit + OG-kuvat + blocklist + whitelist + ping + per-lähde värit + monen tagin footer)
 
-- Lukee RSS-lähteet FEEDS_FILE-ympäristömuuttujasta tai oletuksena feeds.txt
-- Estää duplikaatit seen.jsonilla
-- Hakee kuvan ja kuvauksen myös sivun OG-tageista
+- Lukee RSS-lähteet FEEDS_FILE-ympäristömuuttujasta tai oletuksena feeds.txt (samassa kansiossa)
+- Estää duplikaatit seen.jsonilla (sha256 id/link/title)
+- Hakee kuvan ja kuvauksen myös sivun OG-tageista (og:image, og:description)
 - Suodattaa artikkelit blocklist.txt:n perusteella, mutta whitelist.txt voi ohittaa blokit
-- Postaa Discordiin webhookilla
-- Footerissa useita hashtageja (max 3)
+- Postaa Discordiin webhookilla:
+  - otsikko linkkinä
+  - lähde + favicon
+  - napakka kuvaus
+  - iso kuva (tai thumbnail)
+  - linkkipainike
+  - pingi (USER tai ROLE ID)
+  - per-lähde värikoodit (SOURCE_COLORS)
+  - footerissa jopa 3 hashtagiä (#päivitys #kisa #reitti #kalusto #mtb #vaatteet #gravel #trainer #zwift #mywhoosh ...)
+
+Ympäristömuuttujat (esimerkit):
+- DISCORD_WEBHOOK_URL=...
+- DEBUG=1
+- BLOCK_YT_SHORTS=1
+- ALLOW_SHORTS_IF_WHITELIST=0
+- PREFER_LARGE_IMAGE=1
+- MAX_ITEMS_PER_FEED=10
+- SUMMARY_MAXLEN=200
+
+Tiedostot samassa kansiossa:
+- feeds.txt         : syötteiden URLit
+- blocklist.txt     : esto-sanat (katso syntaksi koodista)
+- whitelist.txt     : sallivat sanat/lähteet (katso syntaksi koodista)
+- seen.json         : käsiteltyjen itemien uid-lista
 """
 
 import os
@@ -31,25 +53,31 @@ FEEDS_FILE = Path(os.environ.get("FEEDS_FILE", SCRIPT_DIR / "feeds.txt")).resolv
 BLOCKLIST_FILE = SCRIPT_DIR / "blocklist.txt"
 WHITELIST_FILE = SCRIPT_DIR / "whitelist.txt"
 
+# Estä YouTube Shorts -URLit kovasäännöllä (oletus: päällä)
 BLOCK_YT_SHORTS = int(os.environ.get("BLOCK_YT_SHORTS", "1")) == 1
+# Salli Shorts jos whitelist osuu (oletus: pois)
 ALLOW_SHORTS_IF_WHITELIST = int(os.environ.get("ALLOW_SHORTS_IF_WHITELIST", "0")) == 1
 
 WEBHOOK = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
+
+# Ping-asetukset
 MENTION_USER_ID = os.environ.get("MENTION_USER_ID", "").strip()
 MENTION_ROLE_ID = os.environ.get("MENTION_ROLE_ID", "").strip()
 
+# Ajotapa
 MAX_ITEMS_PER_FEED = int(os.environ.get("MAX_ITEMS_PER_FEED", "10"))
 POST_DELAY_SEC = float(os.environ.get("POST_DELAY_SEC", "1"))
 SUMMARY_MAXLEN = int(os.environ.get("SUMMARY_MAXLEN", "200"))
 REQUEST_TIMEOUT = int(os.environ.get("REQUEST_TIMEOUT", "12"))
 PREFER_LARGE_IMAGE = int(os.environ.get("PREFER_LARGE_IMAGE", "1")) == 1
 
+# DEBUG-moodi
 DEBUG = int(os.environ.get("DEBUG", "1")) == 1
 def logd(*args):
     if DEBUG:
         print("[DEBUG]", *args)
 
-# --- Värit per lähde ---
+# --- Per-lähde värikoodit ---
 SOURCE_COLORS = {
     "Zwift Insider": int("0xFF6B00", 16),
     "Zwift.com News": int("0xFF6B00", 16),
@@ -68,13 +96,13 @@ SOURCE_COLORS = {
     "Velo": int("0x00F7FF", 16),
 }
 
-# --- Regex OG ---
+# --- Regex OG-metaan ---
 OG_IMG_RE  = re.compile(r'<meta[^>]+property=["\']og:image["\'][^>]*content=["\']([^"\']+)["\']', re.I)
 TW_IMG_RE  = re.compile(r'<meta[^>]+name=["\']twitter:image["\'][^>]*content=["\']([^"\']+)["\']', re.I)
 OG_DESC_RE = re.compile(r'<meta[^>]+property=["\']og:description["\'][^>]*content=["\']([^"\']+)["\']', re.I)
 TW_DESC_RE = re.compile(r'<meta[^>]+name=["\']twitter:description["\'][^>]*content=["\']([^"\']+)["\']', re.I)
 
-# --- Sana-apurit ---
+# --- Sanahaku: kokonaiset sanat + termipituusraja ---
 _WORD_RE_CACHE = {}
 def _word_in(text: str, term: str) -> bool:
     term = term.strip()
@@ -89,231 +117,398 @@ def _word_in(text: str, term: str) -> bool:
 def _valid_discord_id(s: str) -> bool:
     return bool(s) and s.isdigit() and s != "0" and len(s) >= 5
 
-# --- Perusfunktiot ---
+# -------------------------
+#        Apufunktiot
+# -------------------------
+
 def load_seen(path: Path = STATE_FILE) -> set:
     if path.exists():
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
-            if isinstance(data, list): return set(data)
-            if isinstance(data, dict) and "ids" in data: return set(data["ids"])
-        except Exception: pass
+            if isinstance(data, list):
+                return set(data)
+            if isinstance(data, dict) and "ids" in data:
+                return set(data["ids"])
+        except Exception:
+            pass
     return set()
 
 def save_seen(seen: set, path: Path = STATE_FILE) -> None:
     try:
         path.write_text(json.dumps(sorted(list(seen)), ensure_ascii=False, indent=2), encoding="utf-8")
-    except Exception as e: print(f"[WARN] save_seen failed: {e}")
+    except Exception as e:
+        print(f"[WARN] save_seen failed: {e}")
 
 def read_feeds(path: Path = FEEDS_FILE) -> list:
-    if not path.exists():
+    feeds = []
+    if path.exists():
+        for line in path.read_text(encoding="utf-8").splitlines():
+            url = line.strip()
+            if url and not url.startswith("#"):
+                feeds.append(url)
+    else:
         print(f"[WARN] feeds file not found: {path}")
-        return []
-    return [line.strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip() and not line.startswith("#")]
+    return feeds
 
 def uid_from_entry(entry) -> str:
     base = entry.get("id") or entry.get("link") or entry.get("title", "")
     return hashlib.sha256(base.encode("utf-8")).hexdigest()
 
 def clean_text(s: str | None) -> str:
-    if not s: return ""
+    if not s:
+        return ""
     s = re.sub(r"<[^>]+>", "", s)
     s = html.unescape(s).strip()
     s = re.sub(r"\s+", " ", s)
     return s
 
 def truncate(s: str, maxlen: int) -> str:
-    return s if len(s) <= maxlen else s[:maxlen-1].rstrip() + "…"
+    if len(s) <= maxlen:
+        return s
+    return s[:maxlen-1].rstrip() + "…"
 
 def domain_favicon(url: str) -> str | None:
     try:
         host = urlparse(url).netloc
-        return f"https://www.google.com/s2/favicons?sz=64&domain={host}" if host else None
-    except Exception: return None
+        if not host:
+            return None
+        return f"https://www.google.com/s2/favicons?sz=64&domain={host}"
+    except Exception:
+        return None
 
 def image_from_entry(entry) -> str | None:
     for key in ("media_thumbnail", "media_content"):
         if key in entry and entry[key]:
-            try: return entry[key][0].get("url")
-            except Exception: pass
-    m = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', entry.get("summary") or "", flags=re.I)
+            try:
+                url = entry[key][0].get("url")
+                if url:
+                    return url
+            except Exception:
+                pass
+    html_part = entry.get("summary") or ""
+    m = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', html_part, flags=re.I)
     return m.group(1) if m else None
 
 def fetch_og_meta(url: str) -> tuple[str | None, str | None]:
     try:
         r = requests.get(url, timeout=REQUEST_TIMEOUT, headers={"User-Agent":"Mozilla/5.0 (RCF News Bot)"})
-        if r.status_code >= 400 or not r.text: return None, None
+        if r.status_code >= 400 or not r.text:
+            return None, None
         html_txt = r.text
-        img, desc = None, None
+        img = None
+        desc = None
         for rx in (OG_IMG_RE, TW_IMG_RE):
             m = rx.search(html_txt)
-            if m: img = m.group(1).strip(); break
+            if m:
+                img = m.group(1).strip()
+                break
         for rx in (OG_DESC_RE, TW_DESC_RE):
             m = rx.search(html_txt)
-            if m: desc = clean_text(m.group(1)); break
+            if m:
+                desc = clean_text(m.group(1))
+                break
         return img, desc
-    except Exception: return None, None
+    except Exception:
+        return None, None
 
-# --- Luokittelu ---
+# -------- Moni-hashtag -luokittelu (max 3 tägiä) --------
 def classify(title: str, summary: str = "") -> tuple[list[str], int]:
+    """
+    Palauttaa (tags, color)
+    - tags: enintään 3 hashtagiä, järjestys alla olevan säännöstön mukaan
+    - color: ensimmäisen osuman väri; fallback blurple
+    """
     text = (title + " " + summary).lower()
     tags: list[str] = []
     default_color = int("0x5865F2", 16)
     color = default_color
 
-    def add(tag: str, cond: bool, hexcolor: str):
+    def add(tag: str, key_list, color_hex: str | None = None):
         nonlocal color
-        if cond:
-            tags.append(tag)
-            if color == default_color:
-                color = int(hexcolor, 16)
+        if any(k in text for k in key_list):
+            if tag not in tags and len(tags) < 3:
+                tags.append(tag)
+            if color == default_color and color_hex:
+                color = int(color_hex, 16)
 
-    add("#päivitys", any(k in text for k in ["update","release","patch","notes","päivitys"]), "0x00A3FF")
-    add("#kisa", any(k in text for k in ["race","zracing","zrl","cup","series","kisa"]), "0xFF6B00")
-    add("#reitti", any(k in text for k in ["route","climb","portal","course","reitti"]), "0x66BB6A")
+    # Päivitykset
+    add("#päivitys", ["update", "release", "patch", "notes", "päivitys"], "0x00A3FF")
+    # Kilpailu
+    add("#kisa", ["race", "zracing", "zrl", "cup", "series", "kisa"], "0xFF6B00")
+    # Reitit/Climb/Portal
+    add("#reitti", ["route", "climb", "portal", "course", "reitti"], "0x66BB6A")
+    # Kalusto (yleinen varuste/pyörä)
+    add("#kalusto", ["bike", "wheel", "frame", "hardware", "equipment", "komponent", "osasarja"])
+    # Vaatteet / Apparel
+    add("#vaatteet", ["vaate", "vaatteet", "jersey", "bib", "kit", "apparel", "clothing", "shortsleeve", "longsleeve"])
+    # MTB
+    add("#mtb", ["mtb", "mountain bike", "maastopyörä"], "0x795548")
+    # Gravel
+    add("#gravel", ["gravel", "sora", "soratie"])
+    # Trainer (älytrainerit yms.)
+    add("#trainer", ["trainer", "smart trainer", "kicker", "kickr", "neo", "direto"])
+    # Zwift / MyWhoosh ekosysteemit
+    add("#zwift", ["zwift"])
+    add("#mywhoosh", ["mywhoosh"])
 
-    # kalusto (pyörät, osat, laitteet)
-    add("#kalusto", any(k in text for k in [
-        "bike","wheel","frame","groupset","hardware","equipment",
-        "power meter","smart trainer","sensor","pedal","crank","wheelset","aerobar","helmet tech"
-    ]), "0x9C27B0")
+    if not tags:
+        tags.append("#uutinen")
 
-    # vaatteet
-    add("#vaatteet", any(k in text for k in [
-        "apparel","clothing","kit","jersey","bib","bibs","shorts","tights","skinsuit",
-        "socks","gloves","jacket","gilet","vest","base layer","rain jacket","waterproof",
-        "overshoes","shoe covers","cap","arm warmers","leg warmers","thermal",
-        "vaate","vaatteet","ajopaita","ajohousu","liivi","takki","sade","sadetakki",
-        "sukat","hanskat","kengänsuojat","hihat","lahkeet","aluspaita"
-    ]), "0x8E24AA")
+    return tags, color
 
-    add("#mtb", any(k in text for k in ["mtb","mountain bike","maastopyörä"]), "0x795548")
-    add("#gravel", any(k in text for k in ["gravel","sora"]), "0x4CAF50")
-    add("#trainer", "trainer" in text, "0xF44336")
-    add("#zwift", "zwift" in text, "0xFF6B00")
-    add("#mywhoosh", "mywhoosh" in text, "0x2196F3")
-
-    if not tags: tags.append("#uutinen")
-    return tags[:3], color  # max 3 tägiä
-
-# --- Blocklist/whitelist ---
+# -------- Listat (block/white) --------
 def load_blocklist(path: Path = BLOCKLIST_FILE):
+    """
+    Palauttaa:
+      - global_terms: ["smartwatch", "älykello", ...] (case-insensitive, whole word)
+      - source_terms: [("dc rainmaker","watch"), ...]  # molemmat lowercasena
+
+    Syntaksi:
+      # kommentti
+      smartwatch
+      älykello
+      source=DC Rainmaker|watch
+    """
     global_terms, source_terms = [], []
-    if not path.exists(): return global_terms, source_terms
+    if not path.exists():
+        return global_terms, source_terms
     for raw in path.read_text(encoding="utf-8").splitlines():
         line = raw.strip()
-        if not line or line.startswith("#"): continue
+        if not line or line.startswith("#"):
+            continue
         if line.lower().startswith("source=") and "|" in line:
-            left, term = line.split("|",1)
-            src = left.split("=",1)[1].strip().lower()
+            left, term = line.split("|", 1)
+            src = left.split("=", 1)[1].strip().lower()
             source_terms.append((src, term.strip().lower()))
-        else: global_terms.append(line)
+        else:
+            global_terms.append(line)
     return global_terms, source_terms
 
 def load_whitelist(path: Path = WHITELIST_FILE):
-    wl_global, wl_source_terms, wl_sources = [], [], []
-    if not path.exists(): return wl_global, wl_source_terms, wl_sources
+    """
+    Palauttaa:
+      - global_terms: ["zwift", "ript", ...]
+      - source_terms: [("gcn","headphones"), ...]
+      - sources: ["zwift insider", "dc rainmaker", ...]  # pelkkä lähteen nimi -> aina sallittu
+
+    Syntaksi:
+      # kommentti
+      zwift
+      source=GCN|headphones
+      allow_source=Zwift Insider
+    """
+    global_terms, source_terms, sources = [], [], []
+    if not path.exists():
+        return global_terms, source_terms, sources
     for raw in path.read_text(encoding="utf-8").splitlines():
         line = raw.strip()
-        if not line or line.startswith("#"): continue
+        if not line or line.startswith("#"):
+            continue
         low = line.lower()
         if low.startswith("source=") and "|" in line:
-            left, term = line.split("|",1)
-            src = left.split("=",1)[1].strip().lower()
-            wl_source_terms.append((src, term.strip().lower()))
+            left, term = line.split("|", 1)
+            src = left.split("=", 1)[1].strip().lower()
+            source_terms.append((src, term.strip().lower()))
         elif low.startswith("allow_source="):
-            wl_sources.append(line.split("=",1)[1].strip().lower())
-        else: wl_global.append(line)
-    return wl_global, wl_source_terms, wl_sources
+            sources.append(line.split("=", 1)[1].strip().lower())
+        else:
+            global_terms.append(line)
+    return global_terms, source_terms, sources
 
-def is_whitelisted(source_name, title, summary, link, wl_global, wl_source_terms, wl_sources):
-    text, link_l, src_lower = f"{title} {summary}", link or "", (source_name or "").lower()
-    if src_lower in wl_sources: return True
+def is_whitelisted(source_name: str, title: str, summary: str, link: str,
+                   wl_global, wl_source_terms, wl_sources) -> bool:
+    text = f"{title} {summary}"
+    link_l = link or ""
+    src_lower = (source_name or "").lower()
+
+    if src_lower in wl_sources:
+        return True
+
     for t in wl_global:
-        if _word_in(text,t) or _word_in(link_l,t): return True
-    for src,t in wl_source_terms:
-        if src in src_lower and (_word_in(text,t) or _word_in(link_l,t)): return True
+        if _word_in(text, t) or _word_in(link_l, t):
+            return True
+
+    for src, t in wl_source_terms:
+        if src in src_lower and (_word_in(text, t) or _word_in(link_l, t)):
+            return True
+
     return False
 
-def should_skip_article(source_name,title,summary,link,global_terms,source_terms,wl_global,wl_source_terms,wl_sources):
-    text, link_l, src_lower = f"{title} {summary}", link or "", (source_name or "").lower()
-    if is_whitelisted(source_name,title,summary,link,wl_global,wl_source_terms,wl_sources):
-        if BLOCK_YT_SHORTS and "youtube.com/shorts/" in link_l.lower() and not ALLOW_SHORTS_IF_WHITELIST:
-            return True,"shorts"
-        return False,None
-    if BLOCK_YT_SHORTS and "youtube.com/shorts/" in link_l.lower(): return True,"shorts"
-    for t in global_terms:
-        if _word_in(text,t) or _word_in(link_l,t): return True,f"global:{t.strip().lower()}"
-    for src,t in source_terms:
-        if src in src_lower and (_word_in(text,t) or _word_in(link_l,t)): return True,f"source:{src}|{t}"
-    return False,None
+def should_skip_article(source_name: str,
+                        title: str,
+                        summary: str,
+                        link: str,
+                        bl_global,
+                        bl_source,
+                        wl_global,
+                        wl_source,
+                        wl_sources) -> tuple[bool, str | None]:
+    """
+    Palauttaa (skip, reason).
+    Järjestys:
+      1) Whitelist: jos osuu, ei skipata (paitsi Shorts, jos ALLOW_SHORTS_IF_WHITELIST=0).
+      2) Shorts-kovasääntö
+      3) Blocklist (global / source)
+    """
+    text = f"{title} {summary}"
+    link_l = (link or "")
+    src_lower = (source_name or "").lower()
 
-# --- Discord-postaus ---
-def post_to_discord(title,url,source,summary,image_url):
-    if not WEBHOOK: raise RuntimeError("DISCORD_WEBHOOK_URL ei ole asetettu.")
-    if source in SOURCE_COLORS:
-        color, footer_text = SOURCE_COLORS[source], f"{source} · RCF-uutiset"
-    else:
-        tags,color = classify(title, summary or "")
-        footer_text = " ".join(tags) + " · RCF-uutiset"
-    components=[{"type":1,"components":[{"type":2,"style":5,"label":"Avaa artikkeli","url":url}]}]
-    author={"name":source}
-    fav=domain_favicon(url)
-    if fav: author["icon_url"]=fav
-    embed={"type":"rich","title":title,"url":url,"description":truncate(summary or "",SUMMARY_MAXLEN),
-           "color":color,"author":author,"footer":{"text":footer_text},
-           "timestamp":datetime.now(timezone.utc).isoformat()}
+    # 1) Whitelist ohitus
+    if is_whitelisted(source_name, title, summary, link, wl_global, wl_source, wl_sources):
+        if BLOCK_YT_SHORTS and ("youtube.com/shorts/" in link_l.lower()) and not ALLOW_SHORTS_IF_WHITELIST:
+            return True, "shorts"
+        return False, None
+
+    # 2) Shorts
+    if BLOCK_YT_SHORTS and ("youtube.com/shorts/" in link_l.lower()):
+        return True, "shorts"
+
+    # 3) Blocklist
+    for t in bl_global:
+        if _word_in(text, t) or _word_in(link_l, t):
+            return True, f"global:{t.strip().lower()}"
+
+    for src, t in bl_source:
+        if src in src_lower and (_word_in(text, t) or _word_in(link_l, t)):
+            return True, f"source:{src}|{t}"
+
+    return False, None
+
+# -------- Discord-postaus --------
+def post_to_discord(title: str, url: str, source: str, summary: str | None, image_url: str | None) -> None:
+    if not WEBHOOK:
+        raise RuntimeError("DISCORD_WEBHOOK_URL ei ole asetettu ympäristömuuttujaksi.")
+
+    # Tägit + väri
+    tags, inferred_color = classify(title, summary or "")
+    # Väri: lähdeväri voittaa, muuten luokittelun väri
+    color = SOURCE_COLORS.get(source, inferred_color)
+    footer_text = " ".join(tags) + " · RCF-uutiset"
+
+    # Linkkinappi
+    components = [{
+        "type": 1,
+        "components": [{
+            "type": 2,
+            "style": 5,
+            "label": "Avaa artikkeli",
+            "url": url
+        }]
+    }]
+
+    author = {"name": source}
+    fav = domain_favicon(url)
+    if fav:
+        author["icon_url"] = fav
+
+    embed = {
+        "type": "rich",
+        "title": title,
+        "url": url,
+        "description": truncate(summary or "", SUMMARY_MAXLEN),
+        "color": color,
+        "author": author,
+        "footer": {"text": footer_text},
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    }
     if image_url:
-        (embed.setdefault("image",{}) if PREFER_LARGE_IMAGE else embed.setdefault("thumbnail",{}))["url"]=image_url
-    content,allowed=None,{"parse":[]}
-    if _valid_discord_id(MENTION_USER_ID): content=f"<@{MENTION_USER_ID}>"; allowed["users"]=[MENTION_USER_ID]
-    elif _valid_discord_id(MENTION_ROLE_ID): content=f"<@&{MENTION_ROLE_ID}>"; allowed["roles"]=[MENTION_ROLE_ID]
-    payload={"embeds":[embed],"components":components}
-    if content: payload["content"]=content; payload["allowed_mentions"]=allowed
-    resp=requests.post(WEBHOOK,json=payload,timeout=REQUEST_TIMEOUT)
-    if resp.status_code==429:
-        delay=float(resp.headers.get("Retry-After","1") or 1.0)
-        time.sleep(max(delay,1.0))
-        resp=requests.post(WEBHOOK,json=payload,timeout=REQUEST_TIMEOUT)
-    if resp.status_code>=300: raise RuntimeError(f"Discord POST failed: {resp.status_code} {resp.text}")
+        if PREFER_LARGE_IMAGE:
+            embed["image"] = {"url": image_url}
+        else:
+            embed["thumbnail"] = {"url": image_url}
 
-# --- Feed-parsing ---
-def parse_feed(url:str):
-    headers={"User-Agent":"Mozilla/5.0 (RCF News Bot; +https://github.com/rcf)",
-             "Accept":"application/atom+xml, application/rss+xml;q=0.9, application/xml;q=0.8, text/xml;q=0.7, */*;q=0.5",
-             "Accept-Language":"en-US,en;q=0.9"}
+    # Ping (turvallinen allowed_mentions)
+    content = None
+    allowed = {"parse": []}
+    if _valid_discord_id(MENTION_USER_ID):
+        content = f"<@{MENTION_USER_ID}>"
+        allowed["users"] = [MENTION_USER_ID]
+    elif _valid_discord_id(MENTION_ROLE_ID):
+        content = f"<@&{MENTION_ROLE_ID}>"
+        allowed["roles"] = [MENTION_ROLE_ID]
+
+    payload = {"embeds": [embed], "components": components}
+    if content:
+        payload["content"] = content
+        payload["allowed_mentions"] = allowed
+
+    # Lähetys + kevyt 429-retry
+    resp = requests.post(WEBHOOK, json=payload, timeout=REQUEST_TIMEOUT)
+    if resp.status_code == 429:
+        try:
+            delay = float(resp.headers.get("Retry-After", "1"))
+        except Exception:
+            delay = 1.0
+        time.sleep(max(delay, 1.0))
+        resp = requests.post(WEBHOOK, json=payload, timeout=REQUEST_TIMEOUT)
+
+    if resp.status_code >= 300:
+        raise RuntimeError(f"Discord POST failed: {resp.status_code} {resp.text}")
+
+# -------- Feed-haku paremmilla headereilla --------
+def parse_feed(url: str):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (RCF News Bot; +https://github.com/rcf)",
+        "Accept": "application/atom+xml, application/rss+xml;q=0.9, application/xml;q=0.8, text/xml;q=0.7, */*;q=0.5",
+        "Accept-Language": "en-US,en;q=0.9",
+    }
     try:
-        r=requests.get(url,headers=headers,timeout=REQUEST_TIMEOUT)
-        if r.status_code==200 and r.content: return feedparser.parse(r.content)
-        else: logd("FEED HTTP:",url,"| status:",r.status_code)
-    except Exception as e: logd("FEED REQ EXC:",url,"| err:",e)
-    return feedparser.parse(url,request_headers=headers)
+        r = requests.get(url, headers=headers, timeout=REQUEST_TIMEOUT)
+        if r.status_code == 200 and r.content:
+            return feedparser.parse(r.content)
+        else:
+            logd("FEED HTTP:", url, "| status:", r.status_code)
+    except Exception as e:
+        logd("FEED REQ EXC:", url, "| err:", e)
+    # Fallback: anna feedparserin yrittää suoraan
+    return feedparser.parse(url, request_headers=headers)
 
-# --- Pääsilmukka ---
-def source_name_from_feed(parsed,fallback_url:str)->str:
-    try: return clean_text(parsed.feed.get("title")) or urlparse(fallback_url).netloc
-    except Exception: return urlparse(fallback_url).netloc
+# -------- Pääsilmukka --------
+def source_name_from_feed(parsed, fallback_url: str) -> str:
+    try:
+        name = parsed.feed.get("title")
+        if name:
+            return clean_text(name)
+    except Exception:
+        pass
+    return urlparse(fallback_url).netloc
 
-def process_feed(url,seen,bl_global,bl_source,wl_global,wl_source,wl_sources)->dict:
-    stats={"total":0,"posted":0,"skipped":0}
-    d=parse_feed(url)
-    if getattr(d,"bozo",0) and not getattr(d,"entries",None):
-        logd("FEED ERROR:",url,"| bozo:",getattr(d,"bozo",0),"| error:",getattr(d,"bozo_exception",None))
+def process_feed(url: str, seen: set,
+                 bl_global, bl_source,
+                 wl_global, wl_source, wl_sources) -> dict:
+    """Palauttaa tilaston: {'total': N, 'posted': M, 'skipped': K}"""
+    stats = {"total": 0, "posted": 0, "skipped": 0}
+
+    d = parse_feed(url)
+    if getattr(d, "bozo", 0) and not getattr(d, "entries", None):
+        logd("FEED ERROR:", url, "| bozo:", getattr(d, "bozo", 0), "| error:", getattr(d, "bozo_exception", None))
         return stats
-    source_name=source_name_from_feed(d,url)
-    entries=list(d.entries or []); stats["total"]=len(entries)
-    logd("feed parsed:",source_name,"| entries:",len(entries))
-    try: entries.sort(key=lambda e:e.get("published_parsed") or e.get("updated_parsed") or 0,reverse=True)
-    except Exception: pass
+
+    source_name = source_name_from_feed(d, url)
+    entries = list(d.entries or [])
+    stats["total"] = len(entries)
+    logd("feed parsed:", source_name, "| entries:", len(entries))
+
+    try:
+        entries.sort(key=lambda e: e.get("published_parsed") or e.get("updated_parsed") or 0, reverse=True)
+    except Exception:
+        pass
+
     for entry in entries[:MAX_ITEMS_PER_FEED]:
-        uid=uid_from_entry(entry); title=clean_text(entry.get("title")); link=entry.get("link") or ""
-            summary_html = entry.get("summary") or ""
+        uid = uid_from_entry(entry)
+        title = clean_text(entry.get("title"))
+        link = entry.get("link") or ""
+        summary_html = entry.get("summary") or ""
         summary = clean_text(summary_html)
 
+        # Skip jos olemme jo nähneet
         if uid in seen:
             stats["skipped"] += 1
             logd("SKIP(seen):", source_name, "|", title)
             continue
 
+        # Whitelist / Blocklist / Shorts
         skip, reason = should_skip_article(
             source_name, title, summary, link,
             bl_global, bl_source,
@@ -324,6 +519,7 @@ def process_feed(url,seen,bl_global,bl_source,wl_global,wl_source,wl_sources)->d
             logd("SKIP:", source_name, "| reason:", reason, "|", title)
             continue
 
+        # Kuva: entry -> OG fallback
         img = image_from_entry(entry)
         if not img:
             og_img, og_desc = fetch_og_meta(link)
@@ -332,6 +528,7 @@ def process_feed(url,seen,bl_global,bl_source,wl_global,wl_source,wl_sources)->d
             if og_desc and not summary:
                 summary = og_desc
 
+        # Postaa
         try:
             logd("POST:", source_name, "|", title, "|", link)
             post_to_discord(title=title, url=link, source=source_name, summary=summary, image_url=img)
@@ -342,7 +539,6 @@ def process_feed(url,seen,bl_global,bl_source,wl_global,wl_source,wl_sources)->d
             print(f"[WARN] Discord post failed for {link}: {e}")
 
     return stats
-
 
 def main():
     seen = load_seen()
@@ -356,7 +552,9 @@ def main():
     logd("blocklist global terms:", len(bl_global), "source terms:", len(bl_source))
     logd("whitelist global terms:", len(wl_global), "source terms:", len(wl_source), "allow_sources:", len(wl_sources))
 
-    total_posted = total_skipped = total_entries = 0
+    total_posted = 0
+    total_skipped = 0
+    total_entries = 0
 
     for url in feeds:
         stats = process_feed(url, seen, bl_global, bl_source, wl_global, wl_source, wl_sources)
@@ -371,7 +569,5 @@ def main():
          "| posted:", total_posted,
          "| skipped:", total_skipped)
 
-
 if __name__ == "__main__":
     main()
-   
