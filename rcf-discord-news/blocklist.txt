@@ -23,6 +23,10 @@ Oura Ring
 smartwatch
 fitness tracker
 activity band
+Polar Loop
+Suunto Race
+Pixel Watch
+Garmin Venu
 
 # Action cameras
 GoPro
