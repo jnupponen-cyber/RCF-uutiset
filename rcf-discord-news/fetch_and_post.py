@@ -15,7 +15,7 @@ RCF Discord -uutisbotti (embedit + OG-kuvat + esto-lista + whitelist + ping + pe
   - linkkipainike
   - pingi: käyttäjä tai rooli, jos MENTION_* -ympäristömuuttuja asetettu
   - per-lähde värikoodit (SOURCE_COLORS)
-  - footerissa useita hashtageja (#päivitys #kisa #reitti #kalusto #mtb ...)
+  - footerissa useita hashtageja (max 3): #päivitys #kisa #reitti #kalusto #mtb #gravel #trainer #zwift #mywhoosh ...
 
 Vinkit:
 - DEBUG=1 näyttää ajolokit (luetut feedit, entries-määrät, SKIP/POST-syyt).
@@ -40,7 +40,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 STATE_FILE = SCRIPT_DIR / "seen.json"
 FEEDS_FILE = Path(os.environ.get("FEEDS_FILE", SCRIPT_DIR / "feeds.txt")).resolve()
 BLOCKLIST_FILE = SCRIPT_DIR / "blocklist.txt"
-WHITELIST_FILE = SCRIPT_DIR / "whitelist.txt"  # <-- uusi
+WHITELIST_FILE = SCRIPT_DIR / "whitelist.txt"  # whitelist-tuki
 
 # Estä YouTube Shorts -URLit kovasäännöllä (oletus: päällä)
 BLOCK_YT_SHORTS = int(os.environ.get("BLOCK_YT_SHORTS", "1")) == 1
@@ -200,48 +200,52 @@ def fetch_og_meta(url: str) -> tuple[str | None, str | None]:
     except Exception:
         return None, None
 
-# -------- Moni-hashtag -luokittelu --------
+# -------- Moni-hashtag -luokittelu (max 3 tägiä) --------
 def classify(title: str, summary: str = "") -> tuple[list[str], int]:
     """
     Palauttaa (tags, color)
-    - tags: lista hashtageja jotka löytyvät tekstistä
+    - tags: lista hashtageja jotka löytyvät tekstistä (max 3 kpl)
     - color: ensimmäisen täsmäyksen väri, fallback blurple
     """
     text = (title + " " + summary).lower()
-    tags: list[str] = []
+    found: list[str] = []
     default_color = int("0x5865F2", 16)
     color = default_color
 
-    def set_color_once(val_hex: str):
+    def add(tag: str, cond: bool, hex_color: str | None = None):
         nonlocal color
-        if color == default_color:
-            color = int(val_hex, 16)
+        if not cond:
+            return
+        if tag not in found:
+            found.append(tag)
+            if hex_color and color == default_color:
+                color = int(hex_color, 16)
 
-    if any(k in text for k in ["update", "release", "patch", "notes", "päivitys"]):
-        tags.append("#päivitys")
-        set_color_once("0x00A3FF")
+    # päivitys
+    add("#päivitys", any(k in text for k in ["update", "release", "patch", "notes", "päivitys"]), "0x00A3FF")
+    # kisa
+    add("#kisa", any(k in text for k in ["race", "zracing", "zrl", "cup", "series", "kisa"]), "0xFF6B00")
+    # reitti
+    add("#reitti", any(k in text for k in ["route", "climb", "portal", "course", "reitti"]), "0x66BB6A")
+    # kalusto / vaatteet
+    add("#kalusto", any(k in text for k in ["bike", "wheel", "frame", "hardware", "equipment", "varuste", "vaate", "kit", "jersey", "bib"]), "0x9C27B0")
+    # mtb
+    add("#mtb", any(k in text for k in ["mtb", "mountain bike", "maastopyörä"]), "0x795548")
+    # gravel (uusi)
+    add("#gravel", any(k in text for k in ["gravel", "sora", "unbound", "dirty kanza"]), "0x4CAF50")
+    # trainer (uusi)
+    add("#trainer", any(k in text for k in ["trainer", "harjoitusvastus", "smart trainer", "kickr", "direto", "neo", "kicker"]), "0xF44336")
+    # zwift (uusi)
+    add("#zwift", any(k in text for k in ["zwift", "watopia", "makuri", "alpe du zwift", "tsöz", "tsoz"]))
+    # mywhoosh (uusi)
+    add("#mywhoosh", any(k in text for k in ["mywhoosh", "whoosh"]))
 
-    if any(k in text for k in ["race", "zracing", "zrl", "cup", "series", "kisa"]):
-        tags.append("#kisa")
-        set_color_once("0xFF6B00")
+    if not found:
+        found.append("#uutinen")
 
-    if any(k in text for k in ["route", "climb", "portal", "course", "reitti"]):
-        tags.append("#reitti")
-        set_color_once("0x66BB6A")
-
-    if any(k in text for k in ["bike", "wheel", "frame", "hardware", "equipment", "varuste", "vaate", "kit", "jersey", "bib"]):
-        tags.append("#kalusto")
-        set_color_once("0x9C27B0")
-
-    # UUSI: maastopyörä/MTB
-    if any(k in text for k in ["mtb", "mountain bike", "maastopyörä"]):
-        tags.append("#mtb")
-        set_color_once("0x795548")
-
-    if not tags:
-        tags.append("#uutinen")
-
-    return tags, color
+    # max 3 tägiä
+    found = found[:3]
+    return found, color
 
 # -------- Listat (block/white) --------
 def load_blocklist(path: Path = BLOCKLIST_FILE):
@@ -249,7 +253,7 @@ def load_blocklist(path: Path = BLOCKLIST_FILE):
     Palauttaa:
       - global_terms: ["smartwatch", "älykello", ...] (sellaisenaan, case-insensitive whole-word)
       - source_terms: [("dc rainmaker","watch"), ...]  # molemmat lowercasena
-    Syntaksi (rivit):
+    Syntaksi:
       # kommentti
       smartwatch
       älykello
@@ -267,13 +271,13 @@ def load_blocklist(path: Path = BLOCKLIST_FILE):
             src = left.split("=", 1)[1].strip().lower()
             source_terms.append((src, term.strip().lower()))
         else:
-            global_terms.append(line)  # säilytä alkuperäinen (case), haku on case-insensitive
+            global_terms.append(line)  # säilytä kirjoitusasu; haku on case-insensitive
     return global_terms, source_terms
 
 def load_whitelist(path: Path = WHITELIST_FILE):
     """
     Palauttaa:
-      - global_terms: ["zwift", "ripT", ...]
+      - global_terms: ["zwift", "ript", ...]
       - source_terms: [("gcn","headphones"), ...]
       - sources: ["zwift insider", "dc rainmaker", ...]  # pelkkä lähteen nimi -> aina sallittu
     Syntaksi:
@@ -330,7 +334,7 @@ def should_skip_article(source_name: str,
                         wl_sources) -> tuple[bool, str | None]:
     """
     Palauttaa (skip, reason).
-    - Ensin tarkistetaan whitelist: jos osuu, ei skipata (ja haluttaessa voidaan ohittaa Shorts-blokki).
+    - Ensin whitelist: jos osuu, ei skipata (ja haluttaessa voidaan ohittaa Shorts-blokki).
     - Muuten blocklist (globaalit ja lähdekohtaiset).
     - Erikoissääntö: YouTube Shorts -URLit (youtube.com/shorts/...), jos BLOCK_YT_SHORTS=1.
     """
@@ -361,14 +365,14 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
     if not WEBHOOK:
         raise RuntimeError("DISCORD_WEBHOOK_URL ei ole asetettu ympäristömuuttujaksi.")
 
-    # Per-lähde väri tai fallback classify()
-    if source in SOURCE_COLORS:
-        color = SOURCE_COLORS[source]
-        footer_text = f"{source} · RCF-uutiset"
-    else:
-        tags, color = classify(title, summary or "")
-        footer_text = " ".join(tags) + " · RCF-uutiset"
+    # Hashtagit + väri (väri voidaan yliajaa SOURCE_COLORS:lla)
+    tags, color_guess = classify(title, summary or "")
+    color = SOURCE_COLORS.get(source, color_guess)
 
+    # Footer näyttää aina tägit (max 3)
+    footer_text = " ".join(tags) + " · RCF-uutiset"
+
+    # Linkkinappi
     components = [{
         "type": 1,
         "components": [{
