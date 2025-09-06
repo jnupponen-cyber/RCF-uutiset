@@ -5,18 +5,6 @@ Coros Nomad
 Polar
 podcast
 
-# Maastopyöräily
-mountain bike
-hardtail
-trail bike
-downhill
-enduro
-full suspension
-MTB
-XC bike
-fatbike
-singletrack
-
 # Urheilukellot ja -rannekkeet
 Fenix
 Forerunner
