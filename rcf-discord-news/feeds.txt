@@ -8,6 +8,7 @@ https://velo.outsideonline.com/category/road/road-gear/feed/
 https://velo.outsideonline.com/tag/velo-buyers-guide/feed/
 https://velo.outsideonline.com/category/road/road-training/feed/
 https://velo.outsideonline.com/category/gravel/gravel-gear/feed/
+https://www.trainerroad.com/blog/feed/?_gl=1%2A1q35a4y%2A_gcl_au%2AMTQwNjAwNzEzMy4xNzU3MTM1NzIw%2AFPAU%2AMTQwNjAwNzEzMy4xNzU3MTM1NzIw
 
 # --- YouTube ---
 https://www.youtube.com/feeds/videos.xml?channel_id=UCuTaETsuCOkJ0H_GAztWt0Q
