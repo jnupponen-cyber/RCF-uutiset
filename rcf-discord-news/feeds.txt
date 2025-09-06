@@ -12,6 +12,7 @@ https://www.trainerroad.com/blog/feed/?_gl=1%2A1q35a4y%2A_gcl_au%2AMTQwNjAwNzEzM
 https://feeds.purplemanager.com/193c804a-a673-47bd-b09b-11baf4822a17/bikeradar-gravel-feed
 https://feeds.purplemanager.com/193c804a-a673-47bd-b09b-11baf4822a17/bikeradar-road-news
 https://feeds.purplemanager.com/193c804a-a673-47bd-b09b-11baf4822a17/bikeradar-news
+https://www.precisionnutrition.com/blog/feed
 
 # --- YouTube ---
 https://www.youtube.com/feeds/videos.xml?channel_id=UCuTaETsuCOkJ0H_GAztWt0Q
