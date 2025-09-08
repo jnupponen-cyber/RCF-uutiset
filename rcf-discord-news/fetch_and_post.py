@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-RCF Discord -uutisbotti (embedit + OG-kuvat + blocklist + whitelist + ping + per-lähde värit + monen tagin footer)
+RCF Discord -uutisbotti (embedit + OG-kuvat + blocklist + whitelist + ping + per-lähde värit)
 
 - Lukee RSS-lähteet FEEDS_FILE-ympäristömuuttujasta tai oletuksena feeds.txt (samassa kansiossa)
 - Estää duplikaatit seen.jsonilla (sha256 id/link/title)
@@ -15,7 +15,7 @@ RCF Discord -uutisbotti (embedit + OG-kuvat + blocklist + whitelist + ping + per
   - linkkipainike
   - pingi (USER tai ROLE ID)
   - per-lähde värikoodit (SOURCE_COLORS)
-  - footerissa jopa 3 hashtagiä (#päivitys #kisa #reitti #kalusto #mtb #vaatteet #gravel #trainer #zwift #mywhoosh ...)
+  - footerissa: "<lähdenimi> · RCF Uutiskatsaus"
 
 Ympäristömuuttujat (esimerkit):
 - DISCORD_WEBHOOK_URL=...
@@ -211,51 +211,6 @@ def fetch_og_meta(url: str) -> tuple[str | None, str | None]:
     except Exception:
         return None, None
 
-# -------- Moni-hashtag -luokittelu (max 3 tägiä) --------
-def classify(title: str, summary: str = "") -> tuple[list[str], int]:
-    """
-    Palauttaa (tags, color)
-    - tags: enintään 3 hashtagiä, järjestys alla olevan säännöstön mukaan
-    - color: ensimmäisen osuman väri; fallback blurple
-    """
-    text = (title + " " + summary).lower()
-    tags: list[str] = []
-    default_color = int("0x5865F2", 16)
-    color = default_color
-
-    def add(tag: str, key_list, color_hex: str | None = None):
-        nonlocal color
-        if any(k in text for k in key_list):
-            if tag not in tags and len(tags) < 3:
-                tags.append(tag)
-            if color == default_color and color_hex:
-                color = int(color_hex, 16)
-
-    # Päivitykset
-    add("#päivitys", ["update", "release", "patch", "notes", "päivitys"], "0x00A3FF")
-    # Kilpailu
-    add("#kisa", ["race", "zracing", "zrl", "cup", "series", "kisa"], "0xFF6B00")
-    # Reitit/Climb/Portal
-    add("#reitti", ["route", "climb", "portal", "course", "reitti"], "0x66BB6A")
-    # Kalusto (yleinen varuste/pyörä)
-    add("#kalusto", ["bike", "wheel", "frame", "hardware", "equipment", "komponent", "osasarja"])
-    # Vaatteet / Apparel
-    add("#vaatteet", ["vaate", "vaatteet", "jersey", "bib", "kit", "apparel", "clothing", "shortsleeve", "longsleeve"])
-    # MTB
-    add("#mtb", ["mtb", "mountain bike", "maastopyörä"], "0x795548")
-    # Gravel
-    add("#gravel", ["gravel", "sora", "soratie"])
-    # Trainer (älytrainerit yms.)
-    add("#trainer", ["trainer", "smart trainer", "kicker", "kickr", "neo", "direto"])
-    # Zwift / MyWhoosh ekosysteemit
-    add("#zwift", ["zwift"])
-    add("#mywhoosh", ["mywhoosh"])
-
-    if not tags:
-        tags.append("#uutinen")
-
-    return tags, color
-
 # -------- Listat (block/white) --------
 def load_blocklist(path: Path = BLOCKLIST_FILE):
     """
@@ -380,11 +335,10 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
     if not WEBHOOK:
         raise RuntimeError("DISCORD_WEBHOOK_URL ei ole asetettu ympäristömuuttujaksi.")
 
-    # Tägit + väri
-    tags, inferred_color = classify(title, summary or "")
-    # Väri: lähdeväri voittaa, muuten luokittelun väri
-    color = SOURCE_COLORS.get(source, inferred_color)
-    footer_text = " ".join(tags) + " · RCF-uutiset"
+    # Väri: per-lähde tai oletus (blurple)
+    color = SOURCE_COLORS.get(source, int("0x5865F2", 16))
+    # Footer: ei hashtageja
+    footer_text = f"{source} · RCF Uutiskatsaus"
 
     # Linkkinappi
     components = [{
@@ -418,7 +372,7 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
         else:
             embed["thumbnail"] = {"url": image_url}
 
-    # Ping (turvallinen allowed_mentions)
+    # Pingi (turvallinen allowed_mentions)
     content = None
     allowed = {"parse": []}
     if _valid_discord_id(MENTION_USER_ID):
