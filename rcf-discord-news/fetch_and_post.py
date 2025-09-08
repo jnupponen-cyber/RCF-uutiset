@@ -90,7 +90,6 @@ SOURCE_COLORS = {
     "Smart Bike Trainers": int("0x795548", 16),
     "Dylan Johnson Cycling": int("0x009688", 16),
     "TrainerRoad": int("0xF44336", 16),
-    "Everything’s Been Done": int("0x607D8B", 16),
     "Cycling Weekly": int("0x8BC34A", 16),
     "BikeRadar": int("0x1E88E5", 16),
     "Velo": int("0x00F7FF", 16),
