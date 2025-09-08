@@ -16,6 +16,23 @@ folding bike
 commuting
 commuter
 cancer
+tumor
+leukemia
+chemotherapy
+illness
+disease
+doping
+positive test
+tested positive
+suspension
+banned
+ban lifted
+lawsuit
+court case
+legal battle
+tribunal
+scandal
+controversy
 
 # Urheilukellot ja -rannekkeet
 Fenix
@@ -60,6 +77,9 @@ Giro
 Paris-Nice
 Dauphiné
 Tour de Suisse
+Tirreno-Adriatico
+Criterium du Dauphiné
+Tour de Romandie
 
 # Klassikkokisat
 Paris-Roubaix
@@ -71,6 +91,13 @@ Strade Bianche
 San Sebastián
 E3 Saxo Classic
 Omloop Het Nieuwsblad
+Milan-San Remo
+La Flèche Wallonne
+Gent-Wevelgem
+Classic Brugge-De Panne
+Tre Valli Varesine
+Giro dell’Emilia
+Itzulia Basque Country
 
 # Minor races (USA, UK, small national events)
 Tour of California
@@ -88,6 +115,17 @@ Simac Tour
 Yorkshire race
 Baltimore Classic
 Tour of Britain
+Tour de Pologne
+Tour of Oman
+Tour of Turkey
+Volta a Catalunya
+Tour of Slovenia
+Tour of Norway
+Tour of Denmark
+Tour de Hongrie
+Arctic Race of Norway
+Tour Down Under
+Santos Tour Down Under
 
 # Ajajanimet (uutiset ja siirtohuhut)
 Juan Ayuso
@@ -112,6 +150,27 @@ Marianne Vos
 Lotte Kopecky
 Chris Hoy
 Riley Sheehan
+Egan Bernal
+Richard Carapaz
+Alejandro Valverde
+Alberto Contador
+Fabio Jakobsen
+Sam Bennett
+Caleb Ewan
+Dylan Groenewegen
+Alexander Kristoff
+Nairo Quintana
+Rigoberto Uran
+Fernando Gaviria
+Esteban Chaves
+Thibaut Pinot
+Romain Bardet
+Damiano Caruso
+Enric Mas
+Mikel Landa
+Aleksandr Vlasov
+Adam Yates
+Simon Yates
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
 Kristen Faulkner
@@ -134,6 +193,8 @@ surgery
 # Maailmanmestaruuskisat / aika-ajo
 World Championships
 Worlds
+time trial
+TT
 chrono
 
 # Sopimusuutiset, tiimit ja ammattilaisuus
