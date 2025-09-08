@@ -15,6 +15,7 @@ bike packing
 folding bike
 commuting
 commuter
+cancer
 
 # Urheilukellot ja -rannekkeet
 Fenix
@@ -109,6 +110,8 @@ Filippo Ganna
 Annemiek van Vleuten
 Marianne Vos
 Lotte Kopecky
+Chris Hoy
+Riley Sheehan
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
 Kristen Faulkner
