@@ -336,7 +336,7 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
 
     # Väri: per-lähde tai oletus (blurple)
     color = SOURCE_COLORS.get(source, int("0x5865F2", 16))
-    # Footer: ei hashtageja
+    # Footer: yksinkertainen eikä hashtageja
     footer_text = f"{source} · RCF Uutiskatsaus"
 
     # Linkkinappi
@@ -350,10 +350,13 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
         }]
     }]
 
+    # Lähde + favicon authoriksi ja myös footerin ikoniksi
     author = {"name": source}
     fav = domain_favicon(url)
+    footer = {"text": footer_text}
     if fav:
         author["icon_url"] = fav
+        footer["icon_url"] = fav  # näyttää hyvältä pienellä logolla myös footerissa
 
     embed = {
         "type": "rich",
@@ -362,7 +365,7 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
         "description": truncate(summary or "", SUMMARY_MAXLEN),
         "color": color,
         "author": author,
-        "footer": {"text": footer_text},
+        "footer": footer,
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
     if image_url:
