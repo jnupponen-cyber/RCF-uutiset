@@ -1,15 +1,18 @@
 # Yleiset estot (kaikilta lähteiltä)
 insta360
-Pixel watch
+Pixel Watch
 Coros Nomad
 Polar
+Suunto
+Polar Loop
+Garmin Venu
 podcast
 protest
 protests
-Cargo
-Phone mount
+cargo
+phone mount
 bike packing
-foldin bike
+folding bike
 commuting
 commuter
 
@@ -29,11 +32,7 @@ Oura Ring
 smartwatch
 fitness tracker
 activity band
-Polar Loop
 Suunto Race
-Pixel Watch
-Garmin Venu
-Suunto
 
 # Action cameras
 GoPro
@@ -51,11 +50,26 @@ sports camera
 360 camera
 
 # Grand Tours ja suuret kilpailut
+Tour de France
+Tour de France Femmes
 Vuelta a España
 Vuelta
-Tour of Britain
-Tour de France Femmes
-Tour de France
+Giro d’Italia
+Giro
+Paris-Nice
+Dauphiné
+Tour de Suisse
+
+# Klassikkokisat
+Paris-Roubaix
+Liège-Bastogne-Liège
+Flanders
+Tour of Flanders
+Amstel Gold Race
+Strade Bianche
+San Sebastián
+E3 Saxo Classic
+Omloop Het Nieuwsblad
 
 # Minor races (USA, UK, small national events)
 Tour of California
@@ -69,9 +83,9 @@ Rutland–Melton CiCLE Classic
 National Road Championships
 USA Cycling Nationals
 British Championships
+Simac Tour
 Yorkshire race
 Baltimore Classic
-Simac Tour
 
 # Ajajanimet (uutiset ja siirtohuhut)
 Juan Ayuso
@@ -80,9 +94,20 @@ Remco Evenepoel
 Tom Pidcock
 Tadej Pogacar
 Pogačar
-Tom Pidcock
 Geraint Thomas
 Megan Jastrab
+Primoz Roglic
+Jonas Vingegaard
+Wout van Aert
+Mathieu van der Poel
+Julian Alaphilippe
+Chris Froome
+Peter Sagan
+Mark Cavendish
+Filippo Ganna
+Annemiek van Vleuten
+Marianne Vos
+Lotte Kopecky
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
 Kristen Faulkner
@@ -96,6 +121,11 @@ sidelined
 withdraws
 DNS
 did not start
+crash
+broken collarbone
+fractured
+hospital
+surgery
 
 # Maailmanmestaruuskisat / aika-ajo
 World Championships
@@ -114,6 +144,8 @@ contract drama
 ego
 salary
 money issues
+transfer
+transfer saga
 
 # Tapahtumat ja haasteet
 Big Ride Challenge
@@ -134,8 +166,6 @@ petition
 
 # Kilpailuorganisaatiot / politiikka
 USA Cycling
-transfer
-transfer saga
 transgender
 ban
 policy
@@ -159,6 +189,9 @@ air time
 #shorts
 shorts
 
+# Lähdekohtaiset estot:
+source=DC Rainmaker|watch
+source=DC Rainmaker|wrist
 # Estetään kaikki YouTube Shorts -videot kaikilta kanavilta
 shorts
 # Tai estetään Shorts vain MyWhooshin YouTube-kanavalta:
