@@ -190,13 +190,6 @@ fractured
 hospital
 surgery
 
-# Maailmanmestaruuskisat / aika-ajo
-World Championships
-Worlds
-time trial
-TT
-chrono
-
 # Sopimusuutiset, tiimit ja ammattilaisuus
 British champion
 new team
