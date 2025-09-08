@@ -9,6 +9,9 @@ protests
 Cargo
 Phone mount
 bike packing
+foldin bike
+commuting
+commuter
 
 # Urheilukellot ja -rannekkeet
 Fenix
