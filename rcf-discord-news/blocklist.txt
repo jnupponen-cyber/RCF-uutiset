@@ -67,6 +67,7 @@ USA Cycling Nationals
 British Championships
 Yorkshire race
 Baltimore Classic
+Simac Tour
 
 # Ajajanimet (uutiset ja siirtohuhut)
 Juan Ayuso
@@ -77,6 +78,7 @@ Tadej Pogacar
 Pogačar
 Tom Pidcock
 Geraint Thomas
+Megan Jastrab
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
 Kristen Faulkner
