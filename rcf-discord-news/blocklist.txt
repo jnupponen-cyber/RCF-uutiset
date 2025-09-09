@@ -171,6 +171,7 @@ Mikel Landa
 Aleksandr Vlasov
 Adam Yates
 Simon Yates
+Puck Pieterse
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
 Kristen Faulkner
