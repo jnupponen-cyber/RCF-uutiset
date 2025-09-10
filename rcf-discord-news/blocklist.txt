@@ -32,7 +32,8 @@ court case
 legal battle
 tribunal
 scandal
-controversy
+controverse
+strike
 
 # Urheilukellot ja -rannekkeet
 Fenix
