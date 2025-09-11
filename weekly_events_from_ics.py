@@ -87,12 +87,13 @@ def pick_url_label(url: str) -> str:
     return "Liity »"
 
 def extract_url_from_event(ev) -> str | None:
-    """Palauta tapahtuman URL:
+    """Palauta tapahtuman URL prioriteetilla:
     1) URL property
-    2) HTML/teksti DESCRIPTION (href= tai paljas linkki)
+    2) DESCRIPTION / X-ALT-DESC (HTML href tai paljas linkki)
     3) LOCATION
-    4) SUMMARY (joskus Sesh upottaa linkin otsikkoon)
-    5) fallback: etsi koko eventistä
+    4) SUMMARY
+    5) fallback: käy LÄPI KAIKKI propertyt ja etsi eka http(s)-linkki
+    6) viimeinen fallback: koko VEVENTin raakateksti
     """
     def _first_url_from(value: str | None) -> str | None:
         if not value:
@@ -111,36 +112,40 @@ def extract_url_from_event(ev) -> str | None:
         if ev.get(key):
             u = str(ev.get(key))
             if u.startswith("http"):
-                # print(f"[DEBUG] URL property: {u}")
                 return u
 
-    # 2) DESCRIPTION (HTML tai paljas teksti)
-    for key in ("description", "DESCRIPTION", "X-ALT-DESC"):  # Sesh saattaa käyttää HTML-alt-kuvausta
+    # 2) DESCRIPTION / X-ALT-DESC (myös HTML)
+    for key in ("description", "DESCRIPTION", "X-ALT-DESC"):
         u = _first_url_from(ev.get(key))
         if u:
-            # print(f"[DEBUG] URL from DESCRIPTION: {u}")
             return u
 
     # 3) LOCATION
     for key in ("location", "LOCATION"):
         u = _first_url_from(ev.get(key))
         if u:
-            # print(f"[DEBUG] URL from LOCATION: {u}")
             return u
 
     # 4) SUMMARY (otsikko)
     for key in ("summary", "SUMMARY"):
         u = _first_url_from(ev.get(key))
         if u:
-            # print(f"[DEBUG] URL from SUMMARY: {u}")
             return u
 
-    # 5) Fallback: yritä koko eventin stringistä
+    # 5) Käy läpi KAIKKI propertyt (myös custom-kentät ja parametrilliset)
+    try:
+        for prop_name, prop_val in ev.property_items():
+            u = _first_url_from(prop_val)
+            if u:
+                return u
+    except Exception:
+        pass
+
+    # 6) Viimeinen fallback: koko VEVENTin raakateksti
     try:
         raw = ev.to_ical().decode("utf-8", errors="ignore")
         u = _first_url_from(raw)
         if u:
-            # print(f"[DEBUG] URL from raw VEVENT: {u}")
             return u
     except Exception:
         pass
