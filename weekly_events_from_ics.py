@@ -1,19 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-RCF Weekly Events Digest from Sesh ICS
-- Hakee Seshin /link-komennolla tuotetun ICS-syötteen
-- Laajentaa toistuvat tapahtumat, suodattaa kuluvaan viikkoon (ma–su)
-- Postaa koosteen Discordiin TARGET_CHANNEL_ID -kanavalle
+RCF Weekly Events Digest from Sesh ICS (resilient)
+- Primääri: laajentaa toistuvat tapahtumat recurring_ical_events-kirjastolla
+- Fallback: jos ICS sisältää poikkeavia kenttiä (esim. DTSTART listana), parsitaan VEVENTit käsin (ei RRULE-laajennusta)
+- Suodattaa kuluvan viikon (ma–su) Europe/Helsinki
+- Postaa koosteen Discordiin
 """
 
-import os, textwrap
+import os, textwrap, traceback
 from datetime import datetime, timedelta, time as dtime
 import zoneinfo
 import requests
 from icalendar import Calendar
-import recurring_ical_events
 import discord
+
+# Yritetään tuoda laajennuskirjasto – jos ei onnistu, käytetään fallbackiä
+try:
+    import recurring_ical_events
+    HAS_RECUR = True
+except Exception:
+    HAS_RECUR = False
 
 TZ = os.getenv("TZ", "Europe/Helsinki")
 tz = zoneinfo.ZoneInfo(TZ)
@@ -22,22 +29,31 @@ TARGET_CHANNEL_ID = int(os.environ["TARGET_CHANNEL_ID"])
 SESH_ICS_URL = os.environ["SESH_ICS_URL"]
 
 def to_local(dt):
-    """Varmista aikavyöhyke ja palauta Europe/Helsinki -aikana."""
+    """Palauta aika Europe/Helsinki -aikana."""
     if isinstance(dt, datetime):
         if dt.tzinfo is None:
-            # oletetaan paikallinen jos tz puuttuu
             return dt.replace(tzinfo=tz)
         return dt.astimezone(tz)
-    # all-day (pelkkä date) -> klo 00:00 paikallista
+    # All-day (pelkkä date) -> klo 00:00 paikallista
     return datetime.combine(dt, dtime(0, 0), tz)
 
-def load_events_between(url, start, end):
-    """Lataa ICS ja palauta [(dtstart_local, title)] annetulta aikaväliltä."""
-    r = requests.get(url, timeout=30)
-    r.raise_for_status()
-    cal = Calendar.from_ical(r.content)
-    occs = recurring_ical_events.of(cal).between(start, end)
+def _get_dt(prop):
+    """Hae dt arvo icalendar propertystä. Kestää listat ja puuttuvat tz:t."""
+    # icalendarissa prop voi olla vDDDTypes-objekti tai lista.
+    if prop is None:
+        return None
+    if isinstance(prop, list) and prop:
+        prop = prop[0]
+    # vDDDTypes-objekteissa on .dt
+    dt = getattr(prop, "dt", prop)
+    return dt
 
+def load_events_between_with_recurring(cal, start, end):
+    """Primääri polku: käytä recurring_ical_events -kirjastoa."""
+    # Joissain ICS-tiedoissa yksittäisillä VEVENTeillä on odottamattomia rakenteita.
+    # recurring_ical_events ei tarjoa suoraan skip_errors paramia between()-kutsussa,
+    # joten pyydystetään virhe ja siirrytään fallbackiin.
+    occs = recurring_ical_events.of(cal).between(start, end)
     out = []
     for ev in occs:
         dt = ev.get('dtstart').dt
@@ -49,6 +65,54 @@ def load_events_between(url, start, end):
         out.append((dt, title))
     out.sort(key=lambda x: x[0])
     return out
+
+def load_events_between_fallback(cal, start, end):
+    """Varapolku: käy läpi kaikki VEVENTit ja poimi yksittäiset tapaukset (ilman RRULE-laajennusta)."""
+    out = []
+    for ev in cal.walk('VEVENT'):
+        dtstart_prop = ev.get('dtstart') or ev.get('DTSTART')
+        dt = _get_dt(dtstart_prop)
+        if dt is None:
+            continue
+        dt = to_local(dt)
+        if not (start <= dt < end):
+            continue
+        title = str(ev.get('summary', '') or '').strip()
+        loc = str(ev.get('location', '') or '').strip()
+        if loc:
+            title = f"{title} ({loc})"
+        out.append((dt, title))
+    out.sort(key=lambda x: x[0])
+    return out
+
+def load_events_between(url, start, end):
+    print(f"[DEBUG] Ladataan ICS: {url}")
+    print(f"[DEBUG] Aikaväli: {start} – {end}")
+    r = requests.get(url, timeout=30)
+    r.raise_for_status()
+    cal = Calendar.from_ical(r.content)
+
+    # Yritä toistojen laajennusta
+    if HAS_RECUR:
+        try:
+            events = load_events_between_with_recurring(cal, start, end)
+            print(f"[DEBUG] recurring_ical_events: löytyi {len(events)} esiintymää")
+            if events:
+                for dt, title in events[:10]:
+                    print(f"[DEBUG] Esim: {dt} — {title}")
+            return events
+        except Exception as e:
+            print("[WARN ] recurring_ical_events kaatui, siirrytään fallbackiin.")
+            print("       Syy:", repr(e))
+            traceback.print_exc()
+
+    # Fallback: poimi yksittäiset VEVENTit sellaisenaan
+    events = load_events_between_fallback(cal, start, end)
+    print(f"[DEBUG] Fallback VEVENT-luku: löytyi {len(events)} tapahtumaa (ilman RRULE-laajennusta)")
+    if events:
+        for dt, title in events[:10]:
+            print(f"[DEBUG] Esim: {dt} — {title}")
+    return events
 
 def format_digest(events):
     if not events:
@@ -68,7 +132,7 @@ def format_digest(events):
     lines.append("💡 Lisää tapahtuma Seshillä → kooste päivittyy automaattisesti.")
     return "\n".join(lines)
 
-# --- Discord-lähetys ---
+# --- Discord ---
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 
