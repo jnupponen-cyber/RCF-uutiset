@@ -109,15 +109,13 @@ def format_digest(events):
         by_day.setdefault(dt.date(), []).append((dt, title))
     lines = [
         "🗓️ **Ride Club Finland – viikon tapahtumat**",
-        f"_Aikavyöhyke: {TZ}_",
-        ""
+        ""  # tyhjä rivi
     ]
     for d in sorted(by_day):
         lines.append(f"**{d.strftime('%a %d.%m.')}**")
         for dt, title in sorted(by_day[d], key=lambda x: x[0]):
             lines.append(f" • {dt.strftime('%H:%M')} — {title}")
-        lines.append("")
-    lines.append("💡 Lisää tapahtuma Seshillä → kooste päivittyy automaattisesti.")
+        lines.append("")  # tyhjä rivi päivän jälkeen
     return "\n".join(lines)
 
 def chunk_by_lines(s: str, limit: int = 1900):
