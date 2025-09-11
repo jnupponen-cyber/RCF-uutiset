@@ -76,6 +76,13 @@ def _get_dt(prop):
     dt = getattr(prop, "dt", prop)
     return dt
 
+def _uid_of(ev) -> str | None:
+    try:
+        uid = ev.get('uid') or ev.get('UID')
+        return str(uid) if uid else None
+    except Exception:
+        return None
+
 URL_RE  = re.compile(r'https?://[^\s)>\]]+', re.I)
 HREF_RE = re.compile(r'href=["\'](https?://[^"\']+)["\']', re.I)
 
@@ -107,14 +114,14 @@ def extract_url_from_event(ev) -> str | None:
             return m.group(0)
         return None
 
-    # 1) URL property (case-insensitive)
+    # 1) URL property
     for key in ("url", "URL"):
         if ev.get(key):
             u = str(ev.get(key))
             if u.startswith("http"):
                 return u
 
-    # 2) DESCRIPTION / X-ALT-DESC (Sesh saattaa käyttää HTML-alt-kuvausta)
+    # 2) DESCRIPTION / X-ALT-DESC
     for key in ("description", "DESCRIPTION", "X-ALT-DESC"):
         u = _first_url_from(ev.get(key))
         if u:
@@ -126,13 +133,13 @@ def extract_url_from_event(ev) -> str | None:
         if u:
             return u
 
-    # 4) SUMMARY (otsikko)
+    # 4) SUMMARY
     for key in ("summary", "SUMMARY"):
         u = _first_url_from(ev.get(key))
         if u:
             return u
 
-    # 5) KAIKKI propertyt (myös custom-kentät ja parametrilliset kuten "X-ALT-DESC;FMTTYPE=text/html")
+    # 5) Kaikki propertyt (myös custom & parametrilliset)
     try:
         for _, prop_val in ev.property_items():
             u = _first_url_from(prop_val)
@@ -171,7 +178,22 @@ def load_events_between_with_recurring(cal, start, end):
     return out
 
 def load_events_between_fallback(cal, start, end):
-    """Varapolku: käy läpi kaikki VEVENTit ja poimi yksittäiset tapaukset (ilman RRULE-laajennusta)."""
+    """
+    Varapolku: käy läpi kaikki VEVENTit.
+    - 1. kierros: rakenna UID->URL -hakemisto kaikista tapahtumista (riippumatta ajanjaksosta)
+    - 2. kierros: poimi kuluvan viikon tapaukset ja täydennä URL UID-hakemistosta, jos puuttuu
+    """
+    # 1) UID -> URL -map kaikista VEVENTeistä
+    uid_url: dict[str, str] = {}
+    for ev in cal.walk('VEVENT'):
+        uid = _uid_of(ev)
+        if not uid:
+            continue
+        u = extract_url_from_event(ev)
+        if u and uid not in uid_url:
+            uid_url[uid] = u  # ensimmäinen löytynyt kelpaa hyvin
+
+    # 2) Kerää kuluvan viikon tapahtumat ja täydennä URL, jos puuttuu
     out = []
     for ev in cal.walk('VEVENT'):
         dtstart_prop = ev.get('dtstart') or ev.get('DTSTART')
@@ -181,12 +203,21 @@ def load_events_between_fallback(cal, start, end):
         dt = to_local(dt)
         if not (start <= dt < end):
             continue
+
         title = str(ev.get('summary', '') or '').strip()
         loc = str(ev.get('location', '') or '').strip()
         url = extract_url_from_event(ev)
+
+        if not url:
+            uid = _uid_of(ev)
+            if uid and uid in uid_url:
+                url = uid_url[uid]
+
         if loc:
             title = f"{title} ({loc})"
+
         out.append((dt, title, url))
+
     out.sort(key=lambda x: x[0])
     return out
 
