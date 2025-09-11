@@ -36,30 +36,28 @@ WEEKDAYS_FI = {0: "Ma", 1: "Ti", 2: "Ke", 3: "To", 4: "Pe", 5: "La", 6: "Su"}
 
 # Uutis-introt – botti valitsee yhden viikoittain
 INTROS = [
-    "☀️ Hyvää huomenta, tässä tämän viikon tärkeimmät tapahtumat.",
-    "📦 Paketoituna ja valmiina: RCF-viikko yhdellä listalla.",
-    "📢 Uutishuoneesta hyvää huomenta – tässä viikon nostoja.",
+    "🗞️ Viikko-ohjelma: täydellinen tekosyy jättää kaikki muut asiat hoitamatta.",
+    "📢 Viikon ohjelma, ole hyvä ja kärsi.",
     "🎮 Zwift Cheat Code: Ylös, Ylös, Alas, Alas, Vasen, Oikea, Vasen, Oikea, B, A, Start = FTP +200W",
-    "📻 Juuri saamamme tiedon mukaan viikko näyttää tältä:",
-    "🧵 Hyvää huomenta, yhteislenkit ja kisat kootusti.",
-    "💡 Vinkki: Syötä Zwiftin chatissa koodi /piss a party = peloton pysähtyy pakolliselle vessatauolle.",
-    "🧭 Viikko pähkinänkuoressa: tämä kannattaa tietää.",
+    "💡 Vinkki: Syötä Zwiftin chatissa koodi /numberone = nopea pysähdys ojanpenkalle.",
     "💌 Rakkauskirje Arvilta: tässä tapahtumat. XOXO.",
-    "🥱 Uusi viikko, uusia pettymyksiä – tässä kuitenkin tapahtumat.",
-    "📉 Odotukset matalalla, mutta ehkä tästä jotain löytyy.",
+    "🥱 Uusi viikko, uusia pettymyksiä – tässä kuitenkin kaikki tapahtumat.",
+    "📉 Odotukset alhaalla, mutta ehkä tästä jotain löytyy.",
     "🙄 Viikon ohjelma: kyllä, taas näitä samoja juttuja.",
+    "👀 Viikon ohjelma – opettele tämä ulkoa ja valehtele kavereille että olit mukana.",
     "🕹️ Zwift-koodi: ↑ ↑ ↓ ↓ ← → ← → X, O, Start = Anti-gravity Tron bike.",
-    "💀 Jos et jaksa treenata, niin koita ainakin jaksaa lukea tämä lista.",
-    "🙃 Spoileri: mukana on taas yhteislenkkejä ja kisoja, wow mikä yllätys.",
+    "🙃 Spoileri: viikko-ohjelmassa on taas yhteislenkkejä ja kisoja, wow mikä yllätys.",
+    "🎙️ Viikon ohjelma: enemmän hikeä, vähemmän iloa.",
     "🚴‍♂️ Uusi viikko, samat painajaiset.",
     "💡 Pro Tip: Jos ei jaksa… niin koittakaa vaan jaksaa. – Niilo 22, RCF edition.",
     "👑 Tämä lista on tärkeämpi kuin kaikki maanantaipalaverit yhteensä.",
-    "🥵 Treenit valmiina, tekosyyt loppuvat tähän.",
-    "🔔 Muistutus: kyllä, näitä juttuja on joka viikko.",
+    "🔥 Viikon ohjelma, ylikuntoon tyylillä.",
+    "📌 Viikon ohjelmasi, koska Arvi käski.",
     "👻 Boo! Tässä viikko-ohjelma. Säikähditkö? Hyvä.",
+    "🤖 Arvi käskee lukea tämän. Sinä tottelet.",
     "📢 Viikon lista – luultavasti tärkeämpi kuin työkalenterisi.",
     "🙃 No niin, uusi viikko, samat naamat – tässä viikko-ohjelma.",
-    "📰 Ajankohtaista RCF:ssä: viikon kooste."
+    "🧾 Viikon ohjelma: täydellinen yhdistelmä hikeä ja pettymyksiä."
 ]
 
 # Domain-kohtaiset linkkitekstit
