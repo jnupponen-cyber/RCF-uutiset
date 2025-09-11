@@ -7,7 +7,7 @@ RCF Weekly Events Digest from Sesh ICS (resilient + links + random intro)
 - Suodattaa kuluvan viikon (ma–su) Europe/Helsinki
 - Satunnainen uutis-intro (vaihtuu viikoittain)
 - Automaattiset tapahtumalinkit (URL tai kuvauksesta)
-- Postaa koosteen Discordiin (rivinvaihdot säilyttäen)
+- Postaa koosteen Discordiin (rivinvaihdot säilyttäen, linkkikortit estetty)
 """
 
 import os, re, random, traceback
@@ -190,7 +190,8 @@ def format_digest(events, now: datetime):
         for dt, title, url in day_items:
             if url:
                 label = pick_url_label(url)
-                lines.append(f" • {dt.strftime('%H:%M')} — {title} [{label}]({url})\u200B.")
+                # Kulmasulkeet URLin ympärillä + ZWSP + piste -> estää previewt
+                lines.append(f" • {dt.strftime('%H:%M')} — {title} [{label}](<{url}>)\u200B.")
             else:
                 lines.append(f" • {dt.strftime('%H:%M')} — {title}")
         lines.append("")
@@ -225,7 +226,12 @@ async def on_ready():
 
         ch = await client.fetch_channel(TARGET_CHANNEL_ID)
         for chunk in chunk_by_lines(digest):
-            await ch.send(chunk)
+            msg = await ch.send(chunk)
+            # Tukahduta mahdolliset linkki-embed-kortit
+            try:
+                await msg.edit(suppress=True)
+            except Exception:
+                pass
     finally:
         await client.close()
 
