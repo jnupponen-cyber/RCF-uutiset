@@ -20,7 +20,7 @@ CHANNEL_IDS = {
     for x in os.getenv("EMOJI_CHANNEL_IDS", "").split(",")
     if x.strip().isdigit()
 }
-LOOKBACK_MINUTES = int(os.getenv("EMOJI_LOOKBACK_MINUTES", "50"))
+LOOKBACK_MINUTES = int(os.getenv("EMOJI_LOOKBACK_MINUTES", "15"))
 
 # ---------- Triggerit ----------
 # Voit muokata tätä sanakirjaa – avain on regex (pieniksi muunnettu teksti),
