@@ -127,6 +127,7 @@ Tour de Hongrie
 Arctic Race of Norway
 Tour Down Under
 Santos Tour Down Under
+Kansas Race
 
 # Ajajanimet (uutiset ja siirtohuhut)
 Juan Ayuso
@@ -173,6 +174,8 @@ Aleksandr Vlasov
 Adam Yates
 Simon Yates
 Puck Pieterse
+Biniam Girmay
+Kilian Jornet
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
 Kristen Faulkner
