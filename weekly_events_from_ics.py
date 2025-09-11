@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-RCF Weekly Events Digest from Sesh ICS (resilient + links + random intro)
+RCF Weekly Events Digest from Sesh ICS (resilient + links + random intro + overrides)
 - Hakee Seshin ICS-syötteen (/link)
 - Laajentaa toistuvat (recurring_ical_events), fallback yksittäisiin
 - Suodattaa kuluvan viikon (ma–su) Europe/Helsinki
 - Satunnainen uutis-intro (vaihtuu viikoittain)
 - Automaattiset tapahtumalinkit (URL tai kuvauksesta)
+- Manuaaliset linkkiohitukset (esim. BMX Rumble)
 - Postaa koosteen Discordiin (rivinvaihdot säilyttäen, linkkikortit estetty)
 """
 
@@ -55,6 +56,22 @@ DOMAIN_LABEL = {
     "facebook.com": "Facebook »",
     "strava.com": "Strava »",
 }
+
+# --- Manuaaliset linkkiohitukset (title-match) ------------------------------
+OVERRIDE_LINKS = [
+    (re.compile(r"\bbmx\s*rumble\b", re.I), "https://www.zwift.com/uk/events/view/5108964"),
+    # Lisää tänne tarvittaessa muita: (re.compile(r"muu nimi", re.I), "https://…"),
+]
+
+def apply_overrides(title: str | None, url: str | None) -> str | None:
+    """Jos url puuttuu, täydennä se tunnetuilla ohituksilla nimen perusteella."""
+    if url:
+        return url
+    t = (title or "")
+    for pat, link in OVERRIDE_LINKS:
+        if pat.search(t):
+            return link
+    return None
 
 # --- Apurit -----------------------------------------------------------------
 
@@ -183,6 +200,7 @@ def load_events_between_with_recurring(cal, start, end):
         title = str(ev.get('summary', '') or '').strip()
         loc = str(ev.get('location', '') or '').strip()
         url = extract_url_from_event(ev)
+        url = apply_overrides(title, url)  # manuaaliset ohitukset
         if loc:
             title = f"{title} ({loc})"
         out.append((dt, title, url))
@@ -224,6 +242,9 @@ def load_events_between_fallback(cal, start, end):
             uid = _uid_of(ev)
             if uid and uid in uid_url:
                 url = uid_url[uid]
+
+        # Ohitukset nimen perusteella (esim. BMX Rumble)
+        url = apply_overrides(title, url)
 
         if loc:
             title = f"{title} ({loc})"
