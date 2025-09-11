@@ -76,7 +76,7 @@ def _get_dt(prop):
     dt = getattr(prop, "dt", prop)
     return dt
 
-URL_RE = re.compile(r'https?://[^\s)>\]]+', re.I)
+URL_RE  = re.compile(r'https?://[^\s)>\]]+', re.I)
 HREF_RE = re.compile(r'href=["\'](https?://[^"\']+)["\']', re.I)
 
 def pick_url_label(url: str) -> str:
@@ -134,7 +134,7 @@ def extract_url_from_event(ev) -> str | None:
 
     # 5) KAIKKI propertyt (myös custom-kentät ja parametrilliset kuten "X-ALT-DESC;FMTTYPE=text/html")
     try:
-        for prop_name, prop_val in ev.property_items():
+        for _, prop_val in ev.property_items():
             u = _first_url_from(prop_val)
             if u:
                 return u
@@ -151,6 +151,65 @@ def extract_url_from_event(ev) -> str | None:
         pass
 
     return None
+
+# --- ICS-luku ---------------------------------------------------------------
+
+def load_events_between_with_recurring(cal, start, end):
+    """Primääri polku: käytä recurring_ical_events -kirjastoa."""
+    occs = recurring_ical_events.of(cal).between(start, end)
+    out = []
+    for ev in occs:
+        dt = ev.get('dtstart').dt
+        dt = to_local(dt)
+        title = str(ev.get('summary', '') or '').strip()
+        loc = str(ev.get('location', '') or '').strip()
+        url = extract_url_from_event(ev)
+        if loc:
+            title = f"{title} ({loc})"
+        out.append((dt, title, url))
+    out.sort(key=lambda x: x[0])
+    return out
+
+def load_events_between_fallback(cal, start, end):
+    """Varapolku: käy läpi kaikki VEVENTit ja poimi yksittäiset tapaukset (ilman RRULE-laajennusta)."""
+    out = []
+    for ev in cal.walk('VEVENT'):
+        dtstart_prop = ev.get('dtstart') or ev.get('DTSTART')
+        dt = _get_dt(dtstart_prop)
+        if dt is None:
+            continue
+        dt = to_local(dt)
+        if not (start <= dt < end):
+            continue
+        title = str(ev.get('summary', '') or '').strip()
+        loc = str(ev.get('location', '') or '').strip()
+        url = extract_url_from_event(ev)
+        if loc:
+            title = f"{title} ({loc})"
+        out.append((dt, title, url))
+    out.sort(key=lambda x: x[0])
+    return out
+
+def load_events_between(url, start, end):
+    print(f"[DEBUG] Ladataan ICS: {url}")
+    print(f"[DEBUG] Aikaväli: {start} – {end}")
+    r = requests.get(url, timeout=30)
+    r.raise_for_status()
+    cal = Calendar.from_ical(r.content)
+
+    if HAS_RECUR:
+        try:
+            events = load_events_between_with_recurring(cal, start, end)
+            print(f"[DEBUG] recurring_ical_events: löytyi {len(events)} esiintymää")
+            return events
+        except Exception as e:
+            print("[WARN ] recurring_ical_events kaatui, siirrytään fallbackiin.")
+            print("       Syy:", repr(e))
+            traceback.print_exc()
+
+    events = load_events_between_fallback(cal, start, end)
+    print(f"[DEBUG] Fallback VEVENT-luku: löytyi {len(events)} tapahtumaa (ilman RRULE-laajennusta)")
+    return events
 
 # --- Muotoilu ----------------------------------------------------------------
 
