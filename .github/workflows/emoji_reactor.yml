@@ -1,0 +1,42 @@
+name: Emoji Reactor
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # 5 min välein (UTC)
+  workflow_dispatch:        # manuaalinen käynnistys
+
+permissions:
+  contents: read
+
+concurrency:
+  group: emoji-reactor
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            pip install discord.py
+          fi
+
+      - name: Run emoji reactor
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          EMOJI_CHANNEL_IDS: ${{ vars.EMOJI_CHANNEL_IDS }}
+          EMOJI_LOOKBACK_MINUTES: ${{ vars.EMOJI_LOOKBACK_MINUTES }}
+        run: |
+          python emoji_reactor.py
