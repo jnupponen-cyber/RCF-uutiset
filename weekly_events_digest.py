@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-RCF Weekly Events Digest (robust)
-- Lukee kalenterikanavien "Event Listings" -listauksen (pinni tai viimeiset viestit)
-- Parsii viikon (ma–su) tapahtumat Helsingin ajassa
+RCF Weekly Events Digest (v3)
+- Hakee kalenterikanavien "Event Listings" -listauksen (pinnit tai viimeiset viestit)
+- Tunnistaa otsikot Today/Tomorrow/Monday..Sunday [Sep 12] + "Oct 02 19:00 …" -rivit
+- Suodattaa kuluvan viikon (ma–su) tapahtumat (Europe/Helsinki)
 - Postaa koosteen TARGET_CHANNEL_ID-kanavalle
 """
 
@@ -23,19 +24,13 @@ CAL_CHANNEL_IDS = [int(x.strip()) for x in os.environ["CAL_CHANNEL_IDS"].split("
 # ----- Regexit -----
 MONTHS_EN = {'Jan':1,'Feb':2,'Mar':3,'Apr':4,'May':5,'Jun':6,'Jul':7,'Aug':8,'Sep':9,'Oct':10,'Nov':11,'Dec':12}
 
-# “Today [Sep 12]”, “Friday [Sep 12]”; sallitaan mahdollinen emoji tai erikoismerkki alussa
 DAY_HDR = re.compile(
     r'^\s*(?:[\W_]{0,3})?(Today|Tomorrow|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s*\[(\w{3})\s+(\d{1,2})\]',
     re.I | re.U
 )
 
-# “17:30 Title …” – sallitaan mitä tahansa merkkejä ennen aikaa (emoji, pallo tms.)
-EVENT_LINE_CLOCK_FIRST = re.compile(
-    r'.*?(\d{1,2})\s*[:.]\s*(\d{2})\s+(.*)$',
-    re.U
-)
+EVENT_LINE_CLOCK_FIRST = re.compile(r'.*?(\d{1,2})\s*[:.]\s*(\d{2})\s+(.*)$', re.U)
 
-# “Oct 02 19:00 Title …” kuukauden alla
 EVENT_LINE_MONTH_FIRST = re.compile(
     r'^\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2})\s+(\d{2})\s*[:.]\s*(\d{2})\s+(.*)$',
     re.I | re.U
@@ -46,7 +41,6 @@ RELATIVE_TAIL = re.compile(r'\s+(päivän|päivien|kuukauden|kuukausien|viikon|v
 def parse_events_from_text(text: str, year_hint: int, now: datetime):
     events = []
     cur_date = None
-
     for raw in text.splitlines():
         line = raw.strip()
         if not line:
@@ -61,8 +55,7 @@ def parse_events_from_text(text: str, year_hint: int, now: datetime):
                 continue
             year = year_hint
             dt_tmp = datetime(year, month, day, tzinfo=tz)
-            # vuodenvaihdeheuristiikka
-            if month < now.month - 6:
+            if month < now.month - 6:  # vuodenvaihteen yli
                 dt_tmp = dt_tmp.replace(year=year + 1)
             cur_date = dt_tmp.replace(hour=0, minute=0, second=0, microsecond=0)
             continue
@@ -87,7 +80,6 @@ def parse_events_from_text(text: str, year_hint: int, now: datetime):
                 dt = dt.replace(year=year + 1)
             events.append((dt, title))
             continue
-
     return events
 
 def format_digest(events):
@@ -105,29 +97,10 @@ def format_digest(events):
     lines.append("💡 Lisää tapahtuma kalenterikanavaan → mukana automaattisesti ensi koosteessa.")
     return "\n".join(lines)
 
-# ----- Discord-botti -----
+# ----- Discord -----
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
-
-async def fetch_event_listing_text(channel: discord.TextChannel) -> str | None:
-    """Hae listaus: ensin pinneistä, sitten viimeisistä viesteistä."""
-    # 1) Pins
-    pins = await channel.pins()
-    print(f"[DEBUG] Channel {channel.id} pins: {len(pins)}")
-    for msg in sorted(pins, key=lambda m: m.created_at, reverse=True):
-        text = extract_text_from_message(msg)
-        if text and ("Event Listings" in text or "[" in text):
-            print(f"[DEBUG] Found listing in pin message {msg.id} (len={len(text)})")
-            return text
-
-    # 2) Recent messages fallback
-    async for msg in channel.history(limit=50, oldest_first=False):
-        text = extract_text_from_message(msg)
-        if text and "Event Listings" in text:
-            print(f"[DEBUG] Found listing in recent message {msg.id} (len={len(text)})")
-            return text
-    return None
 
 def extract_text_from_message(msg: discord.Message) -> str:
     parts = []
@@ -135,12 +108,34 @@ def extract_text_from_message(msg: discord.Message) -> str:
         parts.append(msg.content)
     if msg.embeds:
         for e in msg.embeds:
+            if e.title:        # << tärkeä lisäys
+                parts.append(str(e.title))
             if e.description:
                 parts.append(e.description)
             for f in (e.fields or []):
                 if f.value:
                     parts.append(f.value)
     return "\n".join(parts).strip()
+
+async def fetch_event_listing_text(channel: discord.TextChannel) -> str | None:
+    """Hae listaus: ensin pinneistä (uudella tavalla), sitten viimeisistä viesteistä."""
+    # 1) Pins (uusi API)
+    pin_count = 0
+    async for msg in channel.pins(limit=50):
+        pin_count += 1
+        text = extract_text_from_message(msg)
+        if text and ("Event Listings" in text or text.startswith("Showing ") or "Times displayed" in text):
+            print(f"[DEBUG] Found listing in pin {msg.id} (len={len(text)})")
+            return text
+    print(f"[DEBUG] Channel {channel.id} pins: {pin_count}")
+
+    # 2) Recent messages fallback
+    async for msg in channel.history(limit=200, oldest_first=False):
+        text = extract_text_from_message(msg)
+        if text and ("Event Listings" in text or text.startswith("Showing ") or "Times displayed" in text):
+            print(f"[DEBUG] Found listing in recent message {msg.id} (len={len(text)})")
+            return text
+    return None
 
 @client.event
 async def on_ready():
@@ -157,9 +152,9 @@ async def on_ready():
                 print(f"[DEBUG] Channel {ch_id}: no listing found")
                 continue
             events = parse_events_from_text(text, year_hint=now.year, now=now)
-            print(f"[DEBUG] Channel {ch_id}: parsed events total={len(events)}")
+            print(f"[DEBUG] Channel {ch_id}: parsed={len(events)}")
             week_ev = [(dt, t) for dt, t in events if monday <= dt < next_monday]
-            print(f"[DEBUG] Channel {ch_id}: events this week={len(week_ev)}")
+            print(f"[DEBUG] Channel {ch_id}: this_week={len(week_ev)}")
             all_events.extend(week_ev)
 
         all_events.sort(key=lambda x: x[0])
