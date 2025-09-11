@@ -36,10 +36,14 @@ WEEKDAYS_FI = {0: "Ma", 1: "Ti", 2: "Ke", 3: "To", 4: "Pe", 5: "La", 6: "Su"}
 # Uutis-introt – botti valitsee yhden viikoittain
 INTROS = [
     "☀️ Hyvää huomenta, tässä tämän viikon tärkeimmät tapahtumat.",
-    "🗞️ Uutissähke: viikon ohjelma on valmis.",
-    "🎙️ Suora lähetys studiosta – tässä viikon menot.",
+    "📦 Paketoituna ja valmiina: RCF-viikko yhdellä listalla.",
+    "📢 Uutishuoneesta hyvää huomenta – tässä viikon nostoja.",
     "📻 Juuri saamamme tiedon mukaan viikko näyttää tältä:",
-    "📰 Tervetuloa linjoille – viikkokatsaus alkaa nyt."
+    "🧵 Hyvää huomenta, yhteislenkit ja kisat kootusti.",
+    "🧭 Viikko pähkinänkuoressa: tämä kannattaa tietää.",
+    "🧭 Mihin mennään ja milloin? Tässä vastaukset.",
+    "📰 Ajankohtaista RCF:ssä: viikon kooste.",
+    "🔊 Aamun pääuutiset: yhteislenkit ja kisasuunnitelmat."
 ]
 
 # Domain-kohtaiset linkkitekstit
