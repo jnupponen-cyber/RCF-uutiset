@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-RCF Weekly Events Digest from Sesh ICS (resilient + links + random intro + overrides)
+RCF Weekly Events Digest from Sesh ICS (resilient + random intro, no per-event links)
 - Hakee Seshin ICS-syötteen (/link)
 - Laajentaa toistuvat (recurring_ical_events), fallback yksittäisiin
 - Suodattaa kuluvan viikon (ma–su) Europe/Helsinki
 - Satunnainen uutis-intro (vaihtuu viikoittain)
-- Automaattiset tapahtumalinkit (URL tai kuvauksesta)
-- Manuaaliset linkkiohitukset (esim. BMX Rumble)
-- Postaa koosteen Discordiin (rivinvaihdot säilyttäen, linkkikortit estetty)
+- Ei per-tapahtuma-linkkejä; loppuun Zwift Club -linkki
+- Postaa Discordiin (rivinvaihdot säilyttäen, linkkikortit estetty)
 """
 
-import os, re, random, traceback
+import os, random, traceback
 from datetime import datetime, timedelta, time as dtime
 import zoneinfo
 import requests
@@ -34,7 +33,7 @@ SESH_ICS_URL = os.environ["SESH_ICS_URL"]
 # Suomenkieliset viikonpäivälyhenteet (ma–su)
 WEEKDAYS_FI = {0: "Ma", 1: "Ti", 2: "Ke", 3: "To", 4: "Pe", 5: "La", 6: "Su"}
 
-# Uutis-introt – botti valitsee yhden viikoittain
+# Uutis-introt – botti valitsee yhden viikoittain (oma listasi säilytetty)
 INTROS = [
     "☀️ Hyvää huomenta, tässä tämän viikon tärkeimmät tapahtumat.",
     "📦 Paketoituna ja valmiina: RCF-viikko yhdellä listalla.",
@@ -62,31 +61,8 @@ INTROS = [
     "📰 Ajankohtaista RCF:ssä: viikon kooste."
 ]
 
-# Domain-kohtaiset linkkitekstit
-DOMAIN_LABEL = {
-    "zwift.com": "Zwift »",
-    "mywhoosh.com": "MyWhoosh »",
-    "eventbrite": "Ilmoittaudu »",
-    "discord.com": "Discord »",
-    "facebook.com": "Facebook »",
-    "strava.com": "Strava »",
-}
-
-# --- Manuaaliset linkkiohitukset (title-match) ------------------------------
-OVERRIDE_LINKS = [
-    (re.compile(r"\bbmx\s*rumble\b", re.I), "https://www.zwift.com/uk/events/view/5108964"),
-    # Lisää tänne tarvittaessa muita: (re.compile(r"muu nimi", re.I), "https://…"),
-]
-
-def apply_overrides(title: str | None, url: str | None) -> str | None:
-    """Jos url puuttuu, täydennä se tunnetuilla ohituksilla nimen perusteella."""
-    if url:
-        return url
-    t = (title or "")
-    for pat, link in OVERRIDE_LINKS:
-        if pat.search(t):
-            return link
-    return None
+# Pysyvä klubilinkki (footeriin). Kulmasulkeet + ZWSP + piste estävät korttiesikatselun.
+ZWIFT_CLUB_URL = "https://www.zwift.com/clubs/3a01d4d1-3ca7-4ef6-8c93-9ec1b7ea783c/home"
 
 # --- Apurit -----------------------------------------------------------------
 
@@ -108,101 +84,6 @@ def _get_dt(prop):
     dt = getattr(prop, "dt", prop)
     return dt
 
-def _uid_of(ev) -> str | None:
-    try:
-        uid = ev.get('uid') or ev.get('UID')
-        return str(uid) if uid else None
-    except Exception:
-        return None
-
-URL_RE  = re.compile(r'https?://[^\s)>\]]+', re.I)
-HREF_RE = re.compile(r'href=["\'](https?://[^"\']+)["\']', re.I)
-
-def pick_url_label(url: str) -> str:
-    u = url.lower()
-    for key, label in DOMAIN_LABEL.items():
-        if key in u:
-            return label
-    return "Liity »"
-
-def extract_url_from_text(value: str | None) -> str | None:
-    """Etsi URL tekstistä – sallii myös rivinvaihdolla 'foldatut' linkit."""
-    if not value:
-        return None
-    s = str(value)
-
-    # 1) HTML-href
-    m = HREF_RE.search(s)
-    if m:
-        return m.group(1)
-
-    # 2) Suora URL
-    m = URL_RE.search(s)
-    if m:
-        return m.group(0)
-
-    # 3) URL katkennut rivinvaihtoon (folding) → poista whitespace ja yritä uudestaan
-    s_compact = re.sub(r'\s+', '', s)
-    m = URL_RE.search(s_compact)
-    if m:
-        return m.group(0)
-
-    return None
-
-def extract_url_from_event(ev) -> str | None:
-    """Palauta tapahtuman URL prioriteetilla:
-    1) URL
-    2) DESCRIPTION / X-ALT-DESC (myös HTML href)
-    3) LOCATION
-    4) SUMMARY
-    5) fallback: käy läpi KAIKKI kentät (property_items)
-    6) viimeinen fallback: koko VEVENTin raakateksti
-    """
-    # 1) URL property
-    for key in ("url", "URL"):
-        if ev.get(key):
-            u = str(ev.get(key))
-            if u.startswith("http"):
-                return u
-
-    # 2) DESCRIPTION / X-ALT-DESC
-    for key in ("description", "DESCRIPTION", "X-ALT-DESC"):
-        u = extract_url_from_text(ev.get(key))
-        if u:
-            return u
-
-    # 3) LOCATION
-    for key in ("location", "LOCATION"):
-        u = extract_url_from_text(ev.get(key))
-        if u:
-            return u
-
-    # 4) SUMMARY
-    for key in ("summary", "SUMMARY"):
-        u = extract_url_from_text(ev.get(key))
-        if u:
-            return u
-
-    # 5) Kaikki propertyt (myös custom & parametrilliset)
-    try:
-        for _, prop_val in ev.property_items():
-            u = extract_url_from_text(prop_val)
-            if u:
-                return u
-    except Exception:
-        pass
-
-    # 6) Raakateksti
-    try:
-        raw = ev.to_ical().decode("utf-8", errors="ignore")
-        u = extract_url_from_text(raw)
-        if u:
-            return u
-    except Exception:
-        pass
-
-    return None
-
 # --- ICS-luku ---------------------------------------------------------------
 
 def load_events_between_with_recurring(cal, start, end):
@@ -214,31 +95,14 @@ def load_events_between_with_recurring(cal, start, end):
         dt = to_local(dt)
         title = str(ev.get('summary', '') or '').strip()
         loc = str(ev.get('location', '') or '').strip()
-        url = extract_url_from_event(ev)
-        url = apply_overrides(title, url)  # manuaaliset ohitukset
         if loc:
             title = f"{title} ({loc})"
-        out.append((dt, title, url))
+        out.append((dt, title))
     out.sort(key=lambda x: x[0])
     return out
 
 def load_events_between_fallback(cal, start, end):
-    """
-    Varapolku: käy läpi kaikki VEVENTit.
-    - 1. kierros: rakenna UID->URL -hakemisto kaikista tapahtumista (riippumatta ajanjaksosta)
-    - 2. kierros: poimi kuluvan viikon tapaukset ja täydennä URL UID-hakemistosta, jos puuttuu
-    """
-    # 1) UID -> URL -map kaikista VEVENTeistä
-    uid_url: dict[str, str] = {}
-    for ev in cal.walk('VEVENT'):
-        uid = _uid_of(ev)
-        if not uid:
-            continue
-        u = extract_url_from_event(ev)
-        if u and uid not in uid_url:
-            uid_url[uid] = u  # ensimmäinen löytynyt kelpaa hyvin
-
-    # 2) Kerää kuluvan viikon tapahtumat ja täydennä URL, jos puuttuu
+    """Varapolku: käy läpi kaikki VEVENTit ja poimi yksittäiset tapaukset (ilman RRULE-laajennusta)."""
     out = []
     for ev in cal.walk('VEVENT'):
         dtstart_prop = ev.get('dtstart') or ev.get('DTSTART')
@@ -248,24 +112,11 @@ def load_events_between_fallback(cal, start, end):
         dt = to_local(dt)
         if not (start <= dt < end):
             continue
-
         title = str(ev.get('summary', '') or '').strip()
         loc = str(ev.get('location', '') or '').strip()
-        url = extract_url_from_event(ev)
-
-        if not url:
-            uid = _uid_of(ev)
-            if uid and uid in uid_url:
-                url = uid_url[uid]
-
-        # Ohitukset nimen perusteella (esim. BMX Rumble)
-        url = apply_overrides(title, url)
-
         if loc:
             title = f"{title} ({loc})"
-
-        out.append((dt, title, url))
-
+        out.append((dt, title))
     out.sort(key=lambda x: x[0])
     return out
 
@@ -293,8 +144,11 @@ def load_events_between(url, start, end):
 # --- Muotoilu ----------------------------------------------------------------
 
 def format_digest(events, now: datetime):
+    # Footer: klubilinkki (kulmasulkeet + ZWSP + piste -> ei korttia)
+    footer = f"🔗 Kaikki RCF:n Zwift-ajot löytyvät klubista: [Zwift Club](<{ZWIFT_CLUB_URL}>)\u200B."
+
     if not events:
-        return "Tällä viikolla ei näytä olevan kalenterissa tapahtumia. 🚲"
+        return "Tällä viikolla ei näytä olevan kalenterissa tapahtumia. 🚲\n\n" + footer
 
     # Valitaan intro deterministisesti viikon numeron mukaan (vaihtuu viikoittain)
     week = now.isocalendar().week
@@ -302,8 +156,8 @@ def format_digest(events, now: datetime):
     intro = random.choice(INTROS)
 
     by_day = {}
-    for dt, title, url in events:
-        by_day.setdefault(dt.date(), []).append((dt, title, url))
+    for dt, title in events:
+        by_day.setdefault(dt.date(), []).append((dt, title))
 
     lines = [
         intro,
@@ -314,15 +168,11 @@ def format_digest(events, now: datetime):
     for d in sorted(by_day):
         weekday = WEEKDAYS_FI[d.weekday()]
         lines.append(f"**{weekday} {d.strftime('%d.%m.')}**")
-        day_items = sorted(by_day[d], key=lambda x: x[0])
-        for dt, title, url in day_items:
-            if url:
-                label = pick_url_label(url)
-                # Kulmasulkeet URLin ympärillä + ZWSP + piste -> estää previewt
-                lines.append(f" • {dt.strftime('%H:%M')} — {title} [{label}](<{url}>)\u200B.")
-            else:
-                lines.append(f" • {dt.strftime('%H:%M')} — {title}")
+        for dt, title in sorted(by_day[d], key=lambda x: x[0]):
+            lines.append(f" • {dt.strftime('%H:%M')} — {title}")
         lines.append("")
+
+    lines.append(footer)
     return "\n".join(lines)
 
 def chunk_by_lines(s: str, limit: int = 1900):
@@ -355,7 +205,7 @@ async def on_ready():
         ch = await client.fetch_channel(TARGET_CHANNEL_ID)
         for chunk in chunk_by_lines(digest):
             msg = await ch.send(chunk)
-            # Tukahduta mahdolliset linkki-embed-kortit
+            # Tukahduta mahdolliset linkki-embed-kortit (footer-linkki)
             try:
                 await msg.edit(suppress=True)
             except Exception:
