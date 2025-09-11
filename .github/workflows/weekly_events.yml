@@ -2,7 +2,7 @@ name: Weekly Events Digest (ICS)
 
 on:
   schedule:
-    - cron: "0 6 * * 1"   # 06:00 UTC = 09:00 Helsinki maanantaisin
+    - cron: "0 5 * * 1"   # 05:00 UTC = 08:00 Helsinki maanantaisin
   workflow_dispatch:
 
 jobs:
