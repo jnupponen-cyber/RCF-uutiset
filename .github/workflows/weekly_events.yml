@@ -1,8 +1,8 @@
-name: Weekly Events Digest
+name: Weekly Events Digest (ICS)
 
 on:
   schedule:
-    - cron: "0 6 * * 1"    # 06:00 UTC = 09:00 Helsinki maanantaisin
+    - cron: "0 6 * * 1"   # 06:00 UTC = 09:00 Helsinki maanantaisin
   workflow_dispatch:
 
 jobs:
@@ -10,14 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-      GUILD_ID: ${{ secrets.GUILD_ID }}
       TARGET_CHANNEL_ID: ${{ secrets.TARGET_CHANNEL_ID }}
-      CAL_CHANNEL_IDS: ${{ secrets.CAL_CHANNEL_IDS }}
+      SESH_ICS_URL: ${{ secrets.SESH_ICS_URL }}
       TZ: ${{ secrets.TZ }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install discord.py
-      - run: python weekly_events_digest.py
+      - run: pip install discord.py requests icalendar recurring-ical-events
+      - run: python weekly_events_from_ics.py
