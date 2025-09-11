@@ -111,8 +111,10 @@ def format_digest(events):
     for dt, title in events:
         by_day.setdefault(dt.date(), []).append((dt, title))
     lines = [
+        "☀️ Hyvää huomenta, tässä tämän viikon tärkeimmät tapahtumat.",
+        "",  # tyhjä rivi
         "🗓️ **Ride Club Finland – viikon tapahtumat**",
-        ""  # tyhjä rivi
+        ""
     ]
     for d in sorted(by_day):
         weekday = WEEKDAYS_FI[d.weekday()]
@@ -121,18 +123,6 @@ def format_digest(events):
             lines.append(f" • {dt.strftime('%H:%M')} — {title}")
         lines.append("")  # tyhjä rivi päivän jälkeen
     return "\n".join(lines)
-
-def chunk_by_lines(s: str, limit: int = 1900):
-    """Pilkkoo viestin osiin säilyttäen rivinvaihdot (Discordin 2000 merk. raja huomioiden)."""
-    parts, buf = [], ""
-    for line in s.splitlines(True):  # säilytä \n
-        if len(buf) + len(line) > limit:
-            parts.append(buf)
-            buf = ""
-        buf += line
-    if buf:
-        parts.append(buf)
-    return parts
 
 # --- Discord ---
 intents = discord.Intents.default()
