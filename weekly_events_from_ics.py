@@ -45,7 +45,7 @@ INTROS = [
     "💡 Vinkki: Syötä Zwiftin chatissa koodi /piss a party = peloton pysähtyy pakolliselle vessatauolle.",
     "🧭 Viikko pähkinänkuoressa: tämä kannattaa tietää.",
     "💌 Rakkauskirje Arvilta: tässä tapahtumat. XOXO.",
-    "🥱 Uusi viikko, uusi pettymys – tässä kuitenkin tapahtumat.",
+    "🥱 Uusi viikko, uusia pettymyksiä – tässä kuitenkin tapahtumat.",
     "📉 Odotukset matalalla, mutta ehkä tästä jotain löytyy.",
     "🙄 Viikon ohjelma: kyllä, taas näitä samoja juttuja.",
     "🕹️ Zwift-koodi: ↑ ↑ ↓ ↓ ← → ← → X, O, Start = Anti-gravity Tron bike.",
