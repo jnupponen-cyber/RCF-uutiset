@@ -28,6 +28,9 @@ tz = zoneinfo.ZoneInfo(TZ)
 TARGET_CHANNEL_ID = int(os.environ["TARGET_CHANNEL_ID"])
 SESH_ICS_URL = os.environ["SESH_ICS_URL"]
 
+# Suomenkieliset viikonpäivälyhenteet (ma–su)
+WEEKDAYS_FI = {0: "Ma", 1: "Ti", 2: "Ke", 3: "To", 4: "Pe", 5: "La", 6: "Su"}
+
 def to_local(dt):
     """Palauta aika Europe/Helsinki -aikana."""
     if isinstance(dt, datetime):
@@ -112,7 +115,8 @@ def format_digest(events):
         ""  # tyhjä rivi
     ]
     for d in sorted(by_day):
-        lines.append(f"**{d.strftime('%a %d.%m.')}**")
+        weekday = WEEKDAYS_FI[d.weekday()]
+        lines.append(f"**{weekday} {d.strftime('%d.%m.')}**")
         for dt, title in sorted(by_day[d], key=lambda x: x[0]):
             lines.append(f" • {dt.strftime('%H:%M')} — {title}")
         lines.append("")  # tyhjä rivi päivän jälkeen
