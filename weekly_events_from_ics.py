@@ -50,16 +50,16 @@ INTROS = [
     "🙄 Viikon ohjelma: kyllä, taas näitä samoja juttuja.",
     "🕹️ Zwift-koodi: ↑ ↑ ↓ ↓ ← → ← → X, O, Start = Anti-gravity Tron bike.",
     "💀 Jos et jaksa treenata, niin koita ainakin jaksaa lukea tämä lista.",
-    "🙃 Spoileri: mukana on taas lenkkejä ja Zwiftiä, wow mikä yllätys.",
+    "🙃 Spoileri: mukana on taas yhteislenkkejä ja kisoja, wow mikä yllätys.",
     "🚴‍♂️ Uusi viikko, samat painajaiset.",
+    "💡 Pro Tip: Jos ei jaksa… niin koittakaa vaan jaksaa. – Niilo 22, RCF edition.",
     "👑 Tämä lista on tärkeämpi kuin kaikki maanantaipalaverit yhteensä.",
     "🥵 Treenit valmiina, tekosyyt loppuvat tähän.",
     "🔔 Muistutus: kyllä, näitä juttuja on joka viikko.",
     "👻 Boo! Tässä viikko-ohjelma. Säikähditkö? Hyvä.",
     "📢 Viikon lista – luultavasti tärkeämpi kuin työkalenterisi.",
     "🙃 No niin, uusi viikko, samat naamat – tässä viikko-ohjelma.",
-    "📰 Ajankohtaista RCF:ssä: viikon kooste.",
-    "🔊 Aamun pääuutiset: yhteislenkit ja kisasuunnitelmat."
+    "📰 Ajankohtaista RCF:ssä: viikon kooste."
 ]
 
 # Domain-kohtaiset linkkitekstit
