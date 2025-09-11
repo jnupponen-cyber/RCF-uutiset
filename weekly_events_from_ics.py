@@ -93,6 +93,30 @@ def pick_url_label(url: str) -> str:
             return label
     return "Liity »"
 
+def extract_url_from_text(value: str | None) -> str | None:
+    """Etsi URL tekstistä – sallii myös rivinvaihdolla 'foldatut' linkit."""
+    if not value:
+        return None
+    s = str(value)
+
+    # 1) HTML-href
+    m = HREF_RE.search(s)
+    if m:
+        return m.group(1)
+
+    # 2) Suora URL
+    m = URL_RE.search(s)
+    if m:
+        return m.group(0)
+
+    # 3) URL katkennut rivinvaihtoon (folding) → poista whitespace ja yritä uudestaan
+    s_compact = re.sub(r'\s+', '', s)
+    m = URL_RE.search(s_compact)
+    if m:
+        return m.group(0)
+
+    return None
+
 def extract_url_from_event(ev) -> str | None:
     """Palauta tapahtuman URL prioriteetilla:
     1) URL
@@ -102,18 +126,6 @@ def extract_url_from_event(ev) -> str | None:
     5) fallback: käy läpi KAIKKI kentät (property_items)
     6) viimeinen fallback: koko VEVENTin raakateksti
     """
-    def _first_url_from(value) -> str | None:
-        if not value:
-            return None
-        s = str(value)
-        m = HREF_RE.search(s)
-        if m:
-            return m.group(1)
-        m = URL_RE.search(s)
-        if m:
-            return m.group(0)
-        return None
-
     # 1) URL property
     for key in ("url", "URL"):
         if ev.get(key):
@@ -123,26 +135,26 @@ def extract_url_from_event(ev) -> str | None:
 
     # 2) DESCRIPTION / X-ALT-DESC
     for key in ("description", "DESCRIPTION", "X-ALT-DESC"):
-        u = _first_url_from(ev.get(key))
+        u = extract_url_from_text(ev.get(key))
         if u:
             return u
 
     # 3) LOCATION
     for key in ("location", "LOCATION"):
-        u = _first_url_from(ev.get(key))
+        u = extract_url_from_text(ev.get(key))
         if u:
             return u
 
     # 4) SUMMARY
     for key in ("summary", "SUMMARY"):
-        u = _first_url_from(ev.get(key))
+        u = extract_url_from_text(ev.get(key))
         if u:
             return u
 
     # 5) Kaikki propertyt (myös custom & parametrilliset)
     try:
         for _, prop_val in ev.property_items():
-            u = _first_url_from(prop_val)
+            u = extract_url_from_text(prop_val)
             if u:
                 return u
     except Exception:
@@ -151,7 +163,7 @@ def extract_url_from_event(ev) -> str | None:
     # 6) Raakateksti
     try:
         raw = ev.to_ical().decode("utf-8", errors="ignore")
-        u = _first_url_from(raw)
+        u = extract_url_from_text(raw)
         if u:
             return u
     except Exception:
