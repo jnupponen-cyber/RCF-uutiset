@@ -190,7 +190,7 @@ def format_digest(events, now: datetime):
         for dt, title, url in day_items:
             if url:
                 label = pick_url_label(url)
-                lines.append(f" • {dt.strftime('%H:%M')} — {title} [{label}]({url})")
+                lines.append(f" • {dt.strftime('%H:%M')} — {title} [{label}]({url})\u200B")
             else:
                 lines.append(f" • {dt.strftime('%H:%M')} — {title}")
         lines.append("")
