@@ -8,7 +8,7 @@ RCF Weekly Events Digest from Sesh ICS (resilient)
 - Postaa koosteen Discordiin
 """
 
-import os, textwrap, traceback
+import os, traceback
 from datetime import datetime, timedelta, time as dtime
 import zoneinfo
 import requests
@@ -39,20 +39,15 @@ def to_local(dt):
 
 def _get_dt(prop):
     """Hae dt arvo icalendar propertystä. Kestää listat ja puuttuvat tz:t."""
-    # icalendarissa prop voi olla vDDDTypes-objekti tai lista.
     if prop is None:
         return None
     if isinstance(prop, list) and prop:
         prop = prop[0]
-    # vDDDTypes-objekteissa on .dt
     dt = getattr(prop, "dt", prop)
     return dt
 
 def load_events_between_with_recurring(cal, start, end):
     """Primääri polku: käytä recurring_ical_events -kirjastoa."""
-    # Joissain ICS-tiedoissa yksittäisillä VEVENTeillä on odottamattomia rakenteita.
-    # recurring_ical_events ei tarjoa suoraan skip_errors paramia between()-kutsussa,
-    # joten pyydystetään virhe ja siirrytään fallbackiin.
     occs = recurring_ical_events.of(cal).between(start, end)
     out = []
     for ev in occs:
@@ -92,26 +87,18 @@ def load_events_between(url, start, end):
     r.raise_for_status()
     cal = Calendar.from_ical(r.content)
 
-    # Yritä toistojen laajennusta
     if HAS_RECUR:
         try:
             events = load_events_between_with_recurring(cal, start, end)
             print(f"[DEBUG] recurring_ical_events: löytyi {len(events)} esiintymää")
-            if events:
-                for dt, title in events[:10]:
-                    print(f"[DEBUG] Esim: {dt} — {title}")
             return events
         except Exception as e:
             print("[WARN ] recurring_ical_events kaatui, siirrytään fallbackiin.")
             print("       Syy:", repr(e))
             traceback.print_exc()
 
-    # Fallback: poimi yksittäiset VEVENTit sellaisenaan
     events = load_events_between_fallback(cal, start, end)
     print(f"[DEBUG] Fallback VEVENT-luku: löytyi {len(events)} tapahtumaa (ilman RRULE-laajennusta)")
-    if events:
-        for dt, title in events[:10]:
-            print(f"[DEBUG] Esim: {dt} — {title}")
     return events
 
 def format_digest(events):
@@ -123,15 +110,27 @@ def format_digest(events):
     lines = [
         "🗓️ **Ride Club Finland – viikon tapahtumat**",
         f"_Aikavyöhyke: {TZ}_",
-        ""  # tyhjä rivi
+        ""
     ]
     for d in sorted(by_day):
         lines.append(f"**{d.strftime('%a %d.%m.')}**")
         for dt, title in sorted(by_day[d], key=lambda x: x[0]):
             lines.append(f" • {dt.strftime('%H:%M')} — {title}")
-        lines.append("")  # tyhjä rivi päivän jälkeen
+        lines.append("")
     lines.append("💡 Lisää tapahtuma Seshillä → kooste päivittyy automaattisesti.")
     return "\n".join(lines)
+
+def chunk_by_lines(s: str, limit: int = 1900):
+    """Pilkkoo viestin osiin säilyttäen rivinvaihdot (Discordin 2000 merk. raja huomioiden)."""
+    parts, buf = [], ""
+    for line in s.splitlines(True):  # säilytä \n
+        if len(buf) + len(line) > limit:
+            parts.append(buf)
+            buf = ""
+        buf += line
+    if buf:
+        parts.append(buf)
+    return parts
 
 # --- Discord ---
 intents = discord.Intents.default()
@@ -148,7 +147,7 @@ async def on_ready():
         digest = format_digest(events)
 
         ch = await client.fetch_channel(TARGET_CHANNEL_ID)
-        for chunk in textwrap.wrap(digest, width=1800, break_long_words=False, break_on_hyphens=False):
+        for chunk in chunk_by_lines(digest):
             await ch.send(chunk)
     finally:
         await client.close()
