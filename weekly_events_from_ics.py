@@ -76,7 +76,8 @@ def _get_dt(prop):
     dt = getattr(prop, "dt", prop)
     return dt
 
-URL_RE = re.compile(r'(https?://[^\s\]>)]+)', re.I)
+URL_RE = re.compile(r'https?://[^\s)>\]]+', re.I)
+HREF_RE = re.compile(r'href=["\'](https?://[^"\']+)["\']', re.I)
 
 def pick_url_label(url: str) -> str:
     u = url.lower()
@@ -86,25 +87,64 @@ def pick_url_label(url: str) -> str:
     return "Liity »"
 
 def extract_url_from_event(ev) -> str | None:
-    """Palauta tapahtuman URL: ensin URL-kenttä, sitten descriptionista 1. http-linkki."""
-    # 1) URL property
-    url_prop = ev.get('url') or ev.get('URL')
-    if url_prop:
-        url = str(url_prop)
-        if url.startswith("http"):
-            return url
-    # 2) DESCRIPTION
-    desc = ev.get('description') or ev.get('DESCRIPTION')
-    if desc:
-        m = URL_RE.search(str(desc))
+    """Palauta tapahtuman URL:
+    1) URL property
+    2) HTML/teksti DESCRIPTION (href= tai paljas linkki)
+    3) LOCATION
+    4) SUMMARY (joskus Sesh upottaa linkin otsikkoon)
+    5) fallback: etsi koko eventistä
+    """
+    def _first_url_from(value: str | None) -> str | None:
+        if not value:
+            return None
+        s = str(value)
+        m = HREF_RE.search(s)
         if m:
             return m.group(1)
-    # 3) LOCATION joskus sisältää linkin
-    loc = ev.get('location') or ev.get('LOCATION')
-    if loc:
-        m = URL_RE.search(str(loc))
+        m = URL_RE.search(s)
         if m:
-            return m.group(1)
+            return m.group(0)
+        return None
+
+    # 1) URL property (case-insensitive)
+    for key in ("url", "URL"):
+        if ev.get(key):
+            u = str(ev.get(key))
+            if u.startswith("http"):
+                # print(f"[DEBUG] URL property: {u}")
+                return u
+
+    # 2) DESCRIPTION (HTML tai paljas teksti)
+    for key in ("description", "DESCRIPTION", "X-ALT-DESC"):  # Sesh saattaa käyttää HTML-alt-kuvausta
+        u = _first_url_from(ev.get(key))
+        if u:
+            # print(f"[DEBUG] URL from DESCRIPTION: {u}")
+            return u
+
+    # 3) LOCATION
+    for key in ("location", "LOCATION"):
+        u = _first_url_from(ev.get(key))
+        if u:
+            # print(f"[DEBUG] URL from LOCATION: {u}")
+            return u
+
+    # 4) SUMMARY (otsikko)
+    for key in ("summary", "SUMMARY"):
+        u = _first_url_from(ev.get(key))
+        if u:
+            # print(f"[DEBUG] URL from SUMMARY: {u}")
+            return u
+
+    # 5) Fallback: yritä koko eventin stringistä
+    try:
+        raw = ev.to_ical().decode("utf-8", errors="ignore")
+        u = _first_url_from(raw)
+        if u:
+            # print(f"[DEBUG] URL from raw VEVENT: {u}")
+            return u
+    except Exception:
+        pass
+
     return None
 
 # --- ICS-luku ---------------------------------------------------------------
