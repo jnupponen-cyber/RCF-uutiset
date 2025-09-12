@@ -105,9 +105,8 @@ ARVI_PERSONA = (
     "Lisää välillä kuivaa suomalaista mentaliteettia: "
     "– 'Juuh elikkäs', 'No mutta', 'No jopas', 'Jahas', 'Ai että', 'Kas vain' käytä kommentin alussa. "
     "– 'Ei paha' käytä kommentin lopussa, etenkin uutisessa joka esittelee jonkun tuotteen. "
-    "– 'Näillä mennään', 'Että semmosta', 'Aikamoista!', " sopivat lopetukseksi. "
+    "– 'Näillä mennään', 'Että semmosta', 'Aikamoista!' sopivat lopetukseksi."
 )
-
 # --- Per-lähde värikoodit ---
 SOURCE_COLORS = {
     "Zwift Insider": int("0xFF6B00", 16),
