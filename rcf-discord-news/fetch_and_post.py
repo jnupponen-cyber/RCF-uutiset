@@ -10,7 +10,8 @@ RCF Discord -uutisbotti (embedit + OG-kuvat + blocklist + whitelist + ping + per
 - Postaa Discordiin webhookilla:
   - otsikko linkkinä
   - lähde + favicon
-  - napakka kuvaus
+  - alkuperäinen (yleensä englanninkielinen) kuvaus embedissä
+  - Arvi LindBotin suomalainen kommentti ennen embediä
   - iso kuva (tai thumbnail)
   - linkkipainike
   - pingi (USER tai ROLE ID)
@@ -81,12 +82,21 @@ def logd(*args):
     if DEBUG:
         print("[DEBUG]", *args)
 
-# --- AI-tiivistelmät ---
+# --- AI-kommentit (Arvin persoona) ---
 ENABLE_AI_SUMMARY = int(os.environ.get("ENABLE_AI_SUMMARY", "1")) == 1
 SUMMARY_MODEL = os.environ.get("SUMMARY_MODEL", "gpt-4o-mini").strip()
 SUMMARY_LANG = os.environ.get("SUMMARY_LANG", "fi").strip().lower()
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "").strip()
 OPENAI_API_BASE = os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1").strip()
+
+ARVI_PERSONA = (
+    "Olet Arvi LindBot, suomalainen lakoninen uutistenlukija RCF-yhteisölle. "
+    "Perusääni: asiallinen ja tiivis, mutta välillä hillittyä sarkasmia, kevyttä huumoria "
+    "ja ripaus nostalgiaa. Ääni on kuivakka, ei ilkeä. Älä liioittele. "
+    "Käytä 1–2 lyhyttä lausetta suomeksi. Ei hashtageja, ei emojeja, ei mainoslauseita. "
+    "Jos aihe on triviaali, totea se lakonisesti. Jos aihe herättää hymähdyksen, vihjaa siitä hienovaraisesti. "
+    "Voit esittää kevyen retorisen kysymyksen RCF-yhteisölle, mutta älä joka kerta."
+)
 
 # --- Per-lähde värikoodit ---
 SOURCE_COLORS = {
@@ -222,38 +232,29 @@ def fetch_og_meta(url: str) -> tuple[str | None, str | None]:
         return None, None
 
 def _limit_to_two_sentences(text: str) -> str:
-    """
-    Palauttaa korkeintaan 2 ensimmäistä virkettä.
-    Erottimina . ! ? sekä niiden jälkeen mahdollinen lainaus/space.
-    """
+    """Palauttaa korkeintaan 2 ensimmäistä virkettä."""
     parts = re.split(r'(?<=[\.\!\?])\s+', text.strip())
     short = " ".join([p for p in parts if p][:2]).strip()
     return short if short else text
 
-# --- AI-tiiviistelmä ---
-def ai_summarize(title: str, source: str, url: str, raw_summary: str, maxlen: int) -> str | None:
+# --- AI-kommentti (Arvin persoonalla) ---
+def ai_make_comment(title: str, source: str, url: str, raw_summary: str, maxlen: int) -> str | None:
     """
-    Palauttaa suomenkielisen 1–2 lauseen tiivistelmän (maxlen rajaus).
+    Palauttaa suomenkielisen 1–2 lauseen Arvi LindBot -kommentin (maxlen rajaus).
     Käyttää OpenAI chat-completions -rajapintaa. Palauttaa None jos ongelma.
     """
     if not ENABLE_AI_SUMMARY or not OPENAI_API_KEY:
         return None
 
-    system_msg = (
-        "Olet avulias suomenkielinen uutistoimittaja. "
-        "Kirjoitat erittäin ytimekkäitä, puolueettomia tiivistelmiä. "
-        "Käytä vain 1–2 lyhyttä lausetta. "
-        "Älä käytä hashtageja, emojeja tai mainoslauseita. "
-        "Kirjoita selkeää yleiskieltä. Jos tietoa on vähän, kerro vain olennainen."
-    )
+    system_msg = ARVI_PERSONA
     user_msg = (
         f"Kieli: {SUMMARY_LANG}\n"
         f"Maksimipituus: {maxlen} merkkiä.\n"
         f"Lähde: {source}\n"
         f"Otsikko: {title}\n"
         f"URL: {url}\n"
-        f"Raakakuvaus (vapaaehtoinen, tiivistä jos käytät): {raw_summary or '-'}\n\n"
-        "Tuota vain 1–2 lausetta ilman otsikoita."
+        f"Alkuperäinen kuvaus (voi olla englanniksi, käytä vain jos auttaa kiteytyksessä): {raw_summary or '-'}\n\n"
+        "Kirjoita vain 1–2 lausetta suomeksi. Älä toista otsikkoa. Älä käytä emojeja/hashtageja."
     )
 
     try:
@@ -263,7 +264,7 @@ def ai_summarize(title: str, source: str, url: str, raw_summary: str, maxlen: in
                 {"role": "system", "content": system_msg},
                 {"role": "user", "content": user_msg},
             ],
-            "temperature": 0.2,
+            "temperature": 0.3,
             "max_tokens": 220,
         }
         headers = {
@@ -289,14 +290,8 @@ def ai_summarize(title: str, source: str, url: str, raw_summary: str, maxlen: in
 def load_blocklist(path: Path = BLOCKLIST_FILE):
     """
     Palauttaa:
-      - global_terms: ["smartwatch", "älykello", ...] (case-insensitive, whole word)
-      - source_terms: [("dc rainmaker","watch"), ...]  # molemmat lowercasena
-
-    Syntaksi:
-      # kommentti
-      smartwatch
-      älykello
-      source=DC Rainmaker|watch
+      - global_terms: ["smartwatch", "älykello", ...]
+      - source_terms: [("dc rainmaker","watch"), ...]
     """
     global_terms, source_terms = [], []
     if not path.exists():
@@ -316,15 +311,7 @@ def load_blocklist(path: Path = BLOCKLIST_FILE):
 def load_whitelist(path: Path = WHITELIST_FILE):
     """
     Palauttaa:
-      - global_terms: ["zwift", "ript", ...]
-      - source_terms: [("gcn","headphones"), ...]
-      - sources: ["zwift insider", "dc rainmaker", ...]  # pelkkä lähteen nimi -> aina sallittu
-
-    Syntaksi:
-      # kommentti
-      zwift
-      source=GCN|headphones
-      allow_source=Zwift Insider
+      - global_terms, source_terms, sources
     """
     global_terms, source_terms, sources = [], [], []
     if not path.exists():
@@ -349,18 +336,14 @@ def is_whitelisted(source_name: str, title: str, summary: str, link: str,
     text = f"{title} {summary}"
     link_l = link or ""
     src_lower = (source_name or "").lower()
-
     if src_lower in wl_sources:
         return True
-
     for t in wl_global:
         if _word_in(text, t) or _word_in(link_l, t):
             return True
-
     for src, t in wl_source_terms:
         if src in src_lower and (_word_in(text, t) or _word_in(link_l, t)):
             return True
-
     return False
 
 def should_skip_article(source_name: str,
@@ -374,26 +357,20 @@ def should_skip_article(source_name: str,
                         wl_sources) -> tuple[bool, str | None]:
     """
     Palauttaa (skip, reason).
-    Järjestys:
-      1) Whitelist: jos osuu, ei skipata (paitsi Shorts, jos ALLOW_SHORTS_IF_WHITELIST=0).
-      2) Shorts-kovasääntö
-      3) Blocklist (global / source)
+    Järjestys: whitelist -> shorts -> blocklist
     """
     text = f"{title} {summary}"
     link_l = (link or "")
     src_lower = (source_name or "").lower()
 
-    # 1) Whitelist ohitus
     if is_whitelisted(source_name, title, summary, link, wl_global, wl_source, wl_sources):
         if BLOCK_YT_SHORTS and ("youtube.com/shorts/" in link_l.lower()) and not ALLOW_SHORTS_IF_WHITELIST:
             return True, "shorts"
         return False, None
 
-    # 2) Shorts
     if BLOCK_YT_SHORTS and ("youtube.com/shorts/" in link_l.lower()):
         return True, "shorts"
 
-    # 3) Blocklist
     for t in bl_global:
         if _word_in(text, t) or _word_in(link_l, t):
             return True, f"global:{t.strip().lower()}"
@@ -405,16 +382,20 @@ def should_skip_article(source_name: str,
     return False, None
 
 # -------- Discord-postaus --------
-def post_to_discord(title: str, url: str, source: str, summary: str | None, image_url: str | None) -> None:
+def post_to_discord(title: str, url: str, source: str,
+                    raw_summary: str | None, image_url: str | None,
+                    ai_comment: str | None = None) -> None:
+    """
+    Postaa viestin niin, että:
+      - content: Arvi LindBotin kommentti (suomeksi)
+      - embed.description: alkuperäinen (yleensä englanninkielinen) kuvaus
+    """
     if not WEBHOOK:
         raise RuntimeError("DISCORD_WEBHOOK_URL ei ole asetettu ympäristömuuttujaksi.")
 
-    # Väri: per-lähde tai oletus (blurple)
     color = SOURCE_COLORS.get(source, int("0x5865F2", 16))
-    # Footer: yksinkertainen eikä hashtageja
     footer_text = f"{source} · RCF Uutiskatsaus"
 
-    # Linkkinappi
     components = [{
         "type": 1,
         "components": [{
@@ -425,19 +406,18 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
         }]
     }]
 
-    # Lähde + favicon authoriksi ja myös footerin ikoniksi
     author = {"name": source}
     fav = domain_favicon(url)
     footer = {"text": footer_text}
     if fav:
         author["icon_url"] = fav
-        footer["icon_url"] = fav  # näyttää hyvältä pienellä logolla myös footerissa
+        footer["icon_url"] = fav
 
     embed = {
         "type": "rich",
         "title": title,
         "url": url,
-        "description": truncate(summary or "", SUMMARY_MAXLEN),
+        "description": truncate(raw_summary or "", SUMMARY_MAXLEN),
         "color": color,
         "author": author,
         "footer": footer,
@@ -449,22 +429,26 @@ def post_to_discord(title: str, url: str, source: str, summary: str | None, imag
         else:
             embed["thumbnail"] = {"url": image_url}
 
-    # Pingi (turvallinen allowed_mentions)
-    content = None
-    allowed = {"parse": []}
+    # Content: pingi + Arvin kommentti
+    content_lines = []
     if _valid_discord_id(MENTION_USER_ID):
-        content = f"<@{MENTION_USER_ID}>"
-        allowed["users"] = [MENTION_USER_ID]
+        content_lines.append(f"<@{MENTION_USER_ID}>")
     elif _valid_discord_id(MENTION_ROLE_ID):
-        content = f"<@&{MENTION_ROLE_ID}>"
-        allowed["roles"] = [MENTION_ROLE_ID]
+        content_lines.append(f"<@&{MENTION_ROLE_ID}>")
+    if ai_comment:
+        content_lines.append(f"🗨️ Arvi LindBot: {ai_comment}")
+    content = "\n".join(content_lines) if content_lines else None
 
     payload = {"embeds": [embed], "components": components}
     if content:
+        allowed = {"parse": []}
+        if _valid_discord_id(MENTION_USER_ID):
+            allowed["users"] = [MENTION_USER_ID]
+        elif _valid_discord_id(MENTION_ROLE_ID):
+            allowed["roles"] = [MENTION_ROLE_ID]
         payload["content"] = content
         payload["allowed_mentions"] = allowed
 
-    # Lähetys + kevyt 429-retry
     resp = requests.post(WEBHOOK, json=payload, timeout=REQUEST_TIMEOUT)
     if resp.status_code == 429:
         try:
@@ -492,7 +476,6 @@ def parse_feed(url: str):
             logd("FEED HTTP:", url, "| status:", r.status_code)
     except Exception as e:
         logd("FEED REQ EXC:", url, "| err:", e)
-    # Fallback: anna feedparserin yrittää suoraan
     return feedparser.parse(url, request_headers=headers)
 
 # -------- Pääsilmukka --------
@@ -531,7 +514,7 @@ def process_feed(url: str, seen: set,
         title = clean_text(entry.get("title"))
         link = entry.get("link") or ""
         summary_html = entry.get("summary") or ""
-        summary = clean_text(summary_html)
+        raw_summary = clean_text(summary_html)  # jätetään embedille alkuperäisenä (yleensä englanniksi)
 
         # Skip jos olemme jo nähneet
         if uid in seen:
@@ -541,7 +524,7 @@ def process_feed(url: str, seen: set,
 
         # Whitelist / Blocklist / Shorts
         skip, reason = should_skip_article(
-            source_name, title, summary, link,
+            source_name, title, raw_summary, link,
             bl_global, bl_source,
             wl_global, wl_source, wl_sources
         )
@@ -550,31 +533,35 @@ def process_feed(url: str, seen: set,
             logd("SKIP:", source_name, "| reason:", reason, "|", title)
             continue
 
-        # Kuva + kuvaus: entry -> OG fallback
+        # Kuva + OG-kuvaus fallbackiin (mutta embedissä pidetään lähteen teksti)
         img = image_from_entry(entry)
-        og_img, og_desc = (None, None)
-        if not img or not summary:
+        if not img or not raw_summary:
             og_img, og_desc = fetch_og_meta(link)
             if not img and og_img:
                 img = og_img
-            if not summary and og_desc:
-                summary = og_desc
+            if not raw_summary and og_desc:
+                raw_summary = og_desc
 
-        # AI-tiivistelmä (fail-safe: jos ei tule, käytetään yllä olevaa summaryä)
-        ai_summary = ai_summarize(
+        # Arvin AI-kommentti (suomeksi). Fail-safe: jos ei onnistu, jätetään tyhjäksi.
+        ai_comment = ai_make_comment(
             title=title,
             source=source_name,
             url=link,
-            raw_summary=summary,
+            raw_summary=raw_summary,
             maxlen=SUMMARY_MAXLEN
         )
-        if ai_summary:
-            summary = ai_summary
 
         # Postaa
         try:
             logd("POST:", source_name, "|", title, "|", link)
-            post_to_discord(title=title, url=link, source=source_name, summary=summary, image_url=img)
+            post_to_discord(
+                title=title,
+                url=link,
+                source=source_name,
+                raw_summary=raw_summary,
+                image_url=img,
+                ai_comment=ai_comment
+            )
             stats["posted"] += 1
             seen.add(uid)
             time.sleep(POST_DELAY_SEC)
