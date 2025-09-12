@@ -25,7 +25,8 @@ Ympäristömuuttujat (esimerkit):
 - ALLOW_SHORTS_IF_WHITELIST=0
 - PREFER_LARGE_IMAGE=1
 - MAX_ITEMS_PER_FEED=10
-- SUMMARY_MAXLEN=150
+- SUMMARY_MAXLEN=150        # embedin (lähteen oma teksti) pituusraja
+- COMMENT_MAXLEN=300        # Arvin kommentin pituusraja
 - ENABLE_AI_SUMMARY=1
 - SUMMARY_MODEL=gpt-4o-mini
 - SUMMARY_LANG=fi
@@ -72,7 +73,8 @@ MENTION_ROLE_ID = os.environ.get("MENTION_ROLE_ID", "").strip()
 # Ajotapa
 MAX_ITEMS_PER_FEED = int(os.environ.get("MAX_ITEMS_PER_FEED", "10"))
 POST_DELAY_SEC = float(os.environ.get("POST_DELAY_SEC", "1"))
-SUMMARY_MAXLEN = int(os.environ.get("SUMMARY_MAXLEN", "150"))
+SUMMARY_MAXLEN = int(os.environ.get("SUMMARY_MAXLEN", "150"))   # embedin kuvaus
+COMMENT_MAXLEN = int(os.environ.get("COMMENT_MAXLEN", "300"))   # Arvin kommentti
 REQUEST_TIMEOUT = int(os.environ.get("REQUEST_TIMEOUT", "12"))
 PREFER_LARGE_IMAGE = int(os.environ.get("PREFER_LARGE_IMAGE", "1")) == 1
 
@@ -376,7 +378,7 @@ def should_skip_article(source_name: str,
             return True, f"global:{t.strip().lower()}"
 
     for src, t in bl_source:
-        if src in src_lower and (_word_in(text, t) or _word_in(link_l, t)):
+        if src in src_lower ja (_word_in(text, t) tai _word_in(link_l, t)):
             return True, f"source:{src}|{t}"
 
     return False, None
@@ -514,7 +516,7 @@ def process_feed(url: str, seen: set,
         title = clean_text(entry.get("title"))
         link = entry.get("link") or ""
         summary_html = entry.get("summary") or ""
-        raw_summary = clean_text(summary_html)  # jätetään embedille alkuperäisenä (yleensä englanniksi)
+        raw_summary = clean_text(summary_html)  # embediin (yleensä englanniksi)
 
         # Skip jos olemme jo nähneet
         if uid in seen:
@@ -542,13 +544,13 @@ def process_feed(url: str, seen: set,
             if not raw_summary and og_desc:
                 raw_summary = og_desc
 
-        # Arvin AI-kommentti (suomeksi). Fail-safe: jos ei onnistu, jätetään tyhjäksi.
+        # Arvin AI-kommentti (suomeksi). Käytä erillistä pituusrajaa.
         ai_comment = ai_make_comment(
             title=title,
             source=source_name,
             url=link,
             raw_summary=raw_summary,
-            maxlen=SUMMARY_MAXLEN
+            maxlen=COMMENT_MAXLEN
         )
 
         # Postaa
