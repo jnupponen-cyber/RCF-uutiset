@@ -103,6 +103,7 @@ Tre Valli Varesine
 Giro dell’Emilia
 Itzulia Basque Country
 Olympic Race
+WorldTour
 
 # Minor races (USA, UK, small national events)
 Tour of California
@@ -182,6 +183,8 @@ Biniam Girmay
 Kilian Jornet
 Van Der Poel
 Bradley Wiggins
+Jonas Abrahamsen
+Uno-X
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
 Kristen Faulkner
