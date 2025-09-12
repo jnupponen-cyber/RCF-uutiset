@@ -36,6 +36,7 @@ controverse
 strike
 e-bike
 e-cargo bike
+stadiobike
 
 # Urheilukellot ja -rannekkeet
 Fenix
