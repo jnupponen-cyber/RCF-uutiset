@@ -25,6 +25,10 @@ Ympäristömuuttujat (esimerkit):
 - PREFER_LARGE_IMAGE=1
 - MAX_ITEMS_PER_FEED=10
 - SUMMARY_MAXLEN=200
+- ENABLE_AI_SUMMARY=1
+- SUMMARY_MODEL=gpt-4o-mini
+- SUMMARY_LANG=fi
+- OPENAI_API_KEY=...
 
 Tiedostot samassa kansiossa:
 - feeds.txt         : syötteiden URLit
@@ -76,6 +80,13 @@ DEBUG = int(os.environ.get("DEBUG", "1")) == 1
 def logd(*args):
     if DEBUG:
         print("[DEBUG]", *args)
+
+# --- AI-tiivistelmät (UUSI) ---
+ENABLE_AI_SUMMARY = int(os.environ.get("ENABLE_AI_SUMMARY", "1")) == 1
+SUMMARY_MODEL = os.environ.get("SUMMARY_MODEL", "gpt-4o-mini").strip()
+SUMMARY_LANG = os.environ.get("SUMMARY_LANG", "fi").strip().lower()
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "").strip()
+OPENAI_API_BASE = os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1").strip()
 
 # --- Per-lähde värikoodit ---
 SOURCE_COLORS = {
@@ -209,6 +220,59 @@ def fetch_og_meta(url: str) -> tuple[str | None, str | None]:
         return img, desc
     except Exception:
         return None, None
+
+# --- AI-tiiviistelmä (UUSI) ---
+def ai_summarize(title: str, source: str, url: str, raw_summary: str, maxlen: int) -> str | None:
+    """
+    Palauttaa suomenkielisen 2–3 lauseen tiivistelmän (maxlen rajaus).
+    Käyttää OpenAI chat-completions -rajapintaa. Palauttaa None jos ongelma.
+    """
+    if not ENABLE_AI_SUMMARY or not OPENAI_API_KEY:
+        return None
+
+    system_msg = (
+        "Olet avulias suomenkielinen uutistoimittaja. "
+        "Kirjoitat ytimekkäitä, puolueettomia tiivistelmiä 2–3 lauseella. "
+        "Älä käytä hashtageja, emojeja tai mainoslauseita. "
+        "Kirjoita selkeää yleiskieltä. Jos tietoa on vähän, kerro vain olennainen."
+    )
+    user_msg = (
+        f"Kieli: {SUMMARY_LANG}\n"
+        f"Maksimipituus: {maxlen} merkkiä.\n"
+        f"Lähde: {source}\n"
+        f"Otsikko: {title}\n"
+        f"URL: {url}\n"
+        f"Raakakuvaus (vapaaehtoinen, tiivistä jos käytät): {raw_summary or '-'}\n\n"
+        "Tuota vain tiivistelmä ilman otsikoita."
+    )
+
+    try:
+        payload = {
+            "model": SUMMARY_MODEL,
+            "messages": [
+                {"role": "system", "content": system_msg},
+                {"role": "user", "content": user_msg},
+            ],
+            "temperature": 0.2,
+            "max_tokens": 220,
+        }
+        headers = {
+            "Authorization": f"Bearer {OPENAI_API_KEY}",
+            "Content-Type": "application/json",
+        }
+        resp = requests.post(f"{OPENAI_API_BASE}/chat/completions", headers=headers, json=payload, timeout=REQUEST_TIMEOUT)
+        if resp.status_code >= 300:
+            logd("AI SUMMARY HTTP ERROR:", resp.status_code, resp.text[:200])
+            return None
+        data = resp.json()
+        text = (data.get("choices", [{}])[0].get("message", {}) or {}).get("content", "") or ""
+        text = clean_text(text)
+        if not text:
+            return None
+        return truncate(text, maxlen)
+    except Exception as e:
+        logd("AI SUMMARY EXC:", e)
+        return None
 
 # -------- Listat (block/white) --------
 def load_blocklist(path: Path = BLOCKLIST_FILE):
@@ -475,14 +539,26 @@ def process_feed(url: str, seen: set,
             logd("SKIP:", source_name, "| reason:", reason, "|", title)
             continue
 
-        # Kuva: entry -> OG fallback
+        # Kuva + kuvaus: entry -> OG fallback
         img = image_from_entry(entry)
-        if not img:
+        og_img, og_desc = (None, None)
+        if not img or not summary:
             og_img, og_desc = fetch_og_meta(link)
-            if og_img:
+            if not img and og_img:
                 img = og_img
-            if og_desc and not summary:
+            if not summary and og_desc:
                 summary = og_desc
+
+        # AI-tiivistelmä (fail-safe: jos ei tule, käytetään yllä olevaa summaryä)
+        ai_summary = ai_summarize(
+            title=title,
+            source=source_name,
+            url=link,
+            raw_summary=summary,
+            maxlen=SUMMARY_MAXLEN
+        )
+        if ai_summary:
+            summary = ai_summary
 
         # Postaa
         try:
