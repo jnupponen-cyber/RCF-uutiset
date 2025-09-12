@@ -436,7 +436,7 @@ def post_to_discord(title: str, url: str, source: str,
     elif _valid_discord_id(MENTION_ROLE_ID):
         content_lines.append(f"<@&{MENTION_ROLE_ID}>")
     if ai_comment:
-        content_lines.append(f"🗨️ Arvi LindBot: {ai_comment}")
+        content_lines.append(ai_comment)  # pelkkä kommentti, ei emojia eikä prefiksiä
     content = "\n".join(content_lines) if content_lines else None
 
     payload = {"embeds": [embed], "components": components}
