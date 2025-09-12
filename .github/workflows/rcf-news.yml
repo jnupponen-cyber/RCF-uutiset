@@ -27,6 +27,11 @@ jobs:
       - name: Run fetcher
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ENABLE_AI_SUMMARY: "1"
+          SUMMARY_MODEL: gpt-4o-mini
+          SUMMARY_LANG: fi
+          SUMMARY_MAXLEN: "200"
           DEBUG: "1"   # <- Näyttää debug-lokit ajossa
         run: |
           python fetch_and_post.py
