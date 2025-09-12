@@ -81,7 +81,7 @@ def logd(*args):
     if DEBUG:
         print("[DEBUG]", *args)
 
-# --- AI-tiivistelmät (UUSI) ---
+# --- AI-tiivistelmät ---
 ENABLE_AI_SUMMARY = int(os.environ.get("ENABLE_AI_SUMMARY", "1")) == 1
 SUMMARY_MODEL = os.environ.get("SUMMARY_MODEL", "gpt-4o-mini").strip()
 SUMMARY_LANG = os.environ.get("SUMMARY_LANG", "fi").strip().lower()
@@ -221,10 +221,19 @@ def fetch_og_meta(url: str) -> tuple[str | None, str | None]:
     except Exception:
         return None, None
 
-# --- AI-tiiviistelmä (UUSI) ---
+def _limit_to_two_sentences(text: str) -> str:
+    """
+    Palauttaa korkeintaan 2 ensimmäistä virkettä.
+    Erottimina . ! ? sekä niiden jälkeen mahdollinen lainaus/space.
+    """
+    parts = re.split(r'(?<=[\.\!\?])\s+', text.strip())
+    short = " ".join([p for p in parts if p][:2]).strip()
+    return short if short else text
+
+# --- AI-tiiviistelmä ---
 def ai_summarize(title: str, source: str, url: str, raw_summary: str, maxlen: int) -> str | None:
     """
-    Palauttaa suomenkielisen 2–3 lauseen tiivistelmän (maxlen rajaus).
+    Palauttaa suomenkielisen 1–2 lauseen tiivistelmän (maxlen rajaus).
     Käyttää OpenAI chat-completions -rajapintaa. Palauttaa None jos ongelma.
     """
     if not ENABLE_AI_SUMMARY or not OPENAI_API_KEY:
@@ -232,7 +241,8 @@ def ai_summarize(title: str, source: str, url: str, raw_summary: str, maxlen: in
 
     system_msg = (
         "Olet avulias suomenkielinen uutistoimittaja. "
-        "Kirjoitat ytimekkäitä, puolueettomia tiivistelmiä 2–3 lauseella. "
+        "Kirjoitat erittäin ytimekkäitä, puolueettomia tiivistelmiä. "
+        "Käytä vain 1–2 lyhyttä lausetta. "
         "Älä käytä hashtageja, emojeja tai mainoslauseita. "
         "Kirjoita selkeää yleiskieltä. Jos tietoa on vähän, kerro vain olennainen."
     )
@@ -243,7 +253,7 @@ def ai_summarize(title: str, source: str, url: str, raw_summary: str, maxlen: in
         f"Otsikko: {title}\n"
         f"URL: {url}\n"
         f"Raakakuvaus (vapaaehtoinen, tiivistä jos käytät): {raw_summary or '-'}\n\n"
-        "Tuota vain tiivistelmä ilman otsikoita."
+        "Tuota vain 1–2 lausetta ilman otsikoita."
     )
 
     try:
@@ -269,6 +279,7 @@ def ai_summarize(title: str, source: str, url: str, raw_summary: str, maxlen: in
         text = clean_text(text)
         if not text:
             return None
+        text = _limit_to_two_sentences(text)
         return truncate(text, maxlen)
     except Exception as e:
         logd("AI SUMMARY EXC:", e)
