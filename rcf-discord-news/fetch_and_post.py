@@ -25,7 +25,7 @@ Ympäristömuuttujat (esimerkit):
 - ALLOW_SHORTS_IF_WHITELIST=0
 - PREFER_LARGE_IMAGE=1
 - MAX_ITEMS_PER_FEED=10
-- SUMMARY_MAXLEN=150
+- SUMMARY_MAXLEN=200
 - ENABLE_AI_SUMMARY=1
 - SUMMARY_MODEL=gpt-4o-mini
 - SUMMARY_LANG=fi
@@ -72,7 +72,7 @@ MENTION_ROLE_ID = os.environ.get("MENTION_ROLE_ID", "").strip()
 # Ajotapa
 MAX_ITEMS_PER_FEED = int(os.environ.get("MAX_ITEMS_PER_FEED", "10"))
 POST_DELAY_SEC = float(os.environ.get("POST_DELAY_SEC", "1"))
-SUMMARY_MAXLEN = int(os.environ.get("SUMMARY_MAXLEN", "150"))
+SUMMARY_MAXLEN = int(os.environ.get("SUMMARY_MAXLEN", "200"))
 REQUEST_TIMEOUT = int(os.environ.get("REQUEST_TIMEOUT", "12"))
 PREFER_LARGE_IMAGE = int(os.environ.get("PREFER_LARGE_IMAGE", "1")) == 1
 
