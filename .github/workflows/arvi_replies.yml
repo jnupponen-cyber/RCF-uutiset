@@ -2,7 +2,7 @@ name: Arvi Replies
 
 on:
   schedule:
-    - cron: "*/15 * * * *"   # 15 minuutin välein
+    - cron: "*/20 * * * *"   # 20 minuutin välein
   workflow_dispatch:
 
 permissions:
