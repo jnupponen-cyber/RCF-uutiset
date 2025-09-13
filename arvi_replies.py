@@ -31,7 +31,10 @@ ARVI_PERSONA = (
 )
 
 # --- Triggerit (case-insensitive, muunnelmat) ---
-TRIGGER_RE = re.compile(r"\b(arvi(lind)?(bot)?|@?arvi)\b", re.I)
+TRIGGER_RE = re.compile(
+    r"\b(arvi(lind(bot)?)?)(n|a|lla|lle|sta|ssa|an|in|en|e)?\b",
+    re.I
+)
 
 # --- Tila (viimeksi käsitelty viesti-ID) ---
 STATE_PATH = Path("arvi_state.json")
