@@ -1,4 +1,4 @@
-import os, re, json, time, requests
+import os, re, json, time, requests, random
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -10,10 +10,17 @@ OPENAI_API_BASE = os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1")
 SUMMARY_MODEL = os.environ.get("SUMMARY_MODEL", "gpt-4o-mini")
 ARVI_REPLY_MAXLEN = int(os.environ.get("ARVI_REPLY_MAXLEN", "280"))
 
+# Satunnaisen sanonnan todennäköisyydet (0.0–1.0)
+ARVI_OPENERS_PROB = float(os.environ.get("ARVI_OPENERS_PROB", "0.15"))  # 15 % aloitusfraasi
+ARVI_CLOSERS_PROB = float(os.environ.get("ARVI_CLOSERS_PROB", "0.15"))  # 15 % lopetusfraasi
+
 # --- Persona ---
 ARVI_PERSONA = (
     "Olet Arvi LindBot, suomalainen lakoninen uutistenlukija RCF-yhteisölle. "
     "Perusääni: neutraali, asiallinen ja tiivis. "
+    "Kirjoita aina selkeää ja luonnollista suomen yleiskieltä. "
+    "Älä käännä englanninkielisiä sanontoja sanatarkasti; jos ilmaus ei sovi suoraan suomeen, "
+    "käytä suomalaista vastaavaa tai neutraalia muotoa. "
     "Voit silloin tällöin käyttää hillittyä sarkasmia tai kuivaa ironiaa, mutta älä usein. "
     "Huumorisi on vähäeleistä ja kuivakkaa, ei ilkeää. Älä liioittele. "
     "Käytä 1–2 lyhyttä lausetta suomeksi. "
@@ -23,20 +30,21 @@ ARVI_PERSONA = (
     "Jos aihe on triviaali, tokaise se lakonisesti. Jos aihe on ylihypetetty, "
     "voit joskus kommentoida ironisesti, esimerkiksi 'taas kerran' tai 'suurin mullistus sitten eilisen'. "
     "Voit harvakseltaan viitata RCF-yhteisöön tai muistuttaa olevasi vain botti. "
-    "Vaihtele sävyä: useimmiten neutraali ja lakoninen, mutta silloin tällöin ironinen tai nostalginen. "
-    "Lisää välillä kuivaa suomalaista mentaliteettia: "
-    "– 'Juuh elikkäs', 'No niin', 'No jopas', 'Jahas', 'Ai että', 'Kas vain' kommentin alkuun. "
-    "– 'Ei paha' käytä kommentin lopussa, etenkin uutisessa joka esittelee tuotteen. "
-    "– 'Näillä mennään', 'Että semmosta', 'Aikamoista!' sopivat lopetukseksi."
+    "Vaihtele sävyä: useimmiten neutraali ja lakoninen, mutta toisinaan ironinen tai nostalginen. "
+    "Suomalaisia sanontoja käytä vain harvoin ja vaihdellen, ei joka kommentissa: "
+    "– Kommentin alkuun sopivat: 'No niin', 'No jopas', 'Jahas', 'Ai että', 'Kas vain'. "
+    "– Kommentin loppuun sopivat: 'Ei paha', 'Näillä mennään', 'Että semmosta', 'Aikamoista!'. "
+    "Käytä näitä vain satunnaisesti, ja vaihtele sanontoja ettei sama toistu liian usein."
 )
 
 # --- Triggerit (case-insensitive, muunnelmat) ---
 TRIGGER_RE = re.compile(
-    r"\b(arvi(lind(bot)?)?)(n|a|lla|lle|sta|ssa|an|in|en|e)?\b",
+    r"\b(arvi(?:\s*lind)?(?:\s*bot)?)"
+    r"(?:n|a|lla|lle|lta|lta|sta|ssa|aan|in|en|e)?\b",
     re.I
 )
 
-# --- Tila (viimeksi käsitelty viesti-ID) ---
+# --- Tila (viimeksi käsitelty viesti-ID ja viimeisin vastaus) ---
 STATE_PATH = Path("arvi_state.json")
 
 def load_state():
@@ -63,6 +71,33 @@ def trim_two_sentences(s: str) -> str:
     short = " ".join([p for p in parts if p][:2]).strip()
     return short or s
 
+def maybe_add_opener_closer(text: str) -> str:
+    """
+    Lisää harvoin aloitus- tai lopetusfraasin, jos se mahtuu ja ei jo ole mukana.
+    """
+    openers = ["No niin", "No jopas", "Jahas", "Ai että", "Kas vain"]
+    closers  = ["Ei paha", "Näillä mennään", "Että semmosta", "Aikamoista!"]
+
+    out = text
+
+    # Aloitusfraasi
+    if random.random() < ARVI_OPENERS_PROB:
+        if not any(out.startswith(f"{o}") or out.startswith(f"{o.lower()}") for o in openers):
+            candidate = random.choice(openers)
+            candidate_line = f"{candidate}. "
+            if len(candidate_line) + len(out) <= ARVI_REPLY_MAXLEN:
+                out = candidate_line + out
+
+    # Lopetusfraasi
+    if random.random() < ARVI_CLOSERS_PROB:
+        if not any(out.endswith(c) for c in closers):
+            candidate = random.choice(closers)
+            candidate_line = f" {candidate}"
+            if len(out) + len(candidate_line) <= ARVI_REPLY_MAXLEN:
+                out = out + candidate_line
+
+    return out
+
 # --- Discord REST ---
 DISCORD_API = "https://discord.com/api/v10"
 HEADERS = {"Authorization": f"Bot {DISCORD_TOKEN}"}
@@ -84,42 +119,61 @@ def reply_to_message(msg_id: str, text: str):
         print("Discord post error:", r.status_code, r.text[:200])
 
 # --- OpenAI ---
+def call_openai(messages, temperature=0.4, max_tokens=220, retries=2):
+    backoff = 1.5
+    for attempt in range(retries + 1):
+        try:
+            r = requests.post(
+                f"{OPENAI_API_BASE}/chat/completions",
+                headers={"Authorization": f"Bearer {OPENAI_API_KEY}", "Content-Type": "application/json"},
+                json={"model": SUMMARY_MODEL, "messages": messages,
+                      "temperature": temperature, "max_tokens": max_tokens},
+                timeout=20
+            )
+            if r.status_code == 429 or 500 <= r.status_code < 600:
+                # kevyt backoff ja uusi yritys
+                time.sleep(backoff)
+                backoff *= 2
+                continue
+            if r.status_code >= 300:
+                print("OpenAI error:", r.status_code, r.text[:200])
+                return None
+            data = r.json()
+            return clean(data.get("choices", [{}])[0].get("message", {}).get("content", ""))
+        except Exception as e:
+            print("OpenAI exception:", e)
+            time.sleep(backoff)
+            backoff *= 2
+    return None
+
 def arvi_reply(context_text: str) -> str | None:
     user_prompt = (
         f"Vastaa lyhyesti Arvi LindBotin äänellä. 1–2 lausetta, maksimi {ARVI_REPLY_MAXLEN} merkkiä. "
         f"Teksti: {context_text}"
     )
-    try:
-        r = requests.post(
-            f"{OPENAI_API_BASE}/chat/completions",
-            headers={"Authorization": f"Bearer {OPENAI_API_KEY}", "Content-Type": "application/json"},
-            json={
-                "model": SUMMARY_MODEL,
-                "messages": [
-                    {"role": "system", "content": ARVI_PERSONA},
-                    {"role": "user", "content": user_prompt}
-                ],
-                "temperature": 0.4,
-                "max_tokens": 220
-            },
-            timeout=20
-        )
-        if r.status_code >= 300:
-            print("OpenAI error:", r.status_code, r.text[:200])
-            return None
-        data = r.json()
-        out = clean(data.get("choices",[{}])[0].get("message",{}).get("content",""))
-        if not out:
-            return None
-        out = trim_two_sentences(out)
-        return (out[:ARVI_REPLY_MAXLEN-1] + "…") if len(out) > ARVI_REPLY_MAXLEN else out
-    except Exception as e:
-        print("OpenAI exception:", e)
+    out = call_openai(
+        messages=[
+            {"role": "system", "content": ARVI_PERSONA},
+            {"role": "user", "content": user_prompt}
+        ],
+        temperature=0.4, max_tokens=220
+    )
+    if not out:
         return None
+
+    out = trim_two_sentences(out)
+
+    # Satunnaiset suomalaiset fraasit (harvoin, ei aina)
+    out = maybe_add_opener_closer(out)
+
+    # Lopullinen pituusrajoitus
+    out = out if len(out) <= ARVI_REPLY_MAXLEN else (out[:ARVI_REPLY_MAXLEN-1].rstrip() + "…")
+    return out
 
 def main():
     state = load_state()
     last_id = state.get("last_processed_id")  # snowflake (str)
+    last_reply = state.get("last_reply_text", "")
 
     # Hae viestit: jos last_id on tunnettu → after=last_id, muuten haetaan viimeiset ja rajataan 15min ajalle
     msgs = fetch_messages(after_id=last_id, limit=50)
@@ -136,14 +190,16 @@ def main():
             ts = iso_to_dt(m["timestamp"])
             if ts <= cutoff:
                 continue
-        # triggerit
+        # triggerit (nimi taivutettu, tai @-maininta)
         content = m.get("content", "") or ""
-        if TRIGGER_RE.search(content) is None and m.get("mentions"):
-            # jos joku mainitsee botin nimenä @… mutta teksti ei sisällä triggeriä, tämä riittää
-            mentioned_names = [u.get("username","") for u in m.get("mentions",[])]
-            if not any(name.lower().startswith("arvi") for name in mentioned_names):
-                continue
-        elif TRIGGER_RE.search(content) is None:
+        triggered = TRIGGER_RE.search(content) is not None
+        if not triggered:
+            # jos joku mainitsee botin @… mutta teksti ei sisällä triggeriä, tämä riittää
+            if m.get("mentions"):
+                mentioned_names = [u.get("username", "") for u in m.get("mentions", [])]
+                if any(name.lower().startswith("arvi") for name in mentioned_names):
+                    triggered = True
+        if not triggered:
             continue
 
         filtered.append(m)
@@ -151,6 +207,7 @@ def main():
     # käsittele vanhimmasta uusimpaan
     filtered.sort(key=lambda x: int(x["id"]))
     max_id = int(last_id) if last_id else 0
+    new_last_reply = last_reply
 
     for m in filtered:
         msg_id = m["id"]
@@ -162,13 +219,24 @@ def main():
         ref = m.get("referenced_message")
         if ref and isinstance(ref, dict):
             ref_author = ref.get("author", {}).get("username", "user")
-            ref_text = ref.get("content","")
+            ref_text = ref.get("content", "")
             context_lines.insert(0, f"{ref_author}: {ref_text}")
         context = "\n".join(context_lines)
 
         reply = arvi_reply(context)
+
+        # Anti-toisto: jos malli tuottaa täsmälleen saman kuin viimeksi, jätä väliin
+        if reply and reply == last_reply:
+            # Pieni “sekoitin”: koeta kerran vielä, sitten luovuta
+            alt = arvi_reply(context)
+            if alt and alt != last_reply:
+                reply = alt
+            else:
+                reply = None
+
         if reply:
             reply_to_message(msg_id, reply)
+            new_last_reply = reply
             time.sleep(1.2)  # kevyt throttle
 
         # päivitä max snowflake
@@ -177,6 +245,7 @@ def main():
     # päivitä tila jos edistyttiin
     if max_id and (str(max_id) != (last_id or "")):
         state["last_processed_id"] = str(max_id)
+        state["last_reply_text"] = new_last_reply
         save_state(state)
 
 if __name__ == "__main__":
