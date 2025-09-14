@@ -10,7 +10,7 @@ RCF Discord -uutisbotti (embedit + OG-kuvat + blocklist + whitelist + ping + per
 - Postaa Discordiin webhookilla:
   - otsikko linkkinä
   - lähde + favicon
-  - EMBED.description: Arvin kommentti ensin, sen jälkeen alkuperäinen kuvaus
+  - EMBED.description: vain Arvin kommentti (ei alkuperäistä kuvausta)
   - iso kuva (tai thumbnail)
   - linkkipainike
   - pingi (USER tai ROLE ID)
@@ -24,7 +24,7 @@ Ympäristömuuttujat (esimerkit):
 - ALLOW_SHORTS_IF_WHITELIST=0
 - PREFER_LARGE_IMAGE=1
 - MAX_ITEMS_PER_FEED=10
-- SUMMARY_MAXLEN=200        # raja alkuperäiselle kuvaukselle
+- SUMMARY_MAXLEN=200        # raja alkuperäiselle kuvaukselle (käytetään vain AI-kommentin kontekstina)
 - COMMENT_MAXLEN=240        # raja Arvin kommentille
 - ENABLE_AI_SUMMARY=1
 - SUMMARY_MODEL=gpt-4o-mini
@@ -88,7 +88,7 @@ ARVI_PERSONA = (
     "Olet Arvi LindBot, suomalainen lakoninen uutistenlukija RCF-yhteisölle. "
     "Perusääni: neutraali, asiallinen ja tiivis. "
     "Kirjoita aina selkeää ja luonnollista suomen yleiskieltä. "
-    "Älä käännä englanninkielisiä sanontoja sanatarkasti; jos ilmaus ei sovi suoraan suomeen, "
+    "Älä käännää englanninkielisiä sanontoja sanatarkasti; jos ilmaus ei sovi suoraan suomeen, "
     "käytä suomalaista vastaavaa tai neutraalia muotoa. "
     "Voit silloin tällöin käyttää hillittyä sarkasmia tai kuivaa ironiaa, mutta älä usein. "
     "Huumorisi on vähäeleistä ja kuivakkaa, ei ilkeää. Älä liioittele. "
@@ -376,21 +376,14 @@ def post_to_discord(title: str, url: str, source: str,
                     raw_summary: str | None, image_url: str | None,
                     ai_comment: str | None = None) -> None:
     """
-    Embed.description = [Arvi] + tyhjä rivi + [alkuperäinen kuvaus]
+    Embed.description = VAIN Arvin kommentti (ei alkuperäistä kuvausta).
     """
     if not WEBHOOK:
         raise RuntimeError("DISCORD_WEBHOOK_URL ei ole asetettu ympäristömuuttujaksi.")
 
-    # Valmistellaan tekstit
+    # Valmistellaan teksti: vain Arvin kommentti
     comment = truncate((ai_comment or "").strip(), COMMENT_MAXLEN) if ai_comment else ""
-    original = truncate((raw_summary or "").strip(), SUMMARY_MAXLEN)
-
-    if comment and original:
-        description = f"{comment}\n\n{original}"
-    elif comment:
-        description = comment
-    else:
-        description = original
+    description = comment if comment else "(ei kommenttia)"
 
     # Väri ja footer
     color = SOURCE_COLORS.get(source, int("0x5865F2", 16))
@@ -431,7 +424,7 @@ def post_to_discord(title: str, url: str, source: str,
         else:
             embed["thumbnail"] = {"url": image_url}
 
-    # Pingi (content) – ilman Arvin tekstiä, koska kommentti on embedissä
+    # Pingi (content)
     content = None
     allowed = {"parse": []}
     if _valid_discord_id(MENTION_USER_ID):
