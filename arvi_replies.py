@@ -21,7 +21,7 @@ ARVI_OPENERS_PROB = float(os.environ.get("ARVI_OPENERS_PROB", "0.15"))  # 15 % a
 ARVI_CLOSERS_PROB = float(os.environ.get("ARVI_CLOSERS_PROB", "0.15"))  # 15 % lopetusfraasi
 
 # Custom-emoji nimi (ilman kulmasulkeita), esim. :arvi:
-ARVI_EMOJI_NAME = os.environ.get("ARVI_EMOJI_NAME", "arvi").strip().lower()
+ARVI_EMOJI_NAME = (os.environ.get("ARVI_EMOJI_NAME", "arvi") or "arvi").strip().lower()
 
 # --- Persona ---
 ARVI_PERSONA = (
