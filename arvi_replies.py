@@ -1,4 +1,4 @@
-import os, re, json, time, requests, random
+import os, re, json, time, requests
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -15,10 +15,6 @@ if CHANNEL_IDS_ENV:
     CHANNEL_IDS = [c.strip() for c in CHANNEL_IDS_ENV.split(",") if c.strip()]
 else:
     CHANNEL_IDS = [os.environ["UUTISKATSAUS_CHANNEL_ID"]]
-
-# Satunnaisen sanonnan todennäköisyydet (0.0–1.0)
-ARVI_OPENERS_PROB = float(os.environ.get("ARVI_OPENERS_PROB", "0.15"))  # 15 % aloitusfraasi
-ARVI_CLOSERS_PROB = float(os.environ.get("ARVI_CLOSERS_PROB", "0.15"))  # 15 % lopetusfraasi
 
 # Custom-emoji nimi (ilman kulmasulkeita), esim. :arvi:
 ARVI_EMOJI_NAME = (os.environ.get("ARVI_EMOJI_NAME", "arvi") or "arvi").strip().lower()
@@ -84,26 +80,6 @@ def trim_two_sentences(s: str) -> str:
     short = " ".join([p for p in parts if p][:2]).strip()
     return short or s
 
-    out = text
-
-    # Aloitusfraasi
-    if random.random() < ARVI_OPENERS_PROB:
-        if not any(out.startswith(o) or out.startswith(o.lower()) for o in openers):
-            candidate = random.choice(openers)
-            candidate_line = f"{candidate}. "
-            if len(candidate_line) + len(out) <= ARVI_REPLY_MAXLEN:
-                out = candidate_line + out
-
-    # Lopetusfraasi
-    if random.random() < ARVI_CLOSERS_PROB:
-        if not any(out.endswith(c) for c in closers):
-            candidate = random.choice(closers)
-            candidate_line = f" {candidate}"
-            if len(out) + len(candidate_line) <= ARVI_REPLY_MAXLEN:
-                out = out + candidate_line
-
-    return out
-
 # --- Discord REST ---
 DISCORD_API = "https://discord.com/api/v10"
 HEADERS = {"Authorization": f"Bot {DISCORD_TOKEN}"}
@@ -167,7 +143,7 @@ def arvi_reply(context_text: str) -> str | None:
         return None
 
     out = trim_two_sentences(out)
-    out = maybe_add_opener_closer(out)
+    # Ei aloitus- eikä lopetusfraaseja
     out = out if len(out) <= ARVI_REPLY_MAXLEN else (out[:ARVI_REPLY_MAXLEN-1].rstrip() + "…")
     return out
 
