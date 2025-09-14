@@ -41,7 +41,11 @@ ARVI_PERSONA = (
 
 # --- Triggerit (case-insensitive, muunnelmat) ---
 TRIGGER_RE = re.compile(
-    r"\b(arvi(?:\s*lind)?(?:\s*bot)?)"
+    r"\b("
+    r"arvi(?:\s*lind)?(?:\s*bot)?"
+    r"|botti|bot"
+    r"|uutiskatsaus|uutisbot|uutisbotti"
+    r")"
     r"(?:n|a|lla|lle|lta|sta|ssa|aan|in|en|e)?\b",
     re.I
 )
@@ -69,7 +73,6 @@ def save_state(state: dict):
 
 # --- Apurit ---
 def iso_to_dt(iso: str) -> datetime:
-    # Discord timestamp esim. "2025-09-12T17:56:27.123000+00:00"
     return datetime.fromisoformat(iso)
 
 def clean(s: str) -> str:
@@ -101,7 +104,7 @@ def reply_to_message(channel_id: str, msg_id: str, text: str):
         print("Discord post error:", r.status_code, r.text[:200])
 
 # --- OpenAI ---
-def call_openai(messages, temperature=0.4, max_tokens=220, retries=2):
+def call_openai(messages, temperature=0.4, max_tokens=400, retries=2):
     backoff = 1.5
     for attempt in range(retries + 1):
         try:
@@ -129,7 +132,7 @@ def call_openai(messages, temperature=0.4, max_tokens=220, retries=2):
 
 def arvi_reply(context_text: str) -> str | None:
     user_prompt = (
-        f"Vastaa lyhyesti Arvi LindBotin äänellä. 1–2 lausetta, maksimi {ARVI_REPLY_MAXLEN} merkkiä. "
+        f"Vastaa Arvi LindBotin äänellä. 1–3 lausetta, maksimi {ARVI_REPLY_MAXLEN} merkkiä. "
         f"Teksti: {context_text}"
     )
     out = call_openai(
@@ -137,64 +140,54 @@ def arvi_reply(context_text: str) -> str | None:
             {"role": "system", "content": ARVI_PERSONA},
             {"role": "user", "content": user_prompt}
         ],
-        temperature=0.4, max_tokens=220
+        temperature=0.4, max_tokens=400
     )
     if not out:
         return None
 
     out = trim_two_sentences(out)
-    # Ei aloitus- eikä lopetusfraaseja
     out = out if len(out) <= ARVI_REPLY_MAXLEN else (out[:ARVI_REPLY_MAXLEN-1].rstrip() + "…")
     return out
 
 def should_trigger_on_message(msg: dict) -> bool:
     """True jos viesti triggaa: nimi 'Arvi' muunnelmineen, @-maininta, tai :arvi: emoji sisällössä."""
     content = msg.get("content", "") or ""
-    # 1) Tekstihaku nimestä
     if TRIGGER_RE.search(content):
         return True
-    # 2) @-maininnat: jos joku @-mainitsee botin, username alkaa “Arvi”
     mentions = msg.get("mentions", []) or []
     if any((u.get("username", "") or "").lower().startswith("arvi") for u in mentions):
         return True
-    # 3) :arvi: emoji sisällössä (tai <:arvi:12345>)
     if ARVI_EMOJI_RE.search(content):
         return True
     return False
 
 def main():
-    state = load_state()  # {channel_id: {"last_processed_id": "...", "last_reply_text": "..."}}
+    state = load_state()
 
-    # käsitellään kanavat yksi kerrallaan
     for channel_id in CHANNEL_IDS:
         ch_state = state.get(channel_id, {})
         last_id = ch_state.get("last_processed_id")
         last_reply = ch_state.get("last_reply_text", "")
 
-        # Hae viestit
         try:
             msgs = fetch_messages(channel_id, after_id=last_id, limit=50)
         except requests.HTTPError as e:
-            print(f"[WARN] fetch_messages 403/404? channel={channel_id} -> {e}")
+            print(f"[WARN] fetch_messages error channel={channel_id} -> {e}")
             continue
 
         cutoff = datetime.now(timezone.utc) - timedelta(minutes=15)
         filtered = []
         for m in msgs:
-            # ohita botit
             if m.get("author", {}).get("bot"):
                 continue
-            # aikaraja vain jos last_id puuttuu
             if not last_id:
                 ts = iso_to_dt(m["timestamp"])
                 if ts <= cutoff:
                     continue
-            # triggerit
             if not should_trigger_on_message(m):
                 continue
             filtered.append(m)
 
-        # käsittele vanhimmasta uusimpaan
         filtered.sort(key=lambda x: int(x["id"]))
         max_id = int(last_id) if last_id else 0
         new_last_reply = last_reply
@@ -204,7 +197,6 @@ def main():
             author = m.get("author", {}).get("username", "user")
             text = m.get("content", "")
 
-            # kevyt konteksti (reply-viite mukaan jos saatavilla)
             context_lines = [f"{author}: {text}"]
             ref = m.get("referenced_message")
             if ref and isinstance(ref, dict):
@@ -215,7 +207,6 @@ def main():
 
             reply = arvi_reply(context)
 
-            # Anti-toisto
             if reply and reply == last_reply:
                 alt = arvi_reply(context)
                 if alt and alt != last_reply:
@@ -226,11 +217,10 @@ def main():
             if reply:
                 reply_to_message(channel_id, msg_id, reply)
                 new_last_reply = reply
-                time.sleep(1.2)  # kevyt throttle
+                time.sleep(1.2)
 
             max_id = max(max_id, int(msg_id))
 
-        # päivitä tila
         if max_id and (str(max_id) != (last_id or "")):
             state[channel_id] = {
                 "last_processed_id": str(max_id),
