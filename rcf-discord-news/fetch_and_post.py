@@ -10,8 +10,7 @@ RCF Discord -uutisbotti (embedit + OG-kuvat + blocklist + whitelist + ping + per
 - Postaa Discordiin webhookilla:
   - otsikko linkkinä
   - lähde + favicon
-  - EMBEDIIN: Arvi LindBotin suomalainen kommentti YLIMMÄISEKSI
-  - EMBEDIIN: alkuperäinen (yleensä englanninkielinen) kuvaus kommentin alle
+  - EMBED.description: Arvin kommentti ensin, sen jälkeen alkuperäinen kuvaus
   - iso kuva (tai thumbnail)
   - linkkipainike
   - pingi (USER tai ROLE ID)
@@ -25,13 +24,12 @@ Ympäristömuuttujat (esimerkit):
 - ALLOW_SHORTS_IF_WHITELIST=0
 - PREFER_LARGE_IMAGE=1
 - MAX_ITEMS_PER_FEED=10
-- SUMMARY_MAXLEN=200
-- ARVI_COMMENT_MAXLEN=220
+- SUMMARY_MAXLEN=200        # raja alkuperäiselle kuvaukselle
+- COMMENT_MAXLEN=240        # raja Arvin kommentille
 - ENABLE_AI_SUMMARY=1
 - SUMMARY_MODEL=gpt-4o-mini
 - SUMMARY_LANG=fi
 - OPENAI_API_KEY=...
-- EMBED_STYLE=spacious  # compact | spacious
 """
 
 import os
@@ -69,10 +67,9 @@ MENTION_ROLE_ID = os.environ.get("MENTION_ROLE_ID", "").strip()
 MAX_ITEMS_PER_FEED = int(os.environ.get("MAX_ITEMS_PER_FEED", "10"))
 POST_DELAY_SEC = float(os.environ.get("POST_DELAY_SEC", "1"))
 SUMMARY_MAXLEN = int(os.environ.get("SUMMARY_MAXLEN", "200"))
-ARVI_COMMENT_MAXLEN = int(os.environ.get("ARVI_COMMENT_MAXLEN", "220"))
+COMMENT_MAXLEN = int(os.environ.get("COMMENT_MAXLEN", "240"))
 REQUEST_TIMEOUT = int(os.environ.get("REQUEST_TIMEOUT", "12"))
 PREFER_LARGE_IMAGE = int(os.environ.get("PREFER_LARGE_IMAGE", "1")) == 1
-EMBED_STYLE = os.environ.get("EMBED_STYLE", "spacious").strip().lower()  # 'spacious' | 'compact'
 
 # DEBUG-moodi
 DEBUG = int(os.environ.get("DEBUG", "1")) == 1
@@ -91,14 +88,22 @@ ARVI_PERSONA = (
     "Olet Arvi LindBot, suomalainen lakoninen uutistenlukija RCF-yhteisölle. "
     "Perusääni: neutraali, asiallinen ja tiivis. "
     "Kirjoita aina selkeää ja luonnollista suomen yleiskieltä. "
-    "Älä käännä englanninkielisiä sanontoja sanatarkasti; käytä luontevaa suomenkielistä vastinetta. "
-    "Voit silloin tällöin käyttää hillittyä sarkasmia tai kuivaa ironiaa, mutta harvoin. "
+    "Älä käännä englanninkielisiä sanontoja sanatarkasti; jos ilmaus ei sovi suoraan suomeen, "
+    "käytä suomalaista vastaavaa tai neutraalia muotoa. "
+    "Voit silloin tällöin käyttää hillittyä sarkasmia tai kuivaa ironiaa, mutta älä usein. "
     "Huumorisi on vähäeleistä ja kuivakkaa, ei ilkeää. Älä liioittele. "
     "Käytä 1–2 lyhyttä lausetta suomeksi. "
-    "Voit käyttää korkeintaan yhtä emojiä, jos se sopii luontevasti sävyyn, ja sijoita se lauseen loppuun. "
-    "Esimerkkimoodeja: 🤷, 🚴, 😅, 🔧, 💤, 📈. Ei hashtageja eikä mainoslauseita. "
-    "Jos aihe on triviaali, totea se lakonisesti. Jos aihe on ylihypetetty, voit joskus vihjata siitä ironisesti. "
-    "Suomalaisia sanontoja käytä vain satunnaisesti ja vaihdellen."
+    "Voit käyttää korkeintaan yhtä emojiä, jos se sopii luontevasti sävyyn, "
+    "ja sijoita se aina lauseen loppuun. Esimerkiksi 🤷, 🚴, 😅, 🔧, 💤, 📈. "
+    "Ei hashtageja, ei mainoslauseita. "
+    "Jos aihe on triviaali, tokaise se lakonisesti. Jos aihe on ylihypetetty, "
+    "voit joskus kommentoida ironisesti, esimerkiksi 'taas kerran' tai 'suurin mullistus sitten eilisen'. "
+    "Voit harvakseltaan viitata RCF-yhteisöön tai muistuttaa olevasi vain botti. "
+    "Vaihtele sävyä: useimmiten neutraali ja lakoninen, mutta toisinaan ironinen tai nostalginen. "
+    "Suomalaisia sanontoja käytä vain harvoin ja vaihdellen, ei joka kommentissa: "
+    "– Kommentin alkuun sopivat: 'No niin', 'No jopas', 'Jahas', 'Ai että', 'Kas vain'. "
+    "– Kommentin loppuun sopivat: 'Ei paha', 'Näillä mennään', 'Että semmosta', 'Aikamoista!'. "
+    "Käytä näitä vain satunnaisesti, ja vaihtele sanontoja ettei sama toistu liian usein."
 )
 
 # --- Per-lähde värikoodit ---
@@ -235,17 +240,12 @@ def fetch_og_meta(url: str) -> tuple[str | None, str | None]:
         return None, None
 
 def _limit_to_two_sentences(text: str) -> str:
-    """Palauttaa korkeintaan 2 ensimmäistä virkettä."""
     parts = re.split(r'(?<=[\.\!\?])\s+', text.strip())
     short = " ".join([p for p in parts if p][:2]).strip()
     return short if short else text
 
 # --- AI-kommentti (Arvin persoonalla) ---
 def ai_make_comment(title: str, source: str, url: str, raw_summary: str, maxlen: int) -> str | None:
-    """
-    Palauttaa suomenkielisen 1–2 lauseen Arvi LindBot -kommentin (maxlen rajaus).
-    Käyttää OpenAI chat-completions -rajapintaa. Palauttaa None jos ongelma.
-    """
     if not ENABLE_AI_SUMMARY or not OPENAI_API_KEY:
         return None
 
@@ -257,7 +257,7 @@ def ai_make_comment(title: str, source: str, url: str, raw_summary: str, maxlen:
         f"Otsikko: {title}\n"
         f"URL: {url}\n"
         f"Alkuperäinen kuvaus (voi olla englanniksi, käytä vain jos auttaa kiteytyksessä): {raw_summary or '-'}\n\n"
-        "Kirjoita vain 1–2 lausetta suomeksi. Älä toista otsikkoa. Älä käytä hashtageja/emojeja, ellet todella tarvitse yhtä viimeiseksi merkiksi."
+        "Kirjoita vain 1–2 lausetta suomeksi. Älä toista otsikkoa. Ei hashtageja/emojeja ellei yksi sovi luonnollisesti loppuun."
     )
 
     try:
@@ -291,11 +291,6 @@ def ai_make_comment(title: str, source: str, url: str, raw_summary: str, maxlen:
 
 # -------- Listat (block/white) --------
 def load_blocklist(path: Path = BLOCKLIST_FILE):
-    """
-    Palauttaa:
-      - global_terms: ["smartwatch", "älykello", ...]
-      - source_terms: [("dc rainmaker","watch"), ...]
-    """
     global_terms, source_terms = [], []
     if not path.exists():
         return global_terms, source_terms
@@ -312,10 +307,6 @@ def load_blocklist(path: Path = BLOCKLIST_FILE):
     return global_terms, source_terms
 
 def load_whitelist(path: Path = WHITELIST_FILE):
-    """
-    Palauttaa:
-      - global_terms, source_terms, sources
-    """
     global_terms, source_terms, sources = [], [], []
     if not path.exists():
         return global_terms, source_terms, sources
@@ -358,10 +349,6 @@ def should_skip_article(source_name: str,
                         wl_global,
                         wl_source,
                         wl_sources) -> tuple[bool, str | None]:
-    """
-    Palauttaa (skip, reason).
-    Järjestys: whitelist -> shorts -> blocklist
-    """
     text = f"{title} {summary}"
     link_l = (link or "")
     src_lower = (source_name or "").lower()
@@ -384,35 +371,32 @@ def should_skip_article(source_name: str,
 
     return False, None
 
-# --- Yhdistä kommentti + alkuperäinen teksti embediin ---
-def build_embed_description(ai_comment: str | None, raw_summary: str | None) -> str:
-    comment = truncate(ai_comment or "", ARVI_COMMENT_MAXLEN) if ai_comment else ""
-    original = truncate(raw_summary or "", SUMMARY_MAXLEN) if raw_summary else ""
-    if EMBED_STYLE == "compact":
-        if comment and original:
-            return f"{comment} — {original}"
-        return comment or original
-    # spacious (oletus)
-    if comment and original:
-        return f"{comment}\n\n{original}"
-    return comment or original
-
 # -------- Discord-postaus --------
 def post_to_discord(title: str, url: str, source: str,
                     raw_summary: str | None, image_url: str | None,
                     ai_comment: str | None = None) -> None:
     """
-    Embediin:
-      - descriptionin alkuun Arvin kommentti
-      - alle alkuperäinen (yleensä englanninkielinen) kuvaus
-    contentiin jää vain mahdollinen pingi.
+    Embed.description = [Arvi] + tyhjä rivi + [alkuperäinen kuvaus]
     """
     if not WEBHOOK:
         raise RuntimeError("DISCORD_WEBHOOK_URL ei ole asetettu ympäristömuuttujaksi.")
 
+    # Valmistellaan tekstit
+    comment = truncate((ai_comment or "").strip(), COMMENT_MAXLEN) if ai_comment else ""
+    original = truncate((raw_summary or "").strip(), SUMMARY_MAXLEN)
+
+    if comment and original:
+        description = f"{comment}\n\n{original}"
+    elif comment:
+        description = comment
+    else:
+        description = original
+
+    # Väri ja footer
     color = SOURCE_COLORS.get(source, int("0x5865F2", 16))
     footer_text = f"{source} · RCF Uutiskatsaus"
 
+    # Nappi
     components = [{
         "type": 1,
         "components": [{
@@ -423,14 +407,13 @@ def post_to_discord(title: str, url: str, source: str,
         }]
     }]
 
+    # Author + favicon
     author = {"name": source}
     fav = domain_favicon(url)
     footer = {"text": footer_text}
     if fav:
         author["icon_url"] = fav
         footer["icon_url"] = fav
-
-    description = build_embed_description(ai_comment, raw_summary)
 
     embed = {
         "type": "rich",
@@ -448,7 +431,7 @@ def post_to_discord(title: str, url: str, source: str,
         else:
             embed["thumbnail"] = {"url": image_url}
 
-    # Content: vain mahdollinen pingi (Arvin kommentti on descriptionissa)
+    # Pingi (content) – ilman Arvin tekstiä, koska kommentti on embedissä
     content = None
     allowed = {"parse": []}
     if _valid_discord_id(MENTION_USER_ID):
@@ -475,7 +458,7 @@ def post_to_discord(title: str, url: str, source: str,
     if resp.status_code >= 300:
         raise RuntimeError(f"Discord POST failed: {resp.status_code} {resp.text}")
 
-# -------- Feed-haku paremmilla headereilla --------
+# -------- Feed-haku --------
 def parse_feed(url: str):
     headers = {
         "User-Agent": "Mozilla/5.0 (RCF News Bot; +https://github.com/rcf)",
@@ -505,7 +488,6 @@ def source_name_from_feed(parsed, fallback_url: str) -> str:
 def process_feed(url: str, seen: set,
                  bl_global, bl_source,
                  wl_global, wl_source, wl_sources) -> dict:
-    """Palauttaa tilaston: {'total': N, 'posted': M, 'skipped': K}"""
     stats = {"total": 0, "posted": 0, "skipped": 0}
 
     d = parse_feed(url)
@@ -528,9 +510,9 @@ def process_feed(url: str, seen: set,
         title = clean_text(entry.get("title"))
         link = entry.get("link") or ""
         summary_html = entry.get("summary") or ""
-        raw_summary = clean_text(summary_html)  # embedille alkuperäisenä (yleensä englanniksi)
+        raw_summary = clean_text(summary_html)
 
-        # Skip jos olemme jo nähneet
+        # Skip jos nähty
         if uid in seen:
             stats["skipped"] += 1
             logd("SKIP(seen):", source_name, "|", title)
@@ -539,15 +521,14 @@ def process_feed(url: str, seen: set,
         # Whitelist / Blocklist / Shorts
         skip, reason = should_skip_article(
             source_name, title, raw_summary, link,
-            bl_global, bl_source,
-            wl_global, wl_source, wl_sources
+            bl_global, bl_source, wl_global, wl_source, wl_sources
         )
         if skip:
             stats["skipped"] += 1
             logd("SKIP:", source_name, "| reason:", reason, "|", title)
             continue
 
-        # Kuva + OG-kuvaus fallbackiin (mutta embedissä pidetään lähteen teksti)
+        # Kuva + OG-fallback
         img = image_from_entry(entry)
         if not img or not raw_summary:
             og_img, og_desc = fetch_og_meta(link)
@@ -556,13 +537,13 @@ def process_feed(url: str, seen: set,
             if not raw_summary and og_desc:
                 raw_summary = og_desc
 
-        # Arvin AI-kommentti (suomeksi). Fail-safe: jos ei onnistu, jätetään tyhjäksi.
+        # Arvin kommentti
         ai_comment = ai_make_comment(
             title=title,
             source=source_name,
             url=link,
             raw_summary=raw_summary,
-            maxlen=ARVI_COMMENT_MAXLEN
+            maxlen=COMMENT_MAXLEN
         )
 
         # Postaa
