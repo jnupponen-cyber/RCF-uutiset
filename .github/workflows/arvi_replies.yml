@@ -34,6 +34,9 @@ jobs:
       - name: Run Arvi reply script
         env:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          # Jos haluat useita kanavia, lisää salaisuus CHANNEL_IDS pilkuin eroteltuna (esim. "123,456")
+          CHANNEL_IDS: ${{ secrets.CHANNEL_IDS }}
+          # Fallback yksittäiseen kanavaan jos CHANNEL_IDS ei ole asetettu:
           UUTISKATSAUS_CHANNEL_ID: ${{ secrets.UUTISKATSAUS_CHANNEL_ID }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SUMMARY_MODEL: gpt-4o-mini
