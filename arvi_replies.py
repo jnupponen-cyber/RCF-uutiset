@@ -84,11 +84,6 @@ def trim_two_sentences(s: str) -> str:
     short = " ".join([p for p in parts if p][:2]).strip()
     return short or s
 
-def maybe_add_opener_closer(text: str) -> str:
-    """Lisää harvoin aloitus- tai lopetusfraasin, jos se mahtuu ja ei jo ole mukana."""
-    openers = ["No niin", "No jopas", "Jahas", "Ai että", "Kas vain"]
-    closers  = ["Ei paha", "Näillä mennään", "Että semmosta", "Aikamoista!"]
-
     out = text
 
     # Aloitusfraasi
