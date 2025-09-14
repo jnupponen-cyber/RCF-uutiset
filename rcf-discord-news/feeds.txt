@@ -13,6 +13,7 @@ https://feeds.purplemanager.com/193c804a-a673-47bd-b09b-11baf4822a17/bikeradar-g
 https://feeds.purplemanager.com/193c804a-a673-47bd-b09b-11baf4822a17/bikeradar-road-news
 https://feeds.purplemanager.com/193c804a-a673-47bd-b09b-11baf4822a17/bikeradar-news
 https://roadcyclinguk.com/gear/gear-news/feed
+https://road.cc/rss
 
 # --- YouTube ---
 https://www.youtube.com/feeds/videos.xml?channel_id=UCuTaETsuCOkJ0H_GAztWt0Q
