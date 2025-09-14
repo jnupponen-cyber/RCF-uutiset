@@ -4,15 +4,24 @@ from pathlib import Path
 
 # --- Env ---
 DISCORD_TOKEN = os.environ["DISCORD_BOT_TOKEN"]
-CHANNEL_ID = os.environ["UUTISKATSAUS_CHANNEL_ID"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 OPENAI_API_BASE = os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1")
 SUMMARY_MODEL = os.environ.get("SUMMARY_MODEL", "gpt-4o-mini")
 ARVI_REPLY_MAXLEN = int(os.environ.get("ARVI_REPLY_MAXLEN", "280"))
 
+# Kanavat: käytä joko CHANNEL_IDS (pilkuin eroteltu) tai fallback UUTISKATSAUS_CHANNEL_ID
+CHANNEL_IDS_ENV = os.environ.get("CHANNEL_IDS", "").strip()
+if CHANNEL_IDS_ENV:
+    CHANNEL_IDS = [c.strip() for c in CHANNEL_IDS_ENV.split(",") if c.strip()]
+else:
+    CHANNEL_IDS = [os.environ["UUTISKATSAUS_CHANNEL_ID"]]
+
 # Satunnaisen sanonnan todennäköisyydet (0.0–1.0)
 ARVI_OPENERS_PROB = float(os.environ.get("ARVI_OPENERS_PROB", "0.15"))  # 15 % aloitusfraasi
 ARVI_CLOSERS_PROB = float(os.environ.get("ARVI_CLOSERS_PROB", "0.15"))  # 15 % lopetusfraasi
+
+# Custom-emoji nimi (ilman kulmasulkeita), esim. :arvi:
+ARVI_EMOJI_NAME = os.environ.get("ARVI_EMOJI_NAME", "arvi").strip().lower()
 
 # --- Persona ---
 ARVI_PERSONA = (
@@ -37,11 +46,18 @@ ARVI_PERSONA = (
 # --- Triggerit (case-insensitive, muunnelmat) ---
 TRIGGER_RE = re.compile(
     r"\b(arvi(?:\s*lind)?(?:\s*bot)?)"
-    r"(?:n|a|lla|lle|lta|lta|sta|ssa|aan|in|en|e)?\b",
+    r"(?:n|a|lla|lle|lta|sta|ssa|aan|in|en|e)?\b",
     re.I
 )
 
-# --- Tila (viimeksi käsitelty viesti-ID ja viimeisin vastaus) ---
+# :arvi: sisällössä – tunnista sekä :arvi: että <:arvi:1234567890>
+def build_arvi_emoji_re(name: str) -> re.Pattern:
+    safe = re.escape(name)
+    return re.compile(rf"(?:<:{safe}:\d+>|:{safe}:)", re.I)
+
+ARVI_EMOJI_RE = build_arvi_emoji_re(ARVI_EMOJI_NAME)
+
+# --- Tila (per kanava: viimeksi käsitelty viesti-ID ja viimeisin vastaus) ---
 STATE_PATH = Path("arvi_state.json")
 
 def load_state():
@@ -69,9 +85,7 @@ def trim_two_sentences(s: str) -> str:
     return short or s
 
 def maybe_add_opener_closer(text: str) -> str:
-    """
-    Lisää harvoin aloitus- tai lopetusfraasin, jos se mahtuu ja ei jo ole mukana.
-    """
+    """Lisää harvoin aloitus- tai lopetusfraasin, jos se mahtuu ja ei jo ole mukana."""
     openers = ["No niin", "No jopas", "Jahas", "Ai että", "Kas vain"]
     closers  = ["Ei paha", "Näillä mennään", "Että semmosta", "Aikamoista!"]
 
@@ -79,7 +93,7 @@ def maybe_add_opener_closer(text: str) -> str:
 
     # Aloitusfraasi
     if random.random() < ARVI_OPENERS_PROB:
-        if not any(out.startswith(f"{o}") or out.startswith(f"{o.lower()}") for o in openers):
+        if not any(out.startswith(o) or out.startswith(o.lower()) for o in openers):
             candidate = random.choice(openers)
             candidate_line = f"{candidate}. "
             if len(candidate_line) + len(out) <= ARVI_REPLY_MAXLEN:
@@ -99,17 +113,17 @@ def maybe_add_opener_closer(text: str) -> str:
 DISCORD_API = "https://discord.com/api/v10"
 HEADERS = {"Authorization": f"Bot {DISCORD_TOKEN}"}
 
-def fetch_messages(after_id: str | None = None, limit: int = 50):
+def fetch_messages(channel_id: str, after_id: str | None = None, limit: int = 50):
     params = {"limit": str(limit)}
     if after_id:
         params["after"] = after_id
-    r = requests.get(f"{DISCORD_API}/channels/{CHANNEL_ID}/messages", headers=HEADERS, params=params, timeout=15)
+    r = requests.get(f"{DISCORD_API}/channels/{channel_id}/messages", headers=HEADERS, params=params, timeout=15)
     r.raise_for_status()
     return r.json()
 
-def reply_to_message(msg_id: str, text: str):
+def reply_to_message(channel_id: str, msg_id: str, text: str):
     payload = {"content": text, "message_reference": {"message_id": msg_id}}
-    r = requests.post(f"{DISCORD_API}/channels/{CHANNEL_ID}/messages",
+    r = requests.post(f"{DISCORD_API}/channels/{channel_id}/messages",
                       headers={**HEADERS, "Content-Type": "application/json"},
                       json=payload, timeout=15)
     if r.status_code >= 300:
@@ -128,7 +142,6 @@ def call_openai(messages, temperature=0.4, max_tokens=220, retries=2):
                 timeout=20
             )
             if r.status_code == 429 or 500 <= r.status_code < 600:
-                # kevyt backoff ja uusi yritys
                 time.sleep(backoff)
                 backoff *= 2
                 continue
@@ -159,91 +172,101 @@ def arvi_reply(context_text: str) -> str | None:
         return None
 
     out = trim_two_sentences(out)
-
-    # Satunnaiset suomalaiset fraasit (harvoin, ei aina)
     out = maybe_add_opener_closer(out)
-
-    # Lopullinen pituusrajoitus
     out = out if len(out) <= ARVI_REPLY_MAXLEN else (out[:ARVI_REPLY_MAXLEN-1].rstrip() + "…")
     return out
 
+def should_trigger_on_message(msg: dict) -> bool:
+    """True jos viesti triggaa: nimi 'Arvi' muunnelmineen, @-maininta, tai :arvi: emoji sisällössä."""
+    content = msg.get("content", "") or ""
+    # 1) Tekstihaku nimestä
+    if TRIGGER_RE.search(content):
+        return True
+    # 2) @-maininnat: jos joku @-mainitsee botin, username alkaa “Arvi”
+    mentions = msg.get("mentions", []) or []
+    if any((u.get("username", "") or "").lower().startswith("arvi") for u in mentions):
+        return True
+    # 3) :arvi: emoji sisällössä (tai <:arvi:12345>)
+    if ARVI_EMOJI_RE.search(content):
+        return True
+    return False
+
 def main():
-    state = load_state()
-    last_id = state.get("last_processed_id")  # snowflake (str)
-    last_reply = state.get("last_reply_text", "")
+    state = load_state()  # {channel_id: {"last_processed_id": "...", "last_reply_text": "..."}}
 
-    # Hae viestit: jos last_id on tunnettu → after=last_id, muuten haetaan viimeiset ja rajataan 15min ajalle
-    msgs = fetch_messages(after_id=last_id, limit=50)
+    # käsitellään kanavat yksi kerrallaan
+    for channel_id in CHANNEL_IDS:
+        ch_state = state.get(channel_id, {})
+        last_id = ch_state.get("last_processed_id")
+        last_reply = ch_state.get("last_reply_text", "")
 
-    # Jos ei last_id:tä, suodata aikaleimalla (viimeiset 15 min), muuten kaikki ovat uusia by definition
-    cutoff = datetime.now(timezone.utc) - timedelta(minutes=15)
-    filtered = []
-    for m in msgs:
-        # ohita botit
-        if m.get("author", {}).get("bot"):
+        # Hae viestit
+        try:
+            msgs = fetch_messages(channel_id, after_id=last_id, limit=50)
+        except requests.HTTPError as e:
+            print(f"[WARN] fetch_messages 403/404? channel={channel_id} -> {e}")
             continue
-        # aikaraja vain jos last_id puuttuu
-        if not last_id:
-            ts = iso_to_dt(m["timestamp"])
-            if ts <= cutoff:
+
+        cutoff = datetime.now(timezone.utc) - timedelta(minutes=15)
+        filtered = []
+        for m in msgs:
+            # ohita botit
+            if m.get("author", {}).get("bot"):
                 continue
-        # triggerit (nimi taivutettu, tai @-maininta)
-        content = m.get("content", "") or ""
-        triggered = TRIGGER_RE.search(content) is not None
-        if not triggered:
-            # jos joku mainitsee botin @… mutta teksti ei sisällä triggeriä, tämä riittää
-            if m.get("mentions"):
-                mentioned_names = [u.get("username", "") for u in m.get("mentions", [])]
-                if any(name.lower().startswith("arvi") for name in mentioned_names):
-                    triggered = True
-        if not triggered:
-            continue
+            # aikaraja vain jos last_id puuttuu
+            if not last_id:
+                ts = iso_to_dt(m["timestamp"])
+                if ts <= cutoff:
+                    continue
+            # triggerit
+            if not should_trigger_on_message(m):
+                continue
+            filtered.append(m)
 
-        filtered.append(m)
+        # käsittele vanhimmasta uusimpaan
+        filtered.sort(key=lambda x: int(x["id"]))
+        max_id = int(last_id) if last_id else 0
+        new_last_reply = last_reply
 
-    # käsittele vanhimmasta uusimpaan
-    filtered.sort(key=lambda x: int(x["id"]))
-    max_id = int(last_id) if last_id else 0
-    new_last_reply = last_reply
+        for m in filtered:
+            msg_id = m["id"]
+            author = m.get("author", {}).get("username", "user")
+            text = m.get("content", "")
 
-    for m in filtered:
-        msg_id = m["id"]
-        author = m.get("author", {}).get("username", "user")
-        text = m.get("content", "")
+            # kevyt konteksti (reply-viite mukaan jos saatavilla)
+            context_lines = [f"{author}: {text}"]
+            ref = m.get("referenced_message")
+            if ref and isinstance(ref, dict):
+                ref_author = ref.get("author", {}).get("username", "user")
+                ref_text = ref.get("content", "")
+                context_lines.insert(0, f"{ref_author}: {ref_text}")
+            context = "\n".join(context_lines)
 
-        # rakenna kevyt konteksti (viesti + up to 1 edellinen jos saatavilla reply-viitteestä)
-        context_lines = [f"{author}: {text}"]
-        ref = m.get("referenced_message")
-        if ref and isinstance(ref, dict):
-            ref_author = ref.get("author", {}).get("username", "user")
-            ref_text = ref.get("content", "")
-            context_lines.insert(0, f"{ref_author}: {ref_text}")
-        context = "\n".join(context_lines)
+            reply = arvi_reply(context)
 
-        reply = arvi_reply(context)
+            # Anti-toisto
+            if reply and reply == last_reply:
+                alt = arvi_reply(context)
+                if alt and alt != last_reply:
+                    reply = alt
+                else:
+                    reply = None
 
-        # Anti-toisto: jos malli tuottaa täsmälleen saman kuin viimeksi, jätä väliin
-        if reply and reply == last_reply:
-            # Pieni “sekoitin”: koeta kerran vielä, sitten luovuta
-            alt = arvi_reply(context)
-            if alt and alt != last_reply:
-                reply = alt
-            else:
-                reply = None
+            if reply:
+                reply_to_message(channel_id, msg_id, reply)
+                new_last_reply = reply
+                time.sleep(1.2)  # kevyt throttle
 
-        if reply:
-            reply_to_message(msg_id, reply)
-            new_last_reply = reply
-            time.sleep(1.2)  # kevyt throttle
+            max_id = max(max_id, int(msg_id))
 
-        # päivitä max snowflake
-        max_id = max(max_id, int(msg_id))
+        # päivitä tila
+        if max_id and (str(max_id) != (last_id or "")):
+            state[channel_id] = {
+                "last_processed_id": str(max_id),
+                "last_reply_text": new_last_reply
+            }
 
-    # päivitä tila jos edistyttiin
-    if max_id and (str(max_id) != (last_id or "")):
-        state["last_processed_id"] = str(max_id)
-        state["last_reply_text"] = new_last_reply
-        save_state(state)
+    save_state(state)
 
 if __name__ == "__main__":
     main()
