@@ -10,8 +10,8 @@ RCF Discord -uutisbotti (embedit + OG-kuvat + blocklist + whitelist + ping + per
 - Postaa Discordiin webhookilla:
   - otsikko linkkinä
   - lähde + favicon
-  - alkuperäinen (yleensä englanninkielinen) kuvaus embedissä
-  - Arvi LindBotin suomalainen kommentti ennen embediä
+  - EMBEDIIN: Arvi LindBotin suomalainen kommentti YLIMMÄISEKSI
+  - EMBEDIIN: alkuperäinen (yleensä englanninkielinen) kuvaus kommentin alle
   - iso kuva (tai thumbnail)
   - linkkipainike
   - pingi (USER tai ROLE ID)
@@ -26,16 +26,12 @@ Ympäristömuuttujat (esimerkit):
 - PREFER_LARGE_IMAGE=1
 - MAX_ITEMS_PER_FEED=10
 - SUMMARY_MAXLEN=200
+- ARVI_COMMENT_MAXLEN=220
 - ENABLE_AI_SUMMARY=1
 - SUMMARY_MODEL=gpt-4o-mini
 - SUMMARY_LANG=fi
 - OPENAI_API_KEY=...
-
-Tiedostot samassa kansiossa:
-- feeds.txt         : syötteiden URLit
-- blocklist.txt     : esto-sanat (katso syntaksi koodista)
-- whitelist.txt     : sallivat sanat/lähteet (katso syntaksi koodista)
-- seen.json         : käsiteltyjen itemien uid-lista
+- EMBED_STYLE=spacious  # compact | spacious
 """
 
 import os
@@ -73,8 +69,10 @@ MENTION_ROLE_ID = os.environ.get("MENTION_ROLE_ID", "").strip()
 MAX_ITEMS_PER_FEED = int(os.environ.get("MAX_ITEMS_PER_FEED", "10"))
 POST_DELAY_SEC = float(os.environ.get("POST_DELAY_SEC", "1"))
 SUMMARY_MAXLEN = int(os.environ.get("SUMMARY_MAXLEN", "200"))
+ARVI_COMMENT_MAXLEN = int(os.environ.get("ARVI_COMMENT_MAXLEN", "220"))
 REQUEST_TIMEOUT = int(os.environ.get("REQUEST_TIMEOUT", "12"))
 PREFER_LARGE_IMAGE = int(os.environ.get("PREFER_LARGE_IMAGE", "1")) == 1
+EMBED_STYLE = os.environ.get("EMBED_STYLE", "spacious").strip().lower()  # 'spacious' | 'compact'
 
 # DEBUG-moodi
 DEBUG = int(os.environ.get("DEBUG", "1")) == 1
@@ -93,23 +91,14 @@ ARVI_PERSONA = (
     "Olet Arvi LindBot, suomalainen lakoninen uutistenlukija RCF-yhteisölle. "
     "Perusääni: neutraali, asiallinen ja tiivis. "
     "Kirjoita aina selkeää ja luonnollista suomen yleiskieltä. "
-    "Älä käännä englanninkielisiä sanontoja sanatarkasti. "
-    "Jos englanninkielinen ilmaus ei sovi suoraan suomeen, käytä suomalaista vastaavaa sanontaa "
-    "tai neutraalia ilmausta. "
-    "Voit silloin tällöin käyttää hillittyä sarkasmia tai kuivaa ironiaa, mutta älä usein. "
+    "Älä käännä englanninkielisiä sanontoja sanatarkasti; käytä luontevaa suomenkielistä vastinetta. "
+    "Voit silloin tällöin käyttää hillittyä sarkasmia tai kuivaa ironiaa, mutta harvoin. "
     "Huumorisi on vähäeleistä ja kuivakkaa, ei ilkeää. Älä liioittele. "
     "Käytä 1–2 lyhyttä lausetta suomeksi. "
-    "Voit käyttää korkeintaan yhtä emojiä, jos se sopii luontevasti sävyyn, "
-    "ja sijoita se aina lauseen loppuun. Esimerkiksi 🤷, 🚴, 😅, 🔧, 💤, 📈. "
-    "Ei hashtageja, ei mainoslauseita. "
-    "Jos aihe on triviaali, tokaise se lakonisesti. Jos aihe on ylihypetetty, "
-    "voit joskus kommentoida ironisesti, esimerkiksi 'taas kerran' tai 'suurin mullistus sitten eilisen'. "
-    "Voit harvakseltaan viitata RCF-yhteisöön tai muistuttaa olevasi vain botti. "
-    "Vaihtele sävyä: useimmiten neutraali ja lakoninen, mutta toisinaan ironinen tai nostalginen. "
-    "Suomalaisia sanontoja käytä vain harvoin ja vaihdellen, ei joka kommentissa: "
-    "– Kommentin alkuun sopivat: 'No niin', 'No jopas', 'Jahas', 'Ai että', 'Kas vain'. "
-    "– Kommentin loppuun sopivat: 'Ei paha', 'Näillä mennään', 'Että semmosta', 'Aikamoista!'. "
-    "Käytä näitä vain satunnaisesti, ja vaihtele sanontoja ettei sama toistu liian usein."
+    "Voit käyttää korkeintaan yhtä emojiä, jos se sopii luontevasti sävyyn, ja sijoita se lauseen loppuun. "
+    "Esimerkkimoodeja: 🤷, 🚴, 😅, 🔧, 💤, 📈. Ei hashtageja eikä mainoslauseita. "
+    "Jos aihe on triviaali, totea se lakonisesti. Jos aihe on ylihypetetty, voit joskus vihjata siitä ironisesti. "
+    "Suomalaisia sanontoja käytä vain satunnaisesti ja vaihdellen."
 )
 
 # --- Per-lähde värikoodit ---
@@ -268,7 +257,7 @@ def ai_make_comment(title: str, source: str, url: str, raw_summary: str, maxlen:
         f"Otsikko: {title}\n"
         f"URL: {url}\n"
         f"Alkuperäinen kuvaus (voi olla englanniksi, käytä vain jos auttaa kiteytyksessä): {raw_summary or '-'}\n\n"
-        "Kirjoita vain 1–2 lausetta suomeksi. Älä toista otsikkoa. Älä käytä emojeja/hashtageja."
+        "Kirjoita vain 1–2 lausetta suomeksi. Älä toista otsikkoa. Älä käytä hashtageja/emojeja, ellet todella tarvitse yhtä viimeiseksi merkiksi."
     )
 
     try:
@@ -395,14 +384,28 @@ def should_skip_article(source_name: str,
 
     return False, None
 
+# --- Yhdistä kommentti + alkuperäinen teksti embediin ---
+def build_embed_description(ai_comment: str | None, raw_summary: str | None) -> str:
+    comment = truncate(ai_comment or "", ARVI_COMMENT_MAXLEN) if ai_comment else ""
+    original = truncate(raw_summary or "", SUMMARY_MAXLEN) if raw_summary else ""
+    if EMBED_STYLE == "compact":
+        if comment and original:
+            return f"{comment} — {original}"
+        return comment or original
+    # spacious (oletus)
+    if comment and original:
+        return f"{comment}\n\n{original}"
+    return comment or original
+
 # -------- Discord-postaus --------
 def post_to_discord(title: str, url: str, source: str,
                     raw_summary: str | None, image_url: str | None,
                     ai_comment: str | None = None) -> None:
     """
-    Postaa viestin niin, että:
-      - content: Arvi LindBotin kommentti (suomeksi)
-      - embed.description: alkuperäinen (yleensä englanninkielinen) kuvaus
+    Embediin:
+      - descriptionin alkuun Arvin kommentti
+      - alle alkuperäinen (yleensä englanninkielinen) kuvaus
+    contentiin jää vain mahdollinen pingi.
     """
     if not WEBHOOK:
         raise RuntimeError("DISCORD_WEBHOOK_URL ei ole asetettu ympäristömuuttujaksi.")
@@ -427,11 +430,13 @@ def post_to_discord(title: str, url: str, source: str,
         author["icon_url"] = fav
         footer["icon_url"] = fav
 
+    description = build_embed_description(ai_comment, raw_summary)
+
     embed = {
         "type": "rich",
         "title": title,
         "url": url,
-        "description": truncate(raw_summary or "", SUMMARY_MAXLEN),
+        "description": description,
         "color": color,
         "author": author,
         "footer": footer,
@@ -443,23 +448,18 @@ def post_to_discord(title: str, url: str, source: str,
         else:
             embed["thumbnail"] = {"url": image_url}
 
-    # Content: pingi + Arvin kommentti
-    content_lines = []
+    # Content: vain mahdollinen pingi (Arvin kommentti on descriptionissa)
+    content = None
+    allowed = {"parse": []}
     if _valid_discord_id(MENTION_USER_ID):
-        content_lines.append(f"<@{MENTION_USER_ID}>")
+        content = f"<@{MENTION_USER_ID}>"
+        allowed["users"] = [MENTION_USER_ID]
     elif _valid_discord_id(MENTION_ROLE_ID):
-        content_lines.append(f"<@&{MENTION_ROLE_ID}>")
-    if ai_comment:
-        content_lines.append(ai_comment)  # pelkkä kommentti, ei emojia eikä prefiksiä
-    content = "\n".join(content_lines) if content_lines else None
+        content = f"<@&{MENTION_ROLE_ID}>"
+        allowed["roles"] = [MENTION_ROLE_ID]
 
     payload = {"embeds": [embed], "components": components}
     if content:
-        allowed = {"parse": []}
-        if _valid_discord_id(MENTION_USER_ID):
-            allowed["users"] = [MENTION_USER_ID]
-        elif _valid_discord_id(MENTION_ROLE_ID):
-            allowed["roles"] = [MENTION_ROLE_ID]
         payload["content"] = content
         payload["allowed_mentions"] = allowed
 
@@ -528,7 +528,7 @@ def process_feed(url: str, seen: set,
         title = clean_text(entry.get("title"))
         link = entry.get("link") or ""
         summary_html = entry.get("summary") or ""
-        raw_summary = clean_text(summary_html)  # jätetään embedille alkuperäisenä (yleensä englanniksi)
+        raw_summary = clean_text(summary_html)  # embedille alkuperäisenä (yleensä englanniksi)
 
         # Skip jos olemme jo nähneet
         if uid in seen:
@@ -562,7 +562,7 @@ def process_feed(url: str, seen: set,
             source=source_name,
             url=link,
             raw_summary=raw_summary,
-            maxlen=SUMMARY_MAXLEN
+            maxlen=ARVI_COMMENT_MAXLEN
         )
 
         # Postaa
