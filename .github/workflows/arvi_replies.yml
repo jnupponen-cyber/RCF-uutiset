@@ -2,18 +2,29 @@ name: Arvi Replies
 
 on:
   schedule:
-    - cron: "*/20 * * * *"   # 20 minuutin välein
+    - cron: "*/20 * * * *"   # 20 min välein (UTC-ajassa)
   workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: arvi-replies
+  cancel-in-progress: true
+
 jobs:
   run:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
       - name: Install deps
         run: |
@@ -26,8 +37,11 @@ jobs:
           UUTISKATSAUS_CHANNEL_ID: ${{ secrets.UUTISKATSAUS_CHANNEL_ID }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SUMMARY_MODEL: gpt-4o-mini
-          ARVI_REPLY_MAXLEN: "280"
           OPENAI_API_BASE: https://api.openai.com/v1
+          ARVI_REPLY_MAXLEN: "280"
+          # Valinnaiset: satunnaisfraasien todennäköisyydet
+          # ARVI_OPENERS_PROB: "0.15"
+          # ARVI_CLOSERS_PROB: "0.15"
         run: |
           python arvi_replies.py
 
