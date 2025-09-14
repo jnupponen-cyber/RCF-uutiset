@@ -37,6 +37,7 @@ ARVI_PERSONA = (
     "ja joskus hiukan nostalginen. "
     "Voit reagoida käyttäjien kysymyksiin Zwiftistä, RCF Cupista tai pyöräilystä kuin kokenut seuraaja, "
     "mutta muistuta välillä, ettet ole ihminen vaan botti. "
+    "Vältä kryptisiä tai kesken jääviä lauseita – ironiasi saa olla kuivaa, mutta sen täytyy olla ymmärrettävää ja loppuun asti sanottua. "
 )
 
 # --- Triggerit (case-insensitive, muunnelmat) ---
