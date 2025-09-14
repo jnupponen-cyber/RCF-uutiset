@@ -102,22 +102,51 @@ ARVI_PERSONA = (
     "Vaihtele sävyä: useimmiten neutraali ja lakoninen, mutta toisinaan ironinen tai nostalginen. "
 )
 
-# --- Per-lähde värikoodit ---
+# --- Per-lähde värikoodit (päivitetty) ---
 SOURCE_COLORS = {
-    "Zwift Insider": int("0xFF6B00", 16),
-    "Zwift.com News": int("0xFF6B00", 16),
-    "MyWhoosh": int("0x2196F3", 16),
-    "DC Rainmaker": int("0x9C27B0", 16),
-    "GPLama": int("0x00BCD4", 16),
-    "GCN": int("0xE91E63", 16),
-    "GCN Tech": int("0x3F51B5", 16),
-    "ZRace Central": int("0x4CAF50", 16),
-    "Smart Bike Trainers": int("0x795548", 16),
-    "Dylan Johnson Cycling": int("0x009688", 16),
-    "TrainerRoad": int("0xF44336", 16),
-    "Cycling Weekly": int("0x8BC34A", 16),
-    "BikeRadar": int("0x1E88E5", 16),
-    "Velo": int("0x00F7FF", 16),
+    # Zwift / ekosysteemi
+    "Zwift Insider":          int("0xFF6B00", 16),  # Zwift-oranssi
+    "Zwift.com News":         int("0xFF6B00", 16),
+    "Zwift":                  int("0xFF6B00", 16),
+
+    # Isoja blogeja / sivustoja
+    "DC Rainmaker":           int("0x9C27B0", 16),  # violetti
+    "Cycling Weekly":         int("0x8BC34A", 16),  # vihreä
+    "Velo":                   int("0x00F7FF", 16),  # turkoosi
+    "Velo News":              int("0x00F7FF", 16),
+    "Velo – Road Gear":       int("0x546E7A", 16),  # siniharmaa
+    "Velo – Road Training":   int("0x00796B", 16),  # teal
+    "Velo – Gravel Gear":     int("0x4CAF50", 16),  # vihreä
+
+    "TrainerRoad":            int("0xF44336", 16),  # punainen
+
+    # BikeRadar (eri feedit tulevat PurpleManagerin kautta eri titteleillä)
+    "BikeRadar":              int("0x1E88E5", 16),  # sininen
+    "BikeRadar Gravel":       int("0x2E7D32", 16),  # tummanvihreä
+    "BikeRadar Road News":    int("0x1976D2", 16),  # sininen (hieman eri sävy)
+    "BikeRadar News":         int("0x1565C0", 16),
+
+    # Muut uutissivustot
+    "Road.cc":                int("0x00AEEF", 16),  # road.cc:n sininen
+    "Road.cc RSS Feed":       int("0x00AEEF", 16),
+    "RoadCyclingUK":          int("0xFB8C00", 16),  # oranssi
+    "BikeRumor":              int("0x7B1FA2", 16),  # purppura
+    "Bicycling":              int("0xD32F2F", 16),  # punainen
+    "Training4cyclists":      int("0x455A64", 16),  # siniharmaa
+    "MyWhoosh":               int("0x2196F3", 16),  # sininen
+
+    # YouTube-kanavia (otsikko tulee kanavan nimestä feedissä)
+    "GCN":                    int("0xE91E63", 16),  # pinkinpunainen
+    "Global Cycling Network": int("0xE91E63", 16),
+    "GCN Tech":               int("0x3F51B5", 16),  # indigo
+    "GPLama":                 int("0x00BCD4", 16),  # cyan/teal
+    "Smart Bike Trainers":    int("0x795548", 16),  # ruskea
+    "Dylan Johnson Cycling":  int("0x009688", 16),  # teal
+    "DC Rainmaker (YouTube)": int("0x9C27B0", 16),
+
+    # Varalle muutama yleinen alias
+    "Road.cc Tech of the Week": int("0x00AEEF", 16),
+    "Velo | Buyer’s Guide":      int("0x00838F", 16),
 }
 
 # --- Regex OG-metaan ---
