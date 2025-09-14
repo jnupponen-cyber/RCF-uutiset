@@ -7,7 +7,7 @@ DISCORD_TOKEN = os.environ["DISCORD_BOT_TOKEN"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 OPENAI_API_BASE = os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1")
 SUMMARY_MODEL = os.environ.get("SUMMARY_MODEL", "gpt-4o-mini")
-ARVI_REPLY_MAXLEN = int(os.environ.get("ARVI_REPLY_MAXLEN", "280"))
+ARVI_REPLY_MAXLEN = int(os.environ.get("ARVI_REPLY_MAXLEN", "1500"))
 
 # Kanavat: käytä joko CHANNEL_IDS (pilkuin eroteltu) tai fallback UUTISKATSAUS_CHANNEL_ID
 CHANNEL_IDS_ENV = os.environ.get("CHANNEL_IDS", "").strip()
