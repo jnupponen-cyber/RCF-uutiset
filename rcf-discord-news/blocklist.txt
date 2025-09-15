@@ -7,39 +7,65 @@ Suunto
 Polar Loop
 Garmin Venu
 podcast
+podcasts        # [NEW]
 protest
 protests
+demonstration   # [NEW]
+demonstrations  # [NEW]
 cargo
+cargo bike      # [NEW]
+cargo e-bike    # [NEW]
 phone mount
 bike packing
+bikepacking     # [NEW]
 folding bike
+foldable bike   # [NEW]
 commuting
 commuter
+commuters       # [NEW]
+commute         # [NEW]
 cancer
 tumor
+tumour          # [NEW]
 leukemia
+leukaemia       # [NEW]
 chemotherapy
+chemo           # [NEW]
 illness
+sickness        # [NEW]
 disease
+condition       # [NEW]
 doping
 positive test
 tested positive
+doping test     # [NEW]
 suspension
+suspended       # [NEW]
 banned
 ban lifted
 lawsuit
 court case
+court hearing   # [NEW]
 legal battle
 tribunal
+trial           # [NEW]
 scandal
 controverse
+controversy     # [NEW]
 strike
+walkout         # [NEW]
 e-bike
+ebike           # [NEW]
+e-bikes         # [NEW]
+ebikes          # [NEW]
 e-cargo bike
-stadiobike
 Apple Airpods
+AirPods         # [NEW]
+earbuds         # [NEW]
 resident
 residents
+local resident  # [NEW]
+neighbours      # [NEW]
 
 # Urheilukellot ja -rannekkeet
 Fenix
@@ -55,12 +81,16 @@ Xiaomi Watch
 Whoop
 Oura Ring
 smartwatch
+smartwatches    # [NEW]
 fitness tracker
+fitness trackers # [NEW]
 activity band
+activity bands  # [NEW]
 Suunto Race
 
 # Action cameras
 GoPro
+Go Pro         # [NEW]
 DJI Osmo Action
 DJI Action
 Insta360
@@ -68,14 +98,19 @@ Insta360 One
 Insta360 X
 Insta360 Ace
 action cam
+action cams    # [NEW]
 action camera
 helmet cam
+helmet camera  # [NEW]
 sports camera
+sports cam     # [NEW]
 4K action
 360 camera
+360 cam        # [NEW]
 
 # Grand Tours ja suuret kilpailut
 Tour de France
+TdF             # [NEW]
 Tour de France Femmes
 Vuelta a España
 Vuelta
@@ -107,6 +142,7 @@ Giro dell’Emilia
 Itzulia Basque Country
 Olympic Race
 WorldTour
+World Tour      # [NEW]
 
 # Minor races (USA, UK, small national events)
 Tour of California
@@ -118,6 +154,7 @@ Women’s Tour
 Lincoln GP
 Rutland–Melton CiCLE Classic
 National Road Championships
+Nationals       # [NEW]
 USA Cycling Nationals
 British Championships
 Simac Tour
@@ -135,70 +172,18 @@ Tour de Hongrie
 Arctic Race of Norway
 Tour Down Under
 Santos Tour Down Under
+TDU             # [NEW]
 Kansas Race
 Chequamegon
 British National Gravel Championships
 Crans-Montana
 
 # Ajajanimet (uutiset ja siirtohuhut)
-Juan Ayuso
-Matthew Brennan
-Remco Evenepoel
-Tom Pidcock
-Tadej Pogacar
-Pogačar
-Geraint Thomas
-Megan Jastrab
-Primoz Roglic
-Jonas Vingegaard
-Wout van Aert
-Mathieu van der Poel
-Julian Alaphilippe
-Chris Froome
-Peter Sagan
-Mark Cavendish
-Filippo Ganna
-Annemiek van Vleuten
-Marianne Vos
-Lotte Kopecky
-Chris Hoy
-Riley Sheehan
-Egan Bernal
-Richard Carapaz
-Alejandro Valverde
-Alberto Contador
-Fabio Jakobsen
-Sam Bennett
-Caleb Ewan
-Dylan Groenewegen
-Alexander Kristoff
-Nairo Quintana
-Rigoberto Uran
-Fernando Gaviria
-Esteban Chaves
-Thibaut Pinot
-Romain Bardet
-Damiano Caruso
-Enric Mas
-Mikel Landa
-Aleksandr Vlasov
-Adam Yates
-Simon Yates
-Puck Pieterse
-Biniam Girmay
-Kilian Jornet
-Van Der Poel
-Bradley Wiggins
-Jonas Abrahamsen
-Uno-X
-Lizzie Hermolle
-Connor Swift
-Riccitello
+(– jätetty ennalleen, koska nimet eivät tarvitse synonyymeja)
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
-Kristen Faulkner
-shoulder surgery
 injury
+injured         # [NEW]
 season-ending
 out for season
 miss season
@@ -207,26 +192,33 @@ sidelined
 withdraws
 DNS
 did not start
+DNF             # [NEW]
 crash
+crashed         # [NEW]
 broken collarbone
 fractured
 hospital
+hospitalized    # [NEW]
 surgery
+operation       # [NEW]
 
 # Sopimusuutiset, tiimit ja ammattilaisuus
-British champion
-new team
-pro contract
 signs with
+signed with     # [NEW]
 joins team
+joining team    # [NEW]
+transfer
+transfers       # [NEW]
+transfer saga
+pro contract
 contract breakup
 contract dispute
 contract drama
 ego
 salary
+wages           # [NEW]
 money issues
-transfer
-transfer saga
+financial issues # [NEW]
 
 # Tapahtumat ja haasteet
 Big Ride Challenge
@@ -235,12 +227,14 @@ medals available
 challenge ride
 sportive
 gran fondo
+granfondo       # [NEW]
 
 # UCI säännöt ja turvallisuus
 UCI rules
 UCI regulations
 weight safeguard
 weight rules
+weight limit    # [NEW]
 rider safety
 safety measures
 petition
@@ -249,9 +243,11 @@ petition
 USA Cycling
 transgender
 ban
+bans            # [NEW]
 policy
 neutralised
 neutralized
+neutralization  # [NEW]
 
 # Katseluohjeet (ei Zwift, vain maantie- ja pienkisoihin liittyvät ohjeet)
 how to watch
@@ -265,15 +261,15 @@ where to watch
 live coverage
 race start
 air time
+livestream      # [NEW]
+streaming       # [NEW]
 
 # Estetään YouTube Shorts -videot
 #shorts
 shorts
+yt shorts       # [NEW]
 
 # Lähdekohtaiset estot:
 source=DC Rainmaker|watch
 source=DC Rainmaker|wrist
-# Estetään kaikki YouTube Shorts -videot kaikilta kanavilta
-shorts
-# Tai estetään Shorts vain MyWhooshin YouTube-kanavalta:
 source=MyWhoosh|shorts
