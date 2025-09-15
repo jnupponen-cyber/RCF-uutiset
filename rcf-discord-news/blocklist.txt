@@ -127,6 +127,7 @@ La Vuelta
 Giro Rosa
 Tour Suisse
 Romandie
+XC World Championships
 
 # Klassikkokisat
 Paris-Roubaix
