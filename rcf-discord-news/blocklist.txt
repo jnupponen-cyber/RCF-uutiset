@@ -134,6 +134,7 @@ Tour Down Under
 Santos Tour Down Under
 Kansas Race
 Chequamegon
+British National Gravel Championships
 
 # Ajajanimet (uutiset ja siirtohuhut)
 Juan Ayuso
@@ -186,6 +187,9 @@ Van Der Poel
 Bradley Wiggins
 Jonas Abrahamsen
 Uno-X
+Lizzie Hermolle
+Connor Swift
+Riccitello
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
 Kristen Faulkner
