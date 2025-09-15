@@ -38,6 +38,8 @@ e-bike
 e-cargo bike
 stadiobike
 Apple Airpods
+resident
+residents
 
 # Urheilukellot ja -rannekkeet
 Fenix
