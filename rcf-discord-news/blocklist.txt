@@ -37,6 +37,7 @@ strike
 e-bike
 e-cargo bike
 stadiobike
+Apple Airpods
 
 # Urheilukellot ja -rannekkeet
 Fenix
