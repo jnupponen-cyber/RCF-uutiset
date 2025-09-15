@@ -2,3 +2,6 @@ zwift
 MyWhoosh
 indoor cycling
 Training algorithms
+WTRL
+ZRL
+Zwift Racing League
