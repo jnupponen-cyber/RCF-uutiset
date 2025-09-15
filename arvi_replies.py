@@ -7,7 +7,7 @@ DISCORD_TOKEN = os.environ["DISCORD_BOT_TOKEN"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 OPENAI_API_BASE = os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1")
 SUMMARY_MODEL = os.environ.get("SUMMARY_MODEL", "gpt-4o-mini")
-ARVI_REPLY_MAXLEN = int(os.environ.get("ARVI_REPLY_MAXLEN", "280"))
+ARVI_REPLY_MAXLEN = int(os.environ.get("ARVI_REPLY_MAXLEN", "1500"))
 
 # Kanavat: käytä joko CHANNEL_IDS (pilkuin eroteltu) tai fallback UUTISKATSAUS_CHANNEL_ID
 CHANNEL_IDS_ENV = os.environ.get("CHANNEL_IDS", "").strip()
@@ -69,6 +69,7 @@ def save_state(state: dict):
 
 # --- Apurit ---
 def iso_to_dt(iso: str) -> datetime:
+    # Discord timestamp esim. "2025-09-12T17:56:27.123000+00:00"
     return datetime.fromisoformat(iso)
 
 def clean(s: str) -> str:
@@ -79,22 +80,22 @@ def trim_two_sentences(s: str) -> str:
     short = " ".join([p for p in parts if p][:2]).strip()
     return short or s
 
+# Poista alusta mahdollinen "Arvi LindBot:" tms. prefiksi (myös lihavoituna/viivalla)
+NAME_PREFIX_RE = re.compile(
+    r'^\s*(?:\*\*|\*|__)?\s*arvi\s*lindbot\s*(?:\*\*|\*|__)?\s*[:\-–—]\s*',
+    re.I
+)
+SIMPLE_NAME_PREFIX_RE = re.compile(r'^\s*arvi\s*[:\-–—]\s*', re.I)
+
+def strip_name_prefix(text: str) -> str:
+    t = text.strip()
+    t = NAME_PREFIX_RE.sub("", t)
+    t = SIMPLE_NAME_PREFIX_RE.sub("", t)
+    return t.lstrip()
+
 # --- Discord REST ---
 DISCORD_API = "https://discord.com/api/v10"
 HEADERS = {"Authorization": f"Bot {DISCORD_TOKEN}"}
-
-def get_bot_user_id() -> str | None:
-    # Käytä ARVI_USER_ID env jos annettu; muuten hae /users/@me
-    env_id = (os.environ.get("ARVI_USER_ID") or "").strip()
-    if env_id:
-        return env_id
-    try:
-        r = requests.get(f"{DISCORD_API}/users/@me", headers=HEADERS, timeout=10)
-        r.raise_for_status()
-        return r.json().get("id")
-    except Exception as e:
-        print("WARN: could not get bot user id:", e)
-        return None
 
 def fetch_messages(channel_id: str, after_id: str | None = None, limit: int = 50):
     params = {"limit": str(limit)}
@@ -153,53 +154,34 @@ def arvi_reply(context_text: str) -> str | None:
     )
     if not out:
         return None
+
+    # 1) siivoa mahdollinen nimi-prefiksi
+    out = strip_name_prefix(out)
+
+    # 2) tiivistä kahteen virkkeeseen
     out = trim_two_sentences(out)
+
+    # 3) pituusraja
     out = out if len(out) <= ARVI_REPLY_MAXLEN else (out[:ARVI_REPLY_MAXLEN-1].rstrip() + "…")
     return out
 
-# --- Triggerit ---
-def is_reply_to_arvi(msg: dict, bot_user_id: str | None) -> bool:
-    """
-    True jos viesti on reply JA referenced_message.author.id == bot_user_id.
-    """
-    if not bot_user_id:
-        return False
-    ref = msg.get("referenced_message")
-    if not ref or not isinstance(ref, dict):
-        return False
-    ref_author = (ref.get("author") or {}).get("id")
-    return ref_author == bot_user_id
-
-def should_trigger_on_message(msg: dict, bot_user_id: str | None) -> bool:
-    """
-    True, jos:
-      - viesti on reply Arvin viestiin, TAI
-      - sisältö sisältää Arvi-nimen muunnelmineen, @-maininnan, tai :arvi: -emojin.
-    """
-    # 1) Vastataanko Arvin viestiin?
-    if is_reply_to_arvi(msg, bot_user_id):
-        return True
-
+def should_trigger_on_message(msg: dict) -> bool:
+    """True jos viesti triggaa: nimi 'Arvi' muunnelmineen, @-maininta, tai :arvi: emoji sisällössä."""
     content = msg.get("content", "") or ""
-
-    # 2) Tekstihaku nimestä
+    # 1) Tekstihaku nimestä
     if TRIGGER_RE.search(content):
         return True
-
-    # 3) @-maininnat: jos joku @-mainitsee botin, username alkaa “Arvi”
+    # 2) @-maininnat: jos joku @-mainitsee botin, username alkaa “Arvi”
     mentions = msg.get("mentions", []) or []
     if any((u.get("username", "") or "").lower().startswith("arvi") for u in mentions):
         return True
-
-    # 4) :arvi: emoji sisällössä (tai <:arvi:12345>)
+    # 3) :arvi: emoji sisällössä (tai <:arvi:12345>)
     if ARVI_EMOJI_RE.search(content):
         return True
-
     return False
 
 def main():
     state = load_state()  # {channel_id: {"last_processed_id": "...", "last_reply_text": "..."}}
-    bot_user_id = get_bot_user_id()
 
     # käsitellään kanavat yksi kerrallaan
     for channel_id in CHANNEL_IDS:
@@ -217,20 +199,16 @@ def main():
         cutoff = datetime.now(timezone.utc) - timedelta(minutes=15)
         filtered = []
         for m in msgs:
-            # ohita botit & Arvin omat viestit
+            # ohita botit
             if m.get("author", {}).get("bot"):
                 continue
-            if bot_user_id and m.get("author", {}).get("id") == bot_user_id:
-                continue
-
             # aikaraja vain jos last_id puuttuu
             if not last_id:
                 ts = iso_to_dt(m["timestamp"])
                 if ts <= cutoff:
                     continue
-
             # triggerit
-            if not should_trigger_on_message(m, bot_user_id):
+            if not should_trigger_on_message(m):
                 continue
             filtered.append(m)
 
@@ -244,14 +222,13 @@ def main():
             author = m.get("author", {}).get("username", "user")
             text = m.get("content", "")
 
-            # kevyt konteksti (lisää myös reply-viitteen teksti, jos saatavilla)
-            context_lines = []
+            # kevyt konteksti (reply-viite mukaan jos saatavilla)
+            context_lines = [f"{author}: {text}"]
             ref = m.get("referenced_message")
             if ref and isinstance(ref, dict):
                 ref_author = ref.get("author", {}).get("username", "user")
                 ref_text = ref.get("content", "")
-                context_lines.append(f"{ref_author}: {ref_text}")
-            context_lines.append(f"{author}: {text}")
+                context_lines.insert(0, f"{ref_author}: {ref_text}")
             context = "\n".join(context_lines)
 
             reply = arvi_reply(context)
