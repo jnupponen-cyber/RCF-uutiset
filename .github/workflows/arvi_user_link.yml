@@ -42,7 +42,11 @@ jobs:
           COMMENT_MAXLEN:      "240"           # Arvin kommentin maksimipituus
           PREFER_LARGE_IMAGE:  "1"             # 1=image, 0=thumbnail
           SOURCE_COLOR_HEX:    "0x5865F2"      # yleisväri, ellei halua lähdekohtaisia
+          FOOTER_TEXT:         "RCF Uutiskatsaus"
+          USER_LINK_URL:       ${{ inputs.url }}
+          USER_LINK_NOTE:      ${{ inputs.note }}
           INPUT_URL:           ${{ inputs.url }}
           INPUT_NOTE:          ${{ inputs.note }}
+          DEBUG:               "1"
         run: |
           python scripts/arvi_user_link.py

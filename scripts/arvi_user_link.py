@@ -1,40 +1,72 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os, re, json, time, html, requests
+import os, re, time, html, requests
 from datetime import datetime, timezone
 from urllib.parse import urlparse
 
 # --- Env ---
 WEBHOOK              = os.environ["DISCORD_WEBHOOK_URL"]            # sama webhook kuin uutisbotsissa OK
-OPENAI_API_KEY       = os.environ["OPENAI_API_KEY"]
+OPENAI_API_KEY       = os.environ.get("OPENAI_API_KEY", "").strip()
 OPENAI_API_BASE      = os.environ.get("OPENAI_API_BASE","https://api.openai.com/v1")
 SUMMARY_MODEL        = os.environ.get("SUMMARY_MODEL","gpt-4o-mini")
 COMMENT_MAXLEN       = int(os.environ.get("COMMENT_MAXLEN","240"))
 REQUEST_TIMEOUT      = int(os.environ.get("REQUEST_TIMEOUT","12"))
 DEBUG                = int(os.environ.get("DEBUG","1")) == 1
+PREFER_LARGE_IMAGE   = int(os.environ.get("PREFER_LARGE_IMAGE","1")) == 1
+SOURCE_COLOR_HEX     = os.environ.get("SOURCE_COLOR_HEX","0x5865F2")
+FOOTER_TEXT          = os.environ.get("FOOTER_TEXT","RCF Uutiskatsaus")
 
 def logd(*a):
     if DEBUG: print("[userlink]", *a)
 
 # --- Arvin persoona (pidetään linjassa nykyisen kanssa) ---
 ARVI_PERSONA = (
-    "Olet Arvi LindBot, suomalainen lakoninen uutistenlukija ja RCF-yhteisön seuralainen. "
-    "Perusääni: tiivis, kuivakka ja usein sarkastinen, mutta välillä myös utelias tai osallistuva. "
+    "Olet Arvi LindBot, suomalainen lakoninen uutistenlukija RCF-yhteisölle. "
+    "Perusääni: tiivis, kuivakka ja usein sarkastinen. "
     "Kirjoita aina selkeää ja luonnollista suomen yleiskieltä. "
-    "Älä käännä englanninkielisiä sanontoja sanatarkasti; jos ilmaus ei sovi suoraan suomeen, "
-    "käytä suomalaista vastaavaa tai neutraalia muotoa. "
-    "Kommenttisi voivat olla 1–2 lausetta, joskus kolme jos aihe vaatii. "
-    "Sarkasmi ja kuiva ironia kuuluvat tyyliisi, mutta älä ole ilkeä. "
-    "Käytä korkeintaan yhtä emojiä lauseen loppuun, jos se sopii luontevasti. "
-    "Ei hashtageja, ei mainoslauseita."
+    "Vältä anglismeja ja suoria käännöslainoja: käytä suomalaisia pyöräilytermejä. "
+    "Esimerkkejä: pääjoukko (ei peloton), irtiotto (ei breakaway), vetojuna (ei leadout), "
+    "loppukiri (ei sprint), peesi/peesaaminen (ei draft/drafting), aika-ajo (ei TT), "
+    "kokonaiskilpailu (ei GC), isku (ei attack), vetovuoro (ei pull). "
+    "Kommenttisi ovat 1–2 lausetta suomeksi. "
+    "Huumorisi on lakonista ja vähäeleistä, mutta usein piikittelevää. "
+    "Käytä korkeintaan yhtä emojiä loppuun, jos se sopii luontevasti. "
+    "Sallittuja emojeja ovat esimerkiksi 🤷, 🚴, 😅, 🔧, 💤, 📈, 📉, 🕰️, 📊, 📰, ☕. "
+    "Ei hashtageja, ei mainoslauseita. "
 )
+
+def parse_color(value: str, default: int) -> int:
+    value = (value or "").strip()
+    if not value:
+        return default
+    try:
+        if value.startswith("#"):
+            return int(value[1:], 16)
+        if value.lower().startswith("0x"):
+            return int(value, 16)
+        try:
+            return int(value, 16)
+        except ValueError:
+            return int(value, 10)
+    except ValueError:
+        logd("color parse fail:", value)
+        return default
+
+EMBED_COLOR = parse_color(SOURCE_COLOR_HEX, int("0x5865F2", 16))
 
 # --- Helpers ---
 def truncate(s: str, n: int) -> str:
     s = (s or "").strip()
     if len(s) <= n: return s
     return s[:n-1].rstrip()+"…"
+
+def first_env(*names: str) -> str:
+    for name in names:
+        val = os.environ.get(name)
+        if val and val.strip():
+            return val.strip()
+    return ""
 
 def favicon_for(url:str) -> str|None:
     try:
@@ -89,12 +121,19 @@ def title_image_for(url: str) -> tuple[str|None, str|None]:
     # fallback
     return og_meta(url)
 
-def openai_comment(title: str, url: str) -> str|None:
-    user_msg = (
-        "Kirjoita 1–2 lausetta suomeksi Arvi LindBotin äänellä tästä linkistä. "
-        "Älä toista otsikkoa, älä käytä hashtageja. "
-        f"Otsikko: {title or '-'}\nURL: {url}"
-    )
+def openai_comment(title: str, url: str, note: str = "") -> str|None:
+    if not OPENAI_API_KEY:
+        return None
+    note = (note or "").strip()
+    user_msg = [
+        "Kirjoita 1–2 lausetta suomeksi Arvi LindBotin äänellä tästä linkistä.",
+        "Älä toista otsikkoa, älä käytä hashtageja.",
+        f"Otsikko: {title or '-'}",
+        f"URL: {url}"
+    ]
+    if note:
+        user_msg.append(f"Lisätieto: {note}")
+    user_msg = "\n".join(user_msg)
     try:
         r = requests.post(
             f"{OPENAI_API_BASE}/chat/completions",
@@ -117,30 +156,34 @@ def openai_comment(title: str, url: str) -> str|None:
     except Exception as e:
         logd("openai exc:", e); return None
 
-def post_embed(url: str, title: str|None, image: str|None, comment: str|None):
+def post_embed(url: str, title: str|None, image: str|None, comment: str|None, note: str|None):
     author = {"name": (urlparse(url).netloc or "Linkki")}
     fav = favicon_for(url)
-    if fav: author["icon_url"] = fav
+    footer = {"text": FOOTER_TEXT}
+    if fav:
+        author["icon_url"] = fav
+        footer["icon_url"] = fav
 
-    description = comment or ""
+    description = comment or (note.strip() if note else "")
     embed = {
         "type":"rich",
         "title": title or "Linkki",
         "url": url,
         "description": description,
         "author": author,
-        "color": int("0x5865F2",16),
-        "footer": {"text":"RCF Uutiskatsaus"},
+        "color": EMBED_COLOR,
+        "footer": footer,
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
     if image:
-        embed["image"] = {"url": image}
+        key = "image" if PREFER_LARGE_IMAGE else "thumbnail"
+        embed[key] = {"url": image}
 
     payload = {
         # Ei content-kenttää → ei Discordin omaa unfurlia
         "embeds":[embed],
         "components":[
-            {"type":1,"components":[{"type":2,"style":5,"label":"Avaa linkki","url":url}]}
+            {"type":1,"components":[{"type":2,"style":5,"label":"Avaa artikkeli","url":url}]}
         ]
     }
 
@@ -153,19 +196,22 @@ def post_embed(url: str, title: str|None, image: str|None, comment: str|None):
 
 def main():
     # Linkki annetaan GHA:sta tai paikallisesti envissä
-    url = os.environ.get("USER_LINK_URL","").strip()
+    url = first_env("USER_LINK_URL", "INPUT_URL", "URL")
     if not url:
         raise SystemExit("USER_LINK_URL puuttuu.")
+    note = first_env("USER_LINK_NOTE", "INPUT_NOTE", "NOTE")
 
     logd("url =", url)
+    if note:
+        logd("note =", note)
 
     title, image = title_image_for(url)
     logd("title:", title, "| image:", image)
 
-    comment = openai_comment(title or "", url) or ""
+    comment = openai_comment(title or "", url, note) or ""
     logd("comment:", comment)
 
-    post_embed(url=url, title=title, image=image, comment=comment)
+    post_embed(url=url, title=title, image=image, comment=comment, note=note)
 
 if __name__ == "__main__":
     main()
