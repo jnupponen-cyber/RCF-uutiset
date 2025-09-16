@@ -1,7 +1,36 @@
+# CANDIDATE best
+# CANDIDATE call
+# CANDIDATE cycling
 # CANDIDATE dyname
 # CANDIDATE dyname-s4
 # CANDIDATE e-# 
+# CANDIDATE espa
+# CANDIDATE gaza
+# CANDIDATE his
+# CANDIDATE host
+# CANDIDATE international
+# CANDIDATE into
+israel
+# CANDIDATE its
+# CANDIDATE join
+minister
+# CANDIDATE month
+# CANDIDATE nchez
+# CANDIDATE now
+# CANDIDATE our
+# CANDIDATE prime
+protests
+# CANDIDATE race
+# CANDIDATE reviews
+# CANDIDATE said
+# CANDIDATE spain
+# CANDIDATE spanish
+# CANDIDATE sport
+# CANDIDATE sporting
+# CANDIDATE their
+# CANDIDATE tom
 # CANDIDATE torque
 # CANDIDATE tour
-# CANDIDATE vingegaard
-# CANDIDATE vuelta
+# CANDIDATE uci
+vingegaard
+vuelta
