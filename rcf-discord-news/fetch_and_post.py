@@ -109,6 +109,7 @@ SOURCE_COLORS = {
     "BikeRadar Gravel":       int("0x2c4975", 16),
     "BikeRadar Road News":    int("0x2c4975", 16),
     "BikeRadar News":         int("0x2c4975", 16),
+    "BikeRadar Road":         int("0x2c4975", 16),
     "Road.cc":                int("0x1bb4e3", 16),
     "Road.cc RSS Feed":       int("0x1bb4e3", 16),
     "RoadCyclingUK":          int("0x1bb4e3", 16),
