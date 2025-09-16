@@ -1,0 +1,61 @@
+name: Arvi – Post link as news
+
+on:
+  workflow_dispatch:
+    inputs:
+      url_list:
+        description: "Yksi tai useampi linkki (rivi per linkki)"
+        required: true
+      ping_role_id:
+        description: "Rooli-ID, jonka Arvi pingaa (valinnainen)"
+        required: false
+      comment_maxlen:
+        description: "Arvin kommentin maksimipituus (oletus 240)"
+        required: false
+      prefer_large_image:
+        description: "Käytä isoa kuvaa (1) tai thumbnailia (0), oletus 1"
+        required: false
+      summary_model:
+        description: "OpenAI-malli (oletus gpt-4o-mini)"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests feedparser
+
+      - name: Post link(s) as Arvi
+        env:
+          # GitHub inputs
+          URL_LIST: ${{ github.event.inputs.url_list }}
+          PING_ROLE_ID: ${{ github.event.inputs.ping_role_id }}
+          COMMENT_MAXLEN: ${{ github.event.inputs.comment_maxlen }}
+          PREFER_LARGE_IMAGE: ${{ github.event.inputs.prefer_large_image }}
+          SUMMARY_MODEL: ${{ github.event.inputs.summary_model }}
+
+          # Secrets
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+          # Optional: oma OpenAI-pohjaosoite ja kieli
+          OPENAI_API_BASE: https://api.openai.com/v1
+          SUMMARY_LANG: fi
+        run: |
+          python post_link.py
