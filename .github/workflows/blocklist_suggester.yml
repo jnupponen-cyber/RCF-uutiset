@@ -1,0 +1,56 @@
+name: Blocklist suggester
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Uutisen URL"
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  suggest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
+
+      - name: Run suggester
+        run: |
+          python scripts/suggest_blocklist.py "${{ github.event.inputs.url }}"
+          echo "Generated candidates:"
+          cat blocklist_candidates.txt
+
+      - name: Create branch
+        run: |
+          BRANCH="blocklist/candidates-$(date +%Y%m%d-%H%M%S)"
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+          git checkout -b "$BRANCH"
+          git add blocklist.txt blocklist_candidates.txt
+          git -c user.name="github-actions" -c user.email="actions@github.com" commit -m "blocklist: add candidates from ${{ github.event.inputs.url }}"
+          git push origin "$BRANCH"
+
+      - name: Open PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: ${{ env.BRANCH }}
+          title: "Blocklist candidates from URL"
+          body: |
+            Ehdotetut uudet sanat on lisätty `blocklist.txt` tiedostoon rivin alussa **# CANDIDATE** -merkinnällä.
+            - Poista PR:ssä rivit joita **et** halua
+            - Halutessasi jätä merkintä pois niistä sanoista, jotka hyväksyt (ei pakollista)
+            - Tämän jälkeen **Merge**.
+          commit-message: "blocklist: add candidates"
