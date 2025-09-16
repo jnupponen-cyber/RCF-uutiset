@@ -135,6 +135,9 @@ Tour Suisse
 Romandie
 XC World Championships
 Mountain Bike World Championships
+UCI World Championships
+World Championships
+women’s road race
 
 # Klassikkokisat
 Paris-Roubaix
