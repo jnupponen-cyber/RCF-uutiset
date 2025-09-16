@@ -1,21 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-RCF Discord -uutisbotti (embedit + OG-kuvat + blocklist + whitelist + ping + per-lähde värit)
+RCF Discord -uutisbotti (embedit + OG-kuvat + block/whitelist + ping + per-lähde värit + termien normalisointi)
 
-- Lukee RSS-lähteet FEEDS_FILE-ympäristömuuttujasta tai oletuksena feeds.txt (samassa kansiossa)
-- Estää duplikaatit seen.jsonilla (sha256 id/link/title)
-- Hakee kuvan ja kuvauksen myös sivun OG-tageista (og:image, og:description)
-- Suodattaa artikkelit blocklist.txt:n perusteella, mutta whitelist.txt voi ohittaa blokit
-- Postaa Discordiin webhookilla:
-  - otsikko linkkinä
-  - lähde + favicon
-  - EMBED.description: vain Arvin kommentti (ei alkuperäistä kuvausta)
-  - iso kuva (tai thumbnail)
-  - linkkipainike
-  - pingi (USER tai ROLE ID)
-  - per-lähde värikoodit (SOURCE_COLORS)
-  - footerissa: "<lähdenimi> · RCF Uutiskatsaus"
+Uudet asiat:
+- Termien normalisointi CSV:stä (terms_fi.csv) ennen Discord-postia
+- Arvin persoonan ohjaus käyttämään suomenkielisiä pyöräilytermejä
 
 Ympäristömuuttujat (esimerkit):
 - DISCORD_WEBHOOK_URL=...
@@ -24,8 +14,8 @@ Ympäristömuuttujat (esimerkit):
 - ALLOW_SHORTS_IF_WHITELIST=0
 - PREFER_LARGE_IMAGE=1
 - MAX_ITEMS_PER_FEED=10
-- SUMMARY_MAXLEN=200        # raja alkuperäiselle kuvaukselle (käytetään vain AI-kommentin kontekstina)
-- COMMENT_MAXLEN=240        # raja Arvin kommentille
+- SUMMARY_MAXLEN=200
+- COMMENT_MAXLEN=240
 - ENABLE_AI_SUMMARY=1
 - SUMMARY_MODEL=gpt-4o-mini
 - SUMMARY_LANG=fi
@@ -51,6 +41,7 @@ STATE_FILE = SCRIPT_DIR / "seen.json"
 FEEDS_FILE = Path(os.environ.get("FEEDS_FILE", SCRIPT_DIR / "feeds.txt")).resolve()
 BLOCKLIST_FILE = SCRIPT_DIR / "blocklist.txt"
 WHITELIST_FILE = SCRIPT_DIR / "whitelist.txt"
+TERMS_FILE = SCRIPT_DIR / "terms_fi.csv"
 
 # Estä YouTube Shorts -URLit kovasäännöllä (oletus: päällä)
 BLOCK_YT_SHORTS = int(os.environ.get("BLOCK_YT_SHORTS", "1")) == 1
@@ -88,8 +79,10 @@ ARVI_PERSONA = (
     "Olet Arvi LindBot, suomalainen lakoninen uutistenlukija RCF-yhteisölle. "
     "Perusääni: tiivis, kuivakka ja usein sarkastinen. "
     "Kirjoita aina selkeää ja luonnollista suomen yleiskieltä. "
-    "Älä käännä englanninkielisiä sanontoja sanatarkasti; jos ilmaus ei sovi suoraan suomeen, "
-    "käytä suomalaista vastaavaa tai neutraalia muotoa. "
+    "Vältä anglismeja ja suoria käännöslainoja: käytä suomalaisia pyöräilytermejä. "
+    "Esimerkkejä: pääjoukko (ei peloton), irtiotto (ei breakaway), vetojuna (ei leadout), "
+    "loppukiri (ei sprint), peesi/peesaaminen (ei draft/drafting), aika-ajo (ei TT), "
+    "kokonaiskilpailu (ei GC), isku (ei attack), vetovuoro (ei pull). "
     "Kommenttisi ovat 1–2 lausetta suomeksi. "
     "Huumorisi on lakonista ja vähäeleistä, mutta usein piikittelevää. "
     "Käytä korkeintaan yhtä emojiä loppuun, jos se sopii luontevasti. "
@@ -97,49 +90,37 @@ ARVI_PERSONA = (
     "Ei hashtageja, ei mainoslauseita. "
 )
 
-# --- Per-lähde värikoodit (päivitetty) ---
+# --- Per-lähde värikoodit ---
 SOURCE_COLORS = {
-    # Zwift / ekosysteemi
-    "Zwift Insider":          int("0xFF6B00", 16),  # Zwift-oranssi
+    "Zwift Insider":          int("0xFF6B00", 16),
     "Zwift.com News":         int("0xFF6B00", 16),
     "Zwift":                  int("0xFF6B00", 16),
-
-    # Isoja blogeja / sivustoja
-    "DC Rainmaker":           int("0x9C27B0", 16),  # violetti
-    "Cycling Weekly":         int("0x8BC34A", 16),  # vihreä
-    "Velo":                   int("0x00F7FF", 16),  # turkoosi
+    "DC Rainmaker":           int("0x9C27B0", 16),
+    "Cycling Weekly":         int("0x8BC34A", 16),
+    "Velo":                   int("0x00F7FF", 16),
     "Velo News":              int("0x00F7FF", 16),
-    "Velo – Road Gear":       int("0x546E7A", 16),  # siniharmaa
-    "Velo – Road Training":   int("0x00796B", 16),  # teal
-    "Velo – Gravel Gear":     int("0x4CAF50", 16),  # vihreä
-
-    "TrainerRoad":            int("0xF44336", 16),  # punainen
-
-    # BikeRadar (eri feedit tulevat PurpleManagerin kautta eri titteleillä)
-    "BikeRadar":              int("0x1E88E5", 16),  # sininen
-    "BikeRadar Gravel":       int("0x2E7D32", 16),  # tummanvihreä
-    "BikeRadar Road News":    int("0x1976D2", 16),  # sininen (hieman eri sävy)
+    "Velo – Road Gear":       int("0x546E7A", 16),
+    "Velo – Road Training":   int("0x00796B", 16),
+    "Velo – Gravel Gear":     int("0x4CAF50", 16),
+    "TrainerRoad":            int("0xF44336", 16),
+    "BikeRadar":              int("0x1E88E5", 16),
+    "BikeRadar Gravel":       int("0x2E7D32", 16),
+    "BikeRadar Road News":    int("0x1976D2", 16),
     "BikeRadar News":         int("0x1565C0", 16),
-
-    # Muut uutissivustot
-    "Road.cc":                int("0x00AEEF", 16),  # road.cc:n sininen
+    "Road.cc":                int("0x00AEEF", 16),
     "Road.cc RSS Feed":       int("0x00AEEF", 16),
-    "RoadCyclingUK":          int("0xFB8C00", 16),  # oranssi
-    "BikeRumor":              int("0x7B1FA2", 16),  # purppura
-    "Bicycling":              int("0xD32F2F", 16),  # punainen
-    "Training4cyclists":      int("0x455A64", 16),  # siniharmaa
-    "MyWhoosh":               int("0x2196F3", 16),  # sininen
-
-    # YouTube-kanavia (otsikko tulee kanavan nimestä feedissä)
-    "GCN":                    int("0xE91E63", 16),  # pinkinpunainen
+    "RoadCyclingUK":          int("0xFB8C00", 16),
+    "BikeRumor":              int("0x7B1FA2", 16),
+    "Bicycling":              int("0xD32F2F", 16),
+    "Training4cyclists":      int("0x455A64", 16),
+    "MyWhoosh":               int("0x2196F3", 16),
+    "GCN":                    int("0xE91E63", 16),
     "Global Cycling Network": int("0xE91E63", 16),
-    "GCN Tech":               int("0x3F51B5", 16),  # indigo
-    "GPLama":                 int("0x00BCD4", 16),  # cyan/teal
-    "Smart Bike Trainers":    int("0x795548", 16),  # ruskea
-    "Dylan Johnson Cycling":  int("0x009688", 16),  # teal
+    "GCN Tech":               int("0x3F51B5", 16),
+    "GPLama":                 int("0x00BCD4", 16),
+    "Smart Bike Trainers":    int("0x795548", 16),
+    "Dylan Johnson Cycling":  int("0x009688", 16),
     "DC Rainmaker (YouTube)": int("0x9C27B0", 16),
-
-    # Varalle muutama yleinen alias
     "Road.cc Tech of the Week": int("0x00AEEF", 16),
     "Velo | Buyer’s Guide":      int("0x00838F", 16),
 }
@@ -264,12 +245,92 @@ def _limit_to_two_sentences(text: str) -> str:
     short = " ".join([p for p in parts if p][:2]).strip()
     return short if short else text
 
+# --- Termisanasto: lataus + normalisointi ---
+
+def load_terms_csv(path: Path = TERMS_FILE):
+    """
+    CSV-muoto: 'väärin;oikein;tiukka'
+    - väärin: plain string tai regex (tarvittaessa)
+    - oikein: korvausteksti
+    - tiukka: '1' = lisätään automaattisesti sanansidokset \b...\\b jos niitä ei ole
+    """
+    rules = []
+    if not path.exists():
+        logd("terms.csv not found:", str(path))
+        return rules
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        parts = [p.strip() for p in line.split(";")]
+        if len(parts) < 3:
+            continue
+        wrong, correct, strict = parts[0], parts[1], parts[2]
+        strict = str(strict).strip().lower() in ("1", "true", "yes")
+        # Jos käyttäjä ei itse lisännyt \b rajoja ja strict=1, lisää ne
+        if strict and not wrong.startswith(r"\b"):
+            wrong = r"\b" + wrong
+        if strict and not wrong.endswith(r"\b"):
+            wrong = wrong + r"\b"
+        try:
+            rx = re.compile(wrong, flags=re.IGNORECASE)
+            rules.append((rx, correct))
+        except re.error as e:
+            logd("terms regex error, skipping:", wrong, "|", e)
+            continue
+    logd("terms loaded:", len(rules))
+    return rules
+
+_TERMS_RULES = None  # ladataan laiskasti, jotta testit voivat yliajaa polun
+
+def _preserve_case(src: str, repl: str) -> str:
+    """
+    Säilytä lähteen kirjainkoko järkevästi:
+    - kaikki caps -> myös korvaus caps
+    - alkukirjain iso -> tee korvauksessa alkukirjain isoksi
+    - muutoin anna korvauksen olla sellaisenaan
+    """
+    if not src:
+        return repl
+    if src.isupper():
+        return repl.upper()
+    if src[0].isupper():
+        return repl[0].upper() + repl[1:]
+    return repl
+
+def normalize_terms(text: str) -> str:
+    """
+    Korvaa väärät/englannista lainatut termit oikeilla.
+    """
+    global _TERMS_RULES
+    if _TERMS_RULES is None:
+        _TERMS_RULES = load_terms_csv()
+    if not text or not _TERMS_RULES:
+        return text
+    out = text
+    for rx, correct in _TERMS_RULES:
+        def _sub(m):
+            return _preserve_case(m.group(0), correct)
+        out = rx.sub(_sub, out)
+    # Kevyt siistintä
+    out = re.sub(r"\s{2,}", " ", out).strip()
+    out = re.sub(r"\s+([,.!?:;])", r"\1", out)
+    return out
+
 # --- AI-kommentti (Arvin persoonalla) ---
 def ai_make_comment(title: str, source: str, url: str, raw_summary: str, maxlen: int) -> str | None:
     if not ENABLE_AI_SUMMARY or not OPENAI_API_KEY:
         return None
 
     system_msg = ARVI_PERSONA
+    # Pieni sanastolista mallille (deterministinen korjaus tehdään joka tapauksessa normalize_termsilla)
+    glossary_hint = (
+        "Termisanasto (käytä näitä muotoja): "
+        "peloton=pääjoukko; breakaway=irtiotto; leadout=vetojuna; sprint=loppukiri; "
+        "draft=peesi; drafting=peesaaminen; GC=kokonaiskilpailu; TT=aika-ajo; "
+        "attack=isku; pull=vetovuoro."
+    )
+
     user_msg = (
         f"Kieli: {SUMMARY_LANG}\n"
         f"Maksimipituus: {maxlen} merkkiä.\n"
@@ -277,7 +338,9 @@ def ai_make_comment(title: str, source: str, url: str, raw_summary: str, maxlen:
         f"Otsikko: {title}\n"
         f"URL: {url}\n"
         f"Alkuperäinen kuvaus (voi olla englanniksi, käytä vain jos auttaa kiteytyksessä): {raw_summary or '-'}\n\n"
-        "Kirjoita vain 1–2 lausetta suomeksi. Älä toista otsikkoa. Ei hashtageja/emojeja ellei yksi sovi luonnollisesti loppuun."
+        f"{glossary_hint}\n"
+        "Kirjoita vain 1–2 lausetta suomeksi. Älä toista otsikkoa. "
+        "Ei hashtageja/emojeja ellei yksi sovi luonnollisesti loppuun."
     )
 
     try:
@@ -559,6 +622,10 @@ def process_feed(url: str, seen: set,
             maxlen=COMMENT_MAXLEN
         )
 
+        # Termien normalisointi (varmistuskerros)
+        if ai_comment:
+            ai_comment = normalize_terms(ai_comment)
+
         # Postaa
         try:
             logd("POST:", source_name, "|", title, "|", link)
@@ -579,6 +646,10 @@ def process_feed(url: str, seen: set,
     return stats
 
 def main():
+    # Lataa termit laiskasti, mutta varmista että _TERMS_RULES on olemassa alussa
+    global _TERMS_RULES
+    _TERMS_RULES = load_terms_csv()
+
     seen = load_seen()
     bl_global, bl_source = load_blocklist()
     wl_global, wl_source, wl_sources = load_whitelist()
@@ -589,6 +660,7 @@ def main():
         logd("  feed:", f)
     logd("blocklist global terms:", len(bl_global), "source terms:", len(bl_source))
     logd("whitelist global terms:", len(wl_global), "source terms:", len(wl_source), "allow_sources:", len(wl_sources))
+    logd("terms rules:", len(_TERMS_RULES))
 
     total_posted = 0
     total_skipped = 0
