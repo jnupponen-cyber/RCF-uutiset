@@ -96,7 +96,7 @@ SOURCE_COLORS = {
     "Zwift.com News":         int("0xFF6B00", 16),
     "Zwift":                  int("0xFF6B00", 16),
     "DC Rainmaker":           int("0x9C27B0", 16),
-    "Cycling Weekly":         int("0xde1b21", 16),
+    "Cycling Weekly":         int("0xdd1b21", 16),
     "Velo":                   int("0x00F7FF", 16),
     "Velo News":              int("0x05ffff", 16),
     "Velo – Road Gear":       int("0x05ffff", 16),
