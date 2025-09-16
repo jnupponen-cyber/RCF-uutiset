@@ -55,6 +55,7 @@ folding bikes
 bikepack
 commute
 commuter bike
+Lotto
 
 # Urheilukellot ja -rannekkeet
 Fenix
