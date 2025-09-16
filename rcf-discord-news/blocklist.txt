@@ -131,6 +131,7 @@ Giro Rosa
 Tour Suisse
 Romandie
 XC World Championships
+Mountain Bike World Championships
 
 # Klassikkokisat
 Paris-Roubaix
@@ -158,6 +159,8 @@ LBL
 Sanremo
 Walloon Arrow
 Basque Country
+World Championship
+Cross Country XCO
 
 # Minor races (USA, UK, small national events)
 Tour of California
@@ -393,3 +396,5 @@ Lizzie Hermolle
 Connor Swift
 Riccitello
 Josh Giddings
+Ella Conolly
+Elly Hoskin
