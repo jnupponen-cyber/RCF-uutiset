@@ -123,6 +123,7 @@ SOURCE_COLORS = {
     "Road.cc RSS Feed":       int("0x1bb4e3", 16),
     "RoadCyclingUK":          int("0x1bb4e3", 16),
     "BikeRumor":              int("0xff9a03", 16),
+    "Bikerumor":              int("0xff9a03", 16),
     "Bicycling":              int("0xff3200", 16),
     "Latest Content - Bicycling":              int("0xff3200", 16),
     "Training4cyclists":      int("0x455A64", 16),
