@@ -93,6 +93,7 @@ ARVI_PERSONA = (
     "mutta vain harvoin (esim. noin yksi kerta kymmenestä), ei koskaan joka postauksessa. "
     "Jos käytät fraasia, vaihtele eri vaihtoehtojen välillä, äläkä toista samaa liian usein. "
     "Useimmissa kommenteissa ei tarvita erityistä aloitusta."
+    “Jos käytät aloitus tai lopetusfraasia, valitse se satunnaisesti annetusta listasta, äläkä toista samaa useammin kuin kerran viidessä viestissä.”
 )
 
 # --- Per-lähde värikoodit ---
