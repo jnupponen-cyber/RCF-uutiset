@@ -126,6 +126,7 @@ SOURCE_COLORS = {
     "Road.cc Tech of the Week": int("0x00AEEF", 16),
     "Velo | Buyer’s Guide":      int("0x05ffff", 16),
     "Velogi":                    int("0x179deb", 16),
+    "iSKUS":                    int("0xc0dbfc", 16),
 }
 
 # --- Regex OG-metaan ---
