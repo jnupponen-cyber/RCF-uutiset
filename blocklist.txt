@@ -10,16 +10,16 @@
 # CANDIDATE host
 # CANDIDATE international
 # CANDIDATE into
-# CANDIDATE israel
+israel
 # CANDIDATE its
 # CANDIDATE join
-# CANDIDATE minister
+minister
 # CANDIDATE month
 # CANDIDATE nchez
 # CANDIDATE now
 # CANDIDATE our
 # CANDIDATE prime
-# CANDIDATE protests
+protests
 # CANDIDATE race
 # CANDIDATE reviews
 # CANDIDATE said
@@ -32,5 +32,5 @@
 # CANDIDATE torque
 # CANDIDATE tour
 # CANDIDATE uci
-# CANDIDATE vingegaard
-# CANDIDATE vuelta
+vingegaard
+vuelta
