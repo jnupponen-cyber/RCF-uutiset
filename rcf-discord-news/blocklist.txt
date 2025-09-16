@@ -56,6 +56,8 @@ bikepack
 commute
 commuter bike
 Lotto
+road rage
+pepper spray
 
 # Urheilukellot ja -rannekkeet
 Fenix
