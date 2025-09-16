@@ -1,171 +1,261 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-import os, re, json, time, html, requests
-from datetime import datetime, timezone
-from urllib.parse import urlparse
+import os, re, json, time, requests, random
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 # --- Env ---
-WEBHOOK              = os.environ["DISCORD_WEBHOOK_URL"]            # sama webhook kuin uutisbotsissa OK
-OPENAI_API_KEY       = os.environ["OPENAI_API_KEY"]
-OPENAI_API_BASE      = os.environ.get("OPENAI_API_BASE","https://api.openai.com/v1")
-SUMMARY_MODEL        = os.environ.get("SUMMARY_MODEL","gpt-4o-mini")
-COMMENT_MAXLEN       = int(os.environ.get("COMMENT_MAXLEN","240"))
-REQUEST_TIMEOUT      = int(os.environ.get("REQUEST_TIMEOUT","12"))
-DEBUG                = int(os.environ.get("DEBUG","1")) == 1
+DISCORD_TOKEN = os.environ["DISCORD_BOT_TOKEN"]
+OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+OPENAI_API_BASE = os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1")
+SUMMARY_MODEL = os.environ.get("SUMMARY_MODEL", "gpt-4o-mini")
+ARVI_REPLY_MAXLEN = int(os.environ.get("ARVI_REPLY_MAXLEN", "1500"))
 
-def logd(*a):
-    if DEBUG: print("[userlink]", *a)
+# Kanavat: käytä joko CHANNEL_IDS (pilkuin eroteltu) tai fallback UUTISKATSAUS_CHANNEL_ID
+CHANNEL_IDS_ENV = os.environ.get("CHANNEL_IDS", "").strip()
+if CHANNEL_IDS_ENV:
+    CHANNEL_IDS = [c.strip() for c in CHANNEL_IDS_ENV.split(",") if c.strip()]
+else:
+    CHANNEL_IDS = [os.environ["UUTISKATSAUS_CHANNEL_ID"]]
 
-# --- Arvin persoona (pidetään linjassa nykyisen kanssa) ---
+# Custom-emoji nimi (ilman kulmasulkeita), esim. :arvi:
+ARVI_EMOJI_NAME = (os.environ.get("ARVI_EMOJI_NAME", "arvi") or "arvi").strip().lower()
+
+# --- Persona ---
 ARVI_PERSONA = (
     "Olet Arvi LindBot, suomalainen lakoninen uutistenlukija ja RCF-yhteisön seuralainen. "
     "Perusääni: tiivis, kuivakka ja usein sarkastinen, mutta välillä myös utelias tai osallistuva. "
     "Kirjoita aina selkeää ja luonnollista suomen yleiskieltä. "
     "Älä käännä englanninkielisiä sanontoja sanatarkasti; jos ilmaus ei sovi suoraan suomeen, "
     "käytä suomalaista vastaavaa tai neutraalia muotoa. "
-    "Kommenttisi voivat olla 1–2 lausetta, joskus kolme jos aihe vaatii. "
+    "Kommenttisi voivat olla 1–2 lausetta, mutta joskus saatat venyttää kolmeen, jos aihe vaatii. "
     "Sarkasmi ja kuiva ironia kuuluvat tyyliisi, mutta älä ole ilkeä. "
-    "Käytä korkeintaan yhtä emojiä lauseen loppuun, jos se sopii luontevasti. "
-    "Ei hashtageja, ei mainoslauseita."
+    "Huumorisi on lakonista ja vähäeleistä, mutta usein piikittelevää – kuin uutistenlukija, "
+    "joka ei aina ota kaikkea aivan vakavasti. "
+    "Käytä korkeintaan yhtä emojiä loppuun, jos se sopii luontevasti. "
+    "Sallittuja emojeja ovat esimerkiksi 🤷, 🚴, 😅, 🔧, 💤, 📈, 📉, 🕰️, 📊, 📰, ☕. "
+    "Ei hashtageja, ei mainoslauseita. "
+    "Useimmiten olet neutraali ja lakoninen, mutta säännöllisesti ironinen ja sarkastinen, "
+    "ja joskus hiukan nostalginen. "
+    "Voit reagoida käyttäjien kysymyksiin Zwiftistä, RCF Cupista tai pyöräilystä kuin kokenut seuraaja, "
+    "mutta muistuta välillä, ettet ole ihminen vaan botti. "
 )
 
-# --- Helpers ---
-def truncate(s: str, n: int) -> str:
-    s = (s or "").strip()
-    if len(s) <= n: return s
-    return s[:n-1].rstrip()+"…"
+# --- Triggerit (case-insensitive, muunnelmat) ---
+TRIGGER_RE = re.compile(
+    r"\b(arvi(?:\s*lind)?(?:\s*bot)?)"
+    r"(?:n|a|lla|lle|lta|sta|ssa|aan|in|en|e)?\b",
+    re.I
+)
 
-def favicon_for(url:str) -> str|None:
-    try:
-        host = urlparse(url).netloc
-        return f"https://www.google.com/s2/favicons?sz=64&domain={host}" if host else None
-    except: return None
+# :arvi: sisällössä – tunnista sekä :arvi: että <:arvi:1234567890>
+def build_arvi_emoji_re(name: str) -> re.Pattern:
+    safe = re.escape(name)
+    return re.compile(rf"(?:<:{safe}:\d+>|:{safe}:)", re.I)
 
-def og_meta(url: str) -> tuple[str|None, str|None]:
-    """(title, image) perus-OG: use fallback for non-YouTube."""
-    try:
-        r = requests.get(url, timeout=REQUEST_TIMEOUT,
-                         headers={"User-Agent":"Mozilla/5.0 (RCF UserLink Bot)", "Accept-Language":"en-US,en;q=0.9"})
-        if r.status_code >= 400 or not r.text:
-            return None, None
-        t = r.text
-        def _find(rx):
-            m = re.search(rx, t, flags=re.I)
-            return html.unescape(m.group(1).strip()) if m else None
-        title = _find(r'<meta[^>]+property=["\']og:title["\'][^>]*content=["\']([^"\']+)["\']')
-        if not title:
-            m = re.search(r"<title>([^<]+)</title>", t, flags=re.I)
-            title = html.unescape(m.group(1).strip()) if m else None
-        image = _find(r'<meta[^>]+property=["\']og:image["\'][^>]*content=["\']([^"\']+)["\']')
-        if not image:
-            image = _find(r'<meta[^>]+name=["\']twitter:image["\'][^>]*content=["\']([^"\']+)["\']')
-        return title, image
-    except Exception as e:
-        logd("og_meta fail:", e)
-        return None, None
+ARVI_EMOJI_RE = build_arvi_emoji_re(ARVI_EMOJI_NAME)
 
-def yt_oembed(url: str) -> tuple[str|None, str|None]:
-    """(title, thumb) via YouTube oEmbed."""
-    try:
-        r = requests.get("https://www.youtube.com/oembed",
-                         params={"url": url, "format":"json"},
-                         timeout=REQUEST_TIMEOUT,
-                         headers={"User-Agent":"Mozilla/5.0 (RCF UserLink Bot)"})
-        if r.status_code == 200:
-            j = r.json()
-            return j.get("title"), j.get("thumbnail_url")
-        logd("oembed non-200:", r.status_code, r.text[:120])
-    except Exception as e:
-        logd("oembed err:", e)
-    return None, None
+# --- Tila (per kanava: viimeksi käsitelty viesti-ID ja viimeisin vastaus) ---
+STATE_PATH = Path("arvi_state.json")
 
-def title_image_for(url: str) -> tuple[str|None, str|None]:
-    host = (urlparse(url).netloc or "").lower()
-    if "youtube.com" in host or "youtu.be" in host:
-        title, img = yt_oembed(url)
-        if title or img:
-            return title, img
-    # fallback
-    return og_meta(url)
+def load_state():
+    if STATE_PATH.exists():
+        try:
+            return json.loads(STATE_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            return {}
+    return {}
 
-def openai_comment(title: str, url: str) -> str|None:
-    user_msg = (
-        "Kirjoita 1–2 lausetta suomeksi Arvi LindBotin äänellä tästä linkistä. "
-        "Älä toista otsikkoa, älä käytä hashtageja. "
-        f"Otsikko: {title or '-'}\nURL: {url}"
-    )
-    try:
-        r = requests.post(
-            f"{OPENAI_API_BASE}/chat/completions",
-            headers={"Authorization": f"Bearer {OPENAI_API_KEY}", "Content-Type":"application/json"},
-            json={
-                "model": SUMMARY_MODEL,
-                "messages":[
-                    {"role":"system","content": ARVI_PERSONA},
-                    {"role":"user","content": user_msg}
-                ],
-                "temperature":0.35,
-                "max_tokens":220
-            },
-            timeout=REQUEST_TIMEOUT
-        )
-        if r.status_code >= 300:
-            logd("openai http:", r.status_code, r.text[:200]); return None
-        text = (r.json().get("choices",[{}])[0].get("message",{}) or {}).get("content","").strip()
-        return truncate(text, COMMENT_MAXLEN) if text else None
-    except Exception as e:
-        logd("openai exc:", e); return None
+def save_state(state: dict):
+    STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
 
-def post_embed(url: str, title: str|None, image: str|None, comment: str|None):
-    author = {"name": (urlparse(url).netloc or "Linkki")}
-    fav = favicon_for(url)
-    if fav: author["icon_url"] = fav
+# --- Apurit ---
+def iso_to_dt(iso: str) -> datetime:
+    # Discord timestamp esim. "2025-09-12T17:56:27.123000+00:00"
+    return datetime.fromisoformat(iso)
 
-    description = comment or ""
-    embed = {
-        "type":"rich",
-        "title": title or "Linkki",
-        "url": url,
-        "description": description,
-        "author": author,
-        "color": int("0x5865F2",16),
-        "footer": {"text":"RCF Uutiskatsaus"},
-        "timestamp": datetime.now(timezone.utc).isoformat()
-    }
-    if image:
-        embed["image"] = {"url": image}
+def clean(s: str) -> str:
+    return re.sub(r"\s+", " ", (s or "")).strip()
 
-    payload = {
-        # Ei content-kenttää → ei Discordin omaa unfurlia
-        "embeds":[embed],
-        "components":[
-            {"type":1,"components":[{"type":2,"style":5,"label":"Avaa linkki","url":url}]}
-        ]
-    }
+def trim_two_sentences(s: str) -> str:
+    parts = re.split(r'(?<=[\.\!\?])\s+', s.strip())
+    short = " ".join([p for p in parts if p][:2]).strip()
+    return short or s
 
-    r = requests.post(WEBHOOK, json=payload, timeout=REQUEST_TIMEOUT)
-    if r.status_code == 429:
-        time.sleep(float(r.headers.get("Retry-After","1")))
-        r = requests.post(WEBHOOK, json=payload, timeout=REQUEST_TIMEOUT)
+# Poista alusta mahdollinen "Arvi LindBot:" tms. prefiksi (myös lihavoituna/viivalla)
+NAME_PREFIX_RE = re.compile(
+    r'^\s*(?:\*\*|\*|__)?\s*arvi\s*lindbot\s*(?:\*\*|\*|__)?\s*[:\-–—]\s*',
+    re.I
+)
+SIMPLE_NAME_PREFIX_RE = re.compile(r'^\s*arvi\s*[:\-–—]\s*', re.I)
+
+def strip_name_prefix(text: str) -> str:
+    t = text.strip()
+    t = NAME_PREFIX_RE.sub("", t)
+    t = SIMPLE_NAME_PREFIX_RE.sub("", t)
+    return t.lstrip()
+
+# --- Discord REST ---
+DISCORD_API = "https://discord.com/api/v10"
+HEADERS = {"Authorization": f"Bot {DISCORD_TOKEN}"}
+
+def fetch_messages(channel_id: str, after_id: str | None = None, limit: int = 50):
+    params = {"limit": str(limit)}
+    if after_id:
+        params["after"] = after_id
+    r = requests.get(f"{DISCORD_API}/channels/{channel_id}/messages", headers=HEADERS, params=params, timeout=15)
+    r.raise_for_status()
+    return r.json()
+
+def reply_to_message(channel_id: str, msg_id: str, text: str):
+    payload = {"content": text, "message_reference": {"message_id": msg_id}}
+    r = requests.post(f"{DISCORD_API}/channels/{channel_id}/messages",
+                      headers={**HEADERS, "Content-Type": "application/json"},
+                      json=payload, timeout=15)
     if r.status_code >= 300:
-        raise RuntimeError(f"Discord POST failed: {r.status_code} {r.text[:200]}")
+        print("Discord post error:", r.status_code, r.text[:200])
+
+# --- OpenAI ---
+def call_openai(messages, temperature=0.4, max_tokens=220, retries=2):
+    backoff = 1.5
+    for attempt in range(retries + 1):
+        try:
+            r = requests.post(
+                f"{OPENAI_API_BASE}/chat/completions",
+                headers={"Authorization": f"Bearer {OPENAI_API_KEY}", "Content-Type": "application/json"},
+                json={"model": SUMMARY_MODEL, "messages": messages,
+                      "temperature": temperature, "max_tokens": max_tokens},
+                timeout=20
+            )
+            if r.status_code == 429 or 500 <= r.status_code < 600:
+                time.sleep(backoff)
+                backoff *= 2
+                continue
+            if r.status_code >= 300:
+                print("OpenAI error:", r.status_code, r.text[:200])
+                return None
+            data = r.json()
+            return clean(data.get("choices", [{}])[0].get("message", {}).get("content", ""))
+        except Exception as e:
+            print("OpenAI exception:", e)
+            time.sleep(backoff)
+            backoff *= 2
+    return None
+
+def arvi_reply(context_text: str) -> str | None:
+    user_prompt = (
+        f"Vastaa lyhyesti Arvi LindBotin äänellä. 1–2 lausetta, maksimi {ARVI_REPLY_MAXLEN} merkkiä. "
+        f"Teksti: {context_text}"
+    )
+    out = call_openai(
+        messages=[
+            {"role": "system", "content": ARVI_PERSONA},
+            {"role": "user", "content": user_prompt}
+        ],
+        temperature=0.4, max_tokens=220
+    )
+    if not out:
+        return None
+
+    # 1) siivoa mahdollinen nimi-prefiksi
+    out = strip_name_prefix(out)
+
+    # 2) tiivistä kahteen virkkeeseen
+    out = trim_two_sentences(out)
+
+    # 3) pituusraja
+    out = out if len(out) <= ARVI_REPLY_MAXLEN else (out[:ARVI_REPLY_MAXLEN-1].rstrip() + "…")
+    return out
+
+def should_trigger_on_message(msg: dict) -> bool:
+    """True jos viesti triggaa: nimi 'Arvi' muunnelmineen, @-maininta, tai :arvi: emoji sisällössä."""
+    content = msg.get("content", "") or ""
+    # 1) Tekstihaku nimestä
+    if TRIGGER_RE.search(content):
+        return True
+    # 2) @-maininnat: jos joku @-mainitsee botin, username alkaa “Arvi”
+    mentions = msg.get("mentions", []) or []
+    if any((u.get("username", "") or "").lower().startswith("arvi") for u in mentions):
+        return True
+    # 3) :arvi: emoji sisällössä (tai <:arvi:12345>)
+    if ARVI_EMOJI_RE.search(content):
+        return True
+    return False
 
 def main():
-    # Linkki annetaan GHA:sta tai paikallisesti envissä
-    url = os.environ.get("USER_LINK_URL","").strip()
-    if not url:
-        raise SystemExit("USER_LINK_URL puuttuu.")
+    state = load_state()  # {channel_id: {"last_processed_id": "...", "last_reply_text": "..."}}
 
-    logd("url =", url)
+    # käsitellään kanavat yksi kerrallaan
+    for channel_id in CHANNEL_IDS:
+        ch_state = state.get(channel_id, {})
+        last_id = ch_state.get("last_processed_id")
+        last_reply = ch_state.get("last_reply_text", "")
 
-    title, image = title_image_for(url)
-    logd("title:", title, "| image:", image)
+        # Hae viestit
+        try:
+            msgs = fetch_messages(channel_id, after_id=last_id, limit=50)
+        except requests.HTTPError as e:
+            print(f"[WARN] fetch_messages 403/404? channel={channel_id} -> {e}")
+            continue
 
-    comment = openai_comment(title or "", url) or ""
-    logd("comment:", comment)
+        cutoff = datetime.now(timezone.utc) - timedelta(minutes=15)
+        filtered = []
+        for m in msgs:
+            # ohita botit
+            if m.get("author", {}).get("bot"):
+                continue
+            # aikaraja vain jos last_id puuttuu
+            if not last_id:
+                ts = iso_to_dt(m["timestamp"])
+                if ts <= cutoff:
+                    continue
+            # triggerit
+            if not should_trigger_on_message(m):
+                continue
+            filtered.append(m)
 
-    post_embed(url=url, title=title, image=image, comment=comment)
+        # käsittele vanhimmasta uusimpaan
+        filtered.sort(key=lambda x: int(x["id"]))
+        max_id = int(last_id) if last_id else 0
+        new_last_reply = last_reply
+
+        for m in filtered:
+            msg_id = m["id"]
+            author = m.get("author", {}).get("username", "user")
+            text = m.get("content", "")
+
+            # kevyt konteksti (reply-viite mukaan jos saatavilla)
+            context_lines = [f"{author}: {text}"]
+            ref = m.get("referenced_message")
+            if ref and isinstance(ref, dict):
+                ref_author = ref.get("author", {}).get("username", "user")
+                ref_text = ref.get("content", "")
+                context_lines.insert(0, f"{ref_author}: {ref_text}")
+            context = "\n".join(context_lines)
+
+            reply = arvi_reply(context)
+
+            # Anti-toisto
+            if reply and reply == last_reply:
+                alt = arvi_reply(context)
+                if alt and alt != last_reply:
+                    reply = alt
+                else:
+                    reply = None
+
+            if reply:
+                reply_to_message(channel_id, msg_id, reply)
+                new_last_reply = reply
+                time.sleep(1.2)  # kevyt throttle
+
+            max_id = max(max_id, int(msg_id))
+
+        # päivitä tila
+        if max_id and (str(max_id) != (last_id or "")):
+            state[channel_id] = {
+                "last_processed_id": str(max_id),
+                "last_reply_text": new_last_reply
+            }
+
+    save_state(state)
 
 if __name__ == "__main__":
     main()
