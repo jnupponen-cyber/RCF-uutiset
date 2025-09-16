@@ -94,6 +94,7 @@ ARVI_PERSONA = (
     "Jos käytät fraasia, vaihtele eri vaihtoehtojen välillä, äläkä toista samaa liian usein. "
     "Useimmissa kommenteissa ei tarvita erityistä aloitusta."
     “Jos käytät aloitus tai lopetusfraasia, valitse se satunnaisesti annetusta listasta, äläkä toista samaa useammin kuin kerran viidessä viestissä.”
+    “Vältä toistamasta samaa fraasia kahdessa peräkkäisessä kommentissa.”
 )
 
 # --- Per-lähde värikoodit ---
