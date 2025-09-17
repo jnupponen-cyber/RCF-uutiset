@@ -62,6 +62,18 @@ Luke Wronski
 RiG’d Supply
 Amazon
 Halfords
+MTB
+mtb
+Mountain Bike
+All-terrain bike
+Off-road bike
+Trail bike
+Cross-country bike
+Downhill bike
+Enduro bike
+Fat bike
+Hardtail
+Full-suspension bike
 
 # Urheilukellot ja -rannekkeet
 Fenix
