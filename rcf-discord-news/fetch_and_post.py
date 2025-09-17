@@ -9,6 +9,8 @@ Uudet asiat:
 
 Ympäristömuuttujat (esimerkit):
 - DISCORD_WEBHOOK_URL=...
+- DISCORD_REVIEW_WEBHOOK_URL=...
+- USE_REVIEW_CHANNEL=0/1
 - DEBUG=1
 - BLOCK_YT_SHORTS=1
 - ALLOW_SHORTS_IF_WHITELIST=0
@@ -51,6 +53,8 @@ BLOCK_YT_SHORTS = int(os.environ.get("BLOCK_YT_SHORTS", "1")) == 1
 ALLOW_SHORTS_IF_WHITELIST = int(os.environ.get("ALLOW_SHORTS_IF_WHITELIST", "0")) == 1
 
 WEBHOOK = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
+REVIEW_WEBHOOK = os.environ.get("DISCORD_REVIEW_WEBHOOK_URL", "").strip()
+USE_REVIEW_CHANNEL = int(os.environ.get("USE_REVIEW_CHANNEL", "0")) == 1
 
 # Ping-asetukset
 MENTION_USER_ID = os.environ.get("MENTION_USER_ID", "").strip()
@@ -522,14 +526,29 @@ def should_skip_article(source_name: str,
     return False, None
 
 # -------- Discord-postaus --------
+def _resolve_webhook() -> str:
+    if USE_REVIEW_CHANNEL:
+        if REVIEW_WEBHOOK:
+            return REVIEW_WEBHOOK
+        raise RuntimeError(
+            "USE_REVIEW_CHANNEL=1, mutta DISCORD_REVIEW_WEBHOOK_URL puuttuu ympäristömuuttujista."
+        )
+    if WEBHOOK:
+        return WEBHOOK
+    raise RuntimeError(
+        "DISCORD_WEBHOOK_URL ei ole asetettu ympäristömuuttujaksi."
+    )
+
+
 def post_to_discord(title: str, url: str, source: str,
                     raw_summary: str | None, image_url: str | None,
                     ai_comment: str | None = None) -> None:
     """
     Embed.description = VAIN Arvin kommentti (ei alkuperäistä kuvausta).
     """
-    if not WEBHOOK:
-        raise RuntimeError("DISCORD_WEBHOOK_URL ei ole asetettu ympäristömuuttujaksi.")
+    webhook_url = _resolve_webhook()
+    webhook_env_name = "DISCORD_REVIEW_WEBHOOK_URL" if USE_REVIEW_CHANNEL else "DISCORD_WEBHOOK_URL"
+    logd("post_to_discord ->", webhook_env_name)
 
     # Valmistellaan teksti: vain Arvin kommentti
     comment = truncate((ai_comment or "").strip(), COMMENT_MAXLEN) if ai_comment else ""
@@ -589,19 +608,19 @@ def post_to_discord(title: str, url: str, source: str,
         payload["content"] = content
         payload["allowed_mentions"] = allowed
 
-    resp = requests.post(WEBHOOK, json=payload, timeout=REQUEST_TIMEOUT)
+    resp = requests.post(webhook_url, json=payload, timeout=REQUEST_TIMEOUT)
     if resp.status_code == 429:
         try:
             delay = float(resp.headers.get("Retry-After", "1"))
         except Exception:
             delay = 1.0
         time.sleep(max(delay, 1.0))
-        resp = requests.post(WEBHOOK, json=payload, timeout=REQUEST_TIMEOUT)
+        resp = requests.post(webhook_url, json=payload, timeout=REQUEST_TIMEOUT)
 
     if resp.status_code == 401:
         raise RuntimeError(
             "Discord POST failed: 401 Unauthorized. "
-            "Tarkista, että DISCORD_WEBHOOK_URL-secreti sisältää koko webhook-osoitteen, "
+            f"Tarkista, että {webhook_env_name}-secreti sisältää koko webhook-osoitteen, "
             "esimerkiksi https://discord.com/api/webhooks/..."
         )
 
