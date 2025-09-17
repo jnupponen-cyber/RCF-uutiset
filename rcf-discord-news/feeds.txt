@@ -1,6 +1,5 @@
 # --- Uutissivustot ---
 https://zwiftinsider.com/feed/
-https://www.dcrainmaker.com/feed
 https://www.cyclingweekly.com/rss
 https://velo.outsideonline.com/feed/
 https://velo.outsideonline.com/category/news/feed/
@@ -12,7 +11,6 @@ https://www.trainerroad.com/blog/feed/?_gl=1%2A1q35a4y%2A_gcl_au%2AMTQwNjAwNzEzM
 https://feeds.purplemanager.com/193c804a-a673-47bd-b09b-11baf4822a17/bikeradar-gravel-feed
 https://feeds.purplemanager.com/193c804a-a673-47bd-b09b-11baf4822a17/bikeradar-road-news
 https://feeds.purplemanager.com/193c804a-a673-47bd-b09b-11baf4822a17/bikeradar-news
-https://roadcyclinguk.com/gear/gear-news/feed
 https://road.cc/rss
 https://feeds.feedburner.com/BikeRumor
 https://www.bicycling.com/rss/default.xml
