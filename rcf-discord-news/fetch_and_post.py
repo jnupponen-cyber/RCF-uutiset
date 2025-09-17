@@ -543,6 +543,13 @@ def post_to_discord(title: str, url: str, source: str,
         time.sleep(max(delay, 1.0))
         resp = requests.post(WEBHOOK, json=payload, timeout=REQUEST_TIMEOUT)
 
+    if resp.status_code == 401:
+        raise RuntimeError(
+            "Discord POST failed: 401 Unauthorized. "
+            "Tarkista, että DISCORD_WEBHOOK_URL-secreti sisältää koko webhook-osoitteen, "
+            "esimerkiksi https://discord.com/api/webhooks/..."
+        )
+
     if resp.status_code >= 300:
         raise RuntimeError(f"Discord POST failed: {resp.status_code} {resp.text}")
 
