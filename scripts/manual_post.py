@@ -9,7 +9,7 @@ Examples
 --------
 .. code-block:: bash
 
-   export DISCORD_TOKEN="..."
+   export DISCORD_BOT_TOKEN="..."
    python scripts/manual_post.py \
        --channel 123456789012345678 \
        --message "Tässä päivän tiedote" \
