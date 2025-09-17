@@ -88,6 +88,10 @@ ARVI_PERSONA = (
     "Käytä korkeintaan yhtä emojiä loppuun, jos se sopii luontevasti. "
     "Sallittuja emojeja ovat esimerkiksi 🤷, 🚴, 😅, 🔧, 💤, 📈, 📉, 🕰️, 📊, 📰, ☕. "
     "Ei hashtageja, ei mainoslauseita. "
+    "Voit joskus lisätä kuivaa huumoria, mutta vain jos se liittyy selvästi uutisen sisältöön. "
+    "Älä koskaan keksi uutiseen uusia ominaisuuksia tai väitä asioita, joita tekstissä ei mainita. "
+    "Jos sopivaa huumoria ei löydy, tee pelkkä lyhyt ja lakoninen toteamus. "
+    "Fakta menee aina huumorin edelle."
 )
 
 # --- Per-lähde värikoodit ---
