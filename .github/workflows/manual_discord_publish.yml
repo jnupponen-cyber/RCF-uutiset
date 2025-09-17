@@ -1,0 +1,92 @@
+name: Manual Discord Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      channel_id:
+        description: "Discord channel ID"
+        required: true
+        type: string
+      message:
+        description: "Message text (\\n for newlines). Leave empty if using message_file."
+        required: false
+        type: string
+      message_file:
+        description: "Path to message file in repo (e.g. rcf-discord-news/post.txt)"
+        required: false
+        type: string
+      image_mode:
+        description: "How to include an image"
+        required: false
+        default: "none"
+        type: choice
+        options: [none, embed_url, attach_url, image_file]
+      image_value:
+        description: "If image_mode != none: URL or repo file path (see mode)"
+        required: false
+        type: string
+      verify_token:
+        description: "Verify token before posting"
+        required: false
+        default: "false"
+        type: choice
+        options: [false, true]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: python -m pip install --upgrade pip requests
+
+      - name: Sanity check token (masked)
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+        run: |
+          if [ -z "$DISCORD_BOT_TOKEN" ]; then
+            echo "Token is EMPTY -> set repo secret DISCORD_BOT_TOKEN"
+            exit 1
+          fi
+          echo "Token length: ${#DISCORD_BOT_TOKEN} (value is masked)"
+
+      - name: Publish to Discord
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+        run: |
+          VERIFY_FLAG=""
+          if [ "${{ inputs.verify_token }}" = "true" ]; then
+            VERIFY_FLAG="--verify-token"
+          fi
+
+          IMG_FLAGS=""
+          case "${{ inputs.image_mode }}" in
+            embed_url)
+              IMG_FLAGS="--embed-url '${{ inputs.image_value }}'"
+              ;;
+            attach_url)
+              IMG_FLAGS="--attach-url '${{ inputs.image_value }}'"
+              ;;
+            image_file)
+              IMG_FLAGS="--image-file '${{ inputs.image_value }}'"
+              ;;
+            none|*)
+              ;;
+          esac
+
+          python scripts/discord_publish.py \
+            --channel-id "${{ inputs.channel_id }}" \
+            --message "${{ inputs.message }}" \
+            --message-file "${{ inputs.message_file }}" \
+            $VERIFY_FLAG \
+            $(echo $IMG_FLAGS)
