@@ -48,13 +48,16 @@ post**:
 
 1. Avaa reposta Actions-välilehti ja valitse vasemmalta *Promote pending
    Discord post*.
-2. Klikkaa *Run workflow* ja syötä `UID` tarkistuskanavan viestistä kopioituna.
-3. Käynnistä ajo. Työnkulku lukee `pending_posts.json`-tiedostosta vastaavan
-   merkinnän ja lähettää sen varsinaiseen `#uutiskatsaus`-kanavaan käyttäen
-   samaa muotoilua kuin alkuperäinen skripti. Onnistuneen ajon jälkeen merkintä
-   poistuu `pending_posts.json`-tiedostosta.
+2. Klikkaa *Run workflow* ja syötä yksi tai useampi `UID` tarkistuskanavan
+   viestistä kopioituna (enintään 10 kerrallaan). Voit erotella UID:t välilyönnein,
+   pilkuin tai rivinvaihdoilla.
+3. Käynnistä ajo. Työnkulku lukee `pending_posts.json`-tiedostosta vastaavat
+   merkinnät ja lähettää ne varsinaiseen `#uutiskatsaus`-kanavaan käyttäen samaa
+   muotoilua kuin alkuperäinen skripti. Onnistuneen ajon jälkeen merkinnät
+   poistuvat `pending_posts.json`-tiedostosta.
 
 Työnkulku tarvitsee salaisuudet `DISCORD_WEBHOOK_URL`,
 `DISCORD_REVIEW_WEBHOOK_URL` ja `DISCORD_BOT_TOKEN`. Sama skripti on ajettavissa
-myös paikallisesti komennolla `python scripts/promote_pending.py <UID>`, kun
-tarvittavat ympäristömuuttujat on asetettu.
+myös paikallisesti komennolla `python scripts/promote_pending.py <UID> [<UID> ...]`,
+kun tarvittavat ympäristömuuttujat on asetettu. UID:t voi antaa erillisinä
+argumentteina tai esimerkiksi merkkijonona `"UID1, UID2"`.
