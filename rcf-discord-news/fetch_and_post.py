@@ -42,6 +42,8 @@ FEEDS_FILE = Path(os.environ.get("FEEDS_FILE", SCRIPT_DIR / "feeds.txt")).resolv
 BLOCKLIST_FILE = SCRIPT_DIR / "blocklist.txt"
 WHITELIST_FILE = SCRIPT_DIR / "whitelist.txt"
 TERMS_FILE = SCRIPT_DIR / "terms_fi.csv"
+TOPIC_WINDOW_HOURS = 12
+TOPIC_WINDOW_SECONDS = TOPIC_WINDOW_HOURS * 3600
 
 # Estä YouTube Shorts -URLit kovasäännöllä (oletus: päällä)
 BLOCK_YT_SHORTS = int(os.environ.get("BLOCK_YT_SHORTS", "1")) == 1
@@ -162,23 +164,76 @@ def _valid_discord_id(s: str) -> bool:
 #        Apufunktiot
 # -------------------------
 
-def load_seen(path: Path = STATE_FILE) -> set:
+def _coerce_timestamp(value) -> float | None:
+    try:
+        ts = float(value)
+        if ts > 0:
+            return ts
+    except Exception:
+        return None
+    return None
+
+
+def load_seen(path: Path = STATE_FILE) -> tuple[set, dict[str, float]]:
+    seen_ids: set[str] = set()
+    topic_times: dict[str, float] = {}
+
     if path.exists():
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
             if isinstance(data, list):
-                return set(data)
-            if isinstance(data, dict) and "ids" in data:
-                return set(data["ids"])
+                seen_ids = set(data)
+            elif isinstance(data, dict):
+                if "ids" in data:
+                    seen_ids = set(data.get("ids", []))
+                else:
+                    seen_ids = set()
+                raw_topics = data.get("topics", {})
+                if isinstance(raw_topics, dict):
+                    for key, value in raw_topics.items():
+                        ts = _coerce_timestamp(value)
+                        if ts is not None and key:
+                            topic_times[str(key)] = ts
+                elif isinstance(raw_topics, list):
+                    for item in raw_topics:
+                        if isinstance(item, dict):
+                            key = item.get("topic") or item.get("key")
+                            ts = _coerce_timestamp(item.get("timestamp"))
+                            if key and ts is not None:
+                                topic_times[str(key)] = ts
         except Exception:
             pass
-    return set()
 
-def save_seen(seen: set, path: Path = STATE_FILE) -> None:
+    return seen_ids, topic_times
+
+
+def save_seen(seen: set, topic_times: dict[str, float], path: Path = STATE_FILE) -> None:
     try:
-        path.write_text(json.dumps(sorted(list(seen)), ensure_ascii=False, indent=2), encoding="utf-8")
+        payload = {
+            "ids": sorted(list(seen)),
+            "topics": {k: v for k, v in topic_times.items()},
+        }
+        path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     except Exception as e:
         print(f"[WARN] save_seen failed: {e}")
+
+
+def _cleanup_old_topics(topic_times: dict[str, float], current_ts: float | None = None) -> None:
+    if current_ts is None:
+        current_ts = time.time()
+    cutoff = current_ts - TOPIC_WINDOW_SECONDS
+    for key, ts in list(topic_times.items()):
+        if ts < cutoff:
+            topic_times.pop(key, None)
+
+
+def make_topic_key(title: str) -> str:
+    if not title:
+        return ""
+    lowered = title.lower()
+    lowered = re.sub(r"https?://\S+", " ", lowered)
+    normalized = re.sub(r"[^a-z0-9äöåéüß]+", " ", lowered)
+    return normalized.strip()
 
 def read_feeds(path: Path = FEEDS_FILE) -> list:
     feeds = []
@@ -580,7 +635,7 @@ def source_name_from_feed(parsed, fallback_url: str) -> str:
         pass
     return urlparse(fallback_url).netloc
 
-def process_feed(url: str, seen: set,
+def process_feed(url: str, seen: set, topic_times: dict[str, float],
                  bl_global, bl_source,
                  wl_global, wl_source, wl_sources) -> dict:
     stats = {"total": 0, "posted": 0, "skipped": 0}
@@ -600,18 +655,30 @@ def process_feed(url: str, seen: set,
     except Exception:
         pass
 
+    _cleanup_old_topics(topic_times)
+
     for entry in entries[:MAX_ITEMS_PER_FEED]:
         uid = uid_from_entry(entry)
         title = clean_text(entry.get("title"))
         link = entry.get("link") or ""
         summary_html = entry.get("summary") or ""
         raw_summary = clean_text(summary_html)
+        topic_key = make_topic_key(title)
 
         # Skip jos nähty
         if uid in seen:
             stats["skipped"] += 1
             logd("SKIP(seen):", source_name, "|", title)
             continue
+
+        # Skip jos sama aihe postattu äskettäin
+        if topic_key:
+            now_ts = time.time()
+            first_ts = topic_times.get(topic_key)
+            if first_ts is not None and (now_ts - first_ts) < TOPIC_WINDOW_SECONDS:
+                stats["skipped"] += 1
+                logd("SKIP(topic):", source_name, "|", title)
+                continue
 
         # Whitelist / Blocklist / Shorts
         skip, reason = should_skip_article(
@@ -658,6 +725,8 @@ def process_feed(url: str, seen: set,
             )
             stats["posted"] += 1
             seen.add(uid)
+            if topic_key:
+                topic_times[topic_key] = time.time()
             time.sleep(POST_DELAY_SEC)
         except Exception as e:
             print(f"[WARN] Discord post failed for {link}: {e}")
@@ -669,7 +738,8 @@ def main():
     global _TERMS_RULES
     _TERMS_RULES = load_terms_csv()
 
-    seen = load_seen()
+    seen, topic_times = load_seen()
+    _cleanup_old_topics(topic_times)
     bl_global, bl_source = load_blocklist()
     wl_global, wl_source, wl_sources = load_whitelist()
     feeds = read_feeds()
@@ -686,12 +756,12 @@ def main():
     total_entries = 0
 
     for url in feeds:
-        stats = process_feed(url, seen, bl_global, bl_source, wl_global, wl_source, wl_sources)
+        stats = process_feed(url, seen, topic_times, bl_global, bl_source, wl_global, wl_source, wl_sources)
         total_posted += stats["posted"]
         total_skipped += stats["skipped"]
         total_entries += stats["total"]
 
-    save_seen(seen)
+    save_seen(seen, topic_times)
     logd("run complete at", datetime.now(timezone.utc).isoformat(), "UTC",
          "| feeds:", len(feeds),
          "| entries:", total_entries,
