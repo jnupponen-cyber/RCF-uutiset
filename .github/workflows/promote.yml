@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       uid:
-        description: "Tarkistusviestin UID (näkyy Discordin esikatselussa)"
+        description: "Yksi tai useampi tarkistusviestin UID (enintään 10, erottele välilyönnein tai riveittäin)"
         required: true
         type: string
 
