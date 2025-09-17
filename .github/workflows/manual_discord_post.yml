@@ -1,0 +1,60 @@
+name: Manual Discord Post
+
+on:
+  workflow_dispatch:
+    inputs:
+      channel_id:
+        description: "Discord channel ID"
+        required: true
+        type: string
+      message:
+        description: "Message text (\\n for newlines). Leave empty if using message_file."
+        required: false
+        type: string
+      message_file:
+        description: "Path to message file in repo (e.g. rcf-discord-news/post.txt)"
+        required: false
+        type: string
+      image_url:
+        description: "Optional image URL (embed or attach)"
+        required: false
+        type: string
+      image_mode:
+        description: "How to include image_url"
+        required: false
+        default: "none"
+        type: choice
+        options:
+          - none
+          - embed
+          - attach
+
+permissions:
+  contents: read
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: python -m pip install --upgrade pip requests
+
+      - name: Post to Discord
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+        run: |
+          python scripts/discord_post.py \
+            --channel-id "${{ inputs.channel_id }}" \
+            --message "${{ inputs.message }}" \
+            --message-file "${{ inputs.message_file }}" \
+            --image-url "${{ inputs.image_url }}" \
+            $([ "${{ inputs.image_mode }}" = "embed" ] && echo "--embed-image") \
+            $([ "${{ inputs.image_mode }}" = "attach" ] && echo "--attach-image")
