@@ -1,0 +1,32 @@
+name: Promote pending Discord post
+
+on:
+  workflow_dispatch:
+    inputs:
+      uid:
+        description: "Tarkistusviestin UID (näkyy Discordin esikatselussa)"
+        required: true
+        type: string
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Promote pending post
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_REVIEW_WEBHOOK_URL: ${{ secrets.DISCORD_REVIEW_WEBHOOK_URL }}
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          USE_REVIEW_CHANNEL: "0"
+        run: python scripts/promote_pending.py "${{ inputs.uid }}"

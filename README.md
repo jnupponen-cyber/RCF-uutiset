@@ -33,3 +33,28 @@ välilehdeltä. `workflow_dispatch`-toiminto kysyy kanavan ID:n ja halutut
 valinnaiset parametrit, minkä jälkeen työ kutsuu `scripts/manual_post.py`-
 skriptiä. Työ tarvitsee salaisuuden `DISCORD_BOT_TOKEN` yhtä lailla kuin
 paikallisesti ajettuna.
+
+## Tarkistuskanavan viestien hyväksyntä
+
+Kun `rcf-discord-news/fetch_and_post.py` ajetaan ympäristömuuttujalla
+`USE_REVIEW_CHANNEL=1`, kaikki uutiset lähetetään ensin Discordin
+tarkistuskanavaan. Jokainen viesti sisältää `UID`-kentän, jonka arvo vastaa
+`seen.json`-tiedostoon tallennettua hashia. Samalla `pending_posts.json`
+-tiedostoon tallennetaan otsikko, lähde, linkki, kuva ja Arvin kommentti
+hyväksyntää odottaville uutisille.
+
+Hyväksyntä tehdään GitHub Actionsissa työnkululla **Promote pending Discord
+post**:
+
+1. Avaa reposta Actions-välilehti ja valitse vasemmalta *Promote pending
+   Discord post*.
+2. Klikkaa *Run workflow* ja syötä `UID` tarkistuskanavan viestistä kopioituna.
+3. Käynnistä ajo. Työnkulku lukee `pending_posts.json`-tiedostosta vastaavan
+   merkinnän ja lähettää sen varsinaiseen `#uutiskatsaus`-kanavaan käyttäen
+   samaa muotoilua kuin alkuperäinen skripti. Onnistuneen ajon jälkeen merkintä
+   poistuu `pending_posts.json`-tiedostosta.
+
+Työnkulku tarvitsee salaisuudet `DISCORD_WEBHOOK_URL`,
+`DISCORD_REVIEW_WEBHOOK_URL` ja `DISCORD_BOT_TOKEN`. Sama skripti on ajettavissa
+myös paikallisesti komennolla `python scripts/promote_pending.py <UID>`, kun
+tarvittavat ympäristömuuttujat on asetettu.

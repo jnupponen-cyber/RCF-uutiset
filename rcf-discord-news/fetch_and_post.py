@@ -40,6 +40,7 @@ import feedparser
 # --- Perusasetukset ---
 SCRIPT_DIR = Path(__file__).resolve().parent
 STATE_FILE = SCRIPT_DIR / "seen.json"
+PENDING_POSTS_FILE = SCRIPT_DIR / "pending_posts.json"
 FEEDS_FILE = Path(os.environ.get("FEEDS_FILE", SCRIPT_DIR / "feeds.txt")).resolve()
 BLOCKLIST_FILE = SCRIPT_DIR / "blocklist.txt"
 WHITELIST_FILE = SCRIPT_DIR / "whitelist.txt"
@@ -526,15 +527,49 @@ def should_skip_article(source_name: str,
     return False, None
 
 # -------- Discord-postaus --------
-def _resolve_webhook() -> str:
-    if USE_REVIEW_CHANNEL:
+def load_pending_posts(path: Path = PENDING_POSTS_FILE) -> dict[str, dict]:
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    if isinstance(data, dict):
+        return data
+    return {}
+
+
+def save_pending_posts(data: dict[str, dict], path: Path = PENDING_POSTS_FILE) -> None:
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8")
+
+
+def add_pending_post(uid: str, payload: dict, path: Path = PENDING_POSTS_FILE) -> None:
+    if not uid:
+        return
+    data = load_pending_posts(path)
+    data[uid] = payload
+    save_pending_posts(data, path)
+
+
+def remove_pending_post(uid: str, path: Path = PENDING_POSTS_FILE) -> None:
+    if not uid:
+        return
+    data = load_pending_posts(path)
+    if uid in data:
+        del data[uid]
+        save_pending_posts(data, path)
+
+
+def _resolve_webhook(use_review_channel: bool | None = None) -> tuple[str, str, bool]:
+    review_mode = USE_REVIEW_CHANNEL if use_review_channel is None else use_review_channel
+    if review_mode:
         if REVIEW_WEBHOOK:
-            return REVIEW_WEBHOOK
+            return REVIEW_WEBHOOK, "DISCORD_REVIEW_WEBHOOK_URL", True
         raise RuntimeError(
             "USE_REVIEW_CHANNEL=1, mutta DISCORD_REVIEW_WEBHOOK_URL puuttuu ympäristömuuttujista."
         )
     if WEBHOOK:
-        return WEBHOOK
+        return WEBHOOK, "DISCORD_WEBHOOK_URL", False
     raise RuntimeError(
         "DISCORD_WEBHOOK_URL ei ole asetettu ympäristömuuttujaksi."
     )
@@ -542,12 +577,13 @@ def _resolve_webhook() -> str:
 
 def post_to_discord(title: str, url: str, source: str,
                     raw_summary: str | None, image_url: str | None,
-                    ai_comment: str | None = None) -> None:
+                    ai_comment: str | None = None,
+                    *, seen_uid: str | None = None,
+                    use_review_channel: bool | None = None) -> bool:
     """
     Embed.description = VAIN Arvin kommentti (ei alkuperäistä kuvausta).
     """
-    webhook_url = _resolve_webhook()
-    webhook_env_name = "DISCORD_REVIEW_WEBHOOK_URL" if USE_REVIEW_CHANNEL else "DISCORD_WEBHOOK_URL"
+    webhook_url, webhook_env_name, review_mode = _resolve_webhook(use_review_channel)
     logd("post_to_discord ->", webhook_env_name)
 
     # Valmistellaan teksti: vain Arvin kommentti
@@ -587,6 +623,12 @@ def post_to_discord(title: str, url: str, source: str,
         "footer": footer,
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
+    if review_mode and seen_uid:
+        embed.setdefault("fields", []).append({
+            "name": "UID",
+            "value": seen_uid,
+            "inline": False
+        })
     if image_url:
         if PREFER_LARGE_IMAGE:
             embed["image"] = {"url": image_url}
@@ -626,6 +668,8 @@ def post_to_discord(title: str, url: str, source: str,
 
     if resp.status_code >= 300:
         raise RuntimeError(f"Discord POST failed: {resp.status_code} {resp.text}")
+
+    return review_mode
 
 # -------- Feed-haku --------
 def parse_feed(url: str):
@@ -734,18 +778,29 @@ def process_feed(url: str, seen: set, topic_times: dict[str, float],
         # Postaa
         try:
             logd("POST:", source_name, "|", title, "|", link)
-            post_to_discord(
+            posted_to_review = post_to_discord(
                 title=title,
                 url=link,
                 source=source_name,
                 raw_summary=raw_summary,
                 image_url=img,
-                ai_comment=ai_comment
+                ai_comment=ai_comment,
+                seen_uid=uid
             )
             stats["posted"] += 1
             seen.add(uid)
             if topic_key:
                 topic_times[topic_key] = time.time()
+            if posted_to_review:
+                add_pending_post(uid, {
+                    "title": title,
+                    "url": link,
+                    "source": source_name,
+                    "raw_summary": raw_summary,
+                    "image_url": img,
+                    "ai_comment": ai_comment,
+                    "created_at": datetime.now(timezone.utc).isoformat()
+                })
             time.sleep(POST_DELAY_SEC)
         except Exception as e:
             print(f"[WARN] Discord post failed for {link}: {e}")
