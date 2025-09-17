@@ -17,10 +17,19 @@ kirjoitusoikeus.
        --message "Tässä päivän tiedote" --image kuva.png
    ```
 
-   Viestin voi antaa myös tiedostosta `--message-file polku.txt` tai putkittaa
-   sen skriptille standard inputin kautta.
+   Vaihtoehtoisesti viestin voi lukea tiedostosta `--message-file`-optiolla tai
+   putkittaa skriptille stdin:in kautta. Kuvat voivat olla paikallisia
+   tiedostoja (`--image`), verkosta ladattavia (`--image-url`) tai suoraan
+   embediin linkitettyjä (`--embed-url`).
 
-3. Onnistunut ajo tulostaa vahvistuksen `✅ Viesti lähetetty onnistuneesti.`
+3. Skripti tulostaa jokaisen lähetetyn viestin Discord-ID:n muodossa
+   `Posted: 123456789012345678`. Pitkät viestit pilkotaan automaattisesti
+   useampaan 2000 merkin palaseen.
 
-Discord rajoittaa viestisisällön 2000 merkkiin ja hyväksyy vain yhden liitetyn
-kuvan tämän skriptin kautta.
+### Ajo GitHub Actionsista
+
+Repo sisältää työnkulun **Manual Discord Post**, joka löytyy GitHubin Actions-
+välilehdeltä. `workflow_dispatch`-toiminto kysyy kanavan ID:n ja halutut
+valinnaiset parametrit, minkä jälkeen työ kutsuu `scripts/manual_post.py`-
+skriptiä. Työ tarvitsee salaisuuden `DISCORD_BOT_TOKEN` yhtä lailla kuin
+paikallisesti ajettuna.
