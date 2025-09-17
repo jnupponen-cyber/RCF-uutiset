@@ -1,0 +1,72 @@
+name: Manual Discord Post
+
+on:
+  workflow_dispatch:
+    inputs:
+      channel_id:
+        description: "Discord channel ID"
+        required: true
+      message:
+        description: "Message content (optional if message_file or stdin is used)"
+        required: false
+        default: ""
+      message_file:
+        description: "Path to a text file in the repo for the message"
+        required: false
+        default: ""
+      image_path:
+        description: "Path to an image in the repo to upload"
+        required: false
+        default: ""
+      image_url:
+        description: "Download an image from URL and upload it"
+        required: false
+        default: ""
+      embed_url:
+        description: "Use an image URL inside an embed instead of uploading"
+        required: false
+        default: ""
+
+jobs:
+  post:
+    name: Post to Discord
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Send message
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          CHANNEL_ID: ${{ inputs.channel_id }}
+          MESSAGE: ${{ inputs.message }}
+          MESSAGE_FILE: ${{ inputs.message_file }}
+          IMAGE_PATH: ${{ inputs.image_path }}
+          IMAGE_URL: ${{ inputs.image_url }}
+          EMBED_URL: ${{ inputs.embed_url }}
+        run: |
+          set -euo pipefail
+          args=("--channel" "$CHANNEL_ID")
+          if [[ -n "$MESSAGE" ]]; then
+            args+=("--message" "$MESSAGE")
+          fi
+          if [[ -n "$MESSAGE_FILE" ]]; then
+            args+=("--message-file" "$MESSAGE_FILE")
+          fi
+          if [[ -n "$IMAGE_PATH" ]]; then
+            args+=("--image" "$IMAGE_PATH")
+          fi
+          if [[ -n "$IMAGE_URL" ]]; then
+            args+=("--image-url" "$IMAGE_URL")
+          fi
+          if [[ -n "$EMBED_URL" ]]; then
+            args+=("--embed-url" "$EMBED_URL")
+          fi
+          python scripts/manual_post.py "${args[@]}"
