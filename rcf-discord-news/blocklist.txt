@@ -9,12 +9,23 @@ Garmin Venu
 podcast
 protest
 protests
+demonstration
+demonstrations
+boycott
 cargo
-phone mount
-bike packing
-folding bike
+e-cargo bike
 commuting
 commuter
+commute
+commuter bike
+bike packing
+bikepack
+folding bike
+folding bikes
+phone mount
+Apple Airpods
+resident
+residents
 cancer
 tumor
 leukemia
@@ -27,67 +38,39 @@ tested positive
 suspension
 banned
 ban lifted
+disqualified
 lawsuit
+lawsuits
 court case
+trial
+hearing
+appeal
 legal battle
 tribunal
 scandal
 controverse
+controversy
 strike
-e-bike
-e-cargo bike
-stadiobike
-Apple Airpods
-resident
-residents
-# [NEW]
-demonstration
-demonstrations
-boycott
-lawsuits
-trial
-hearing
-appeal
-ban
-disqualified
-blacklisted
-folding bikes
-bikepack
-commute
-commuter bike
-Lotto
 road rage
+van driver
+badly driven
+close pass
+close passes
+close passed
+close encounter
+near miss
+Idiot drivers caught
 pepper spray
+fundraising
+charity
+police
+Lotto
 Luke Wronski
 RiG’d Supply
 Amazon
 Halfords
-MTB
-mtb
-Mountain Bike
-All-terrain bike
-Off-road bike
-Trail bike
-Cross-country bike
-Downhill bike
-Enduro bike
-Fat bike
-Hardtail
-Full-suspension bike
 Wahoo Fitness
 Momentous
-Near miss
-police
-close passed
-close passes
-badly driven
-close encounter
-fundraising
-charity
-close pass
-Idiot drivers caught
-van driver
-road rage
 UCI Continental
 Raptor Factory Racing
 Trinity Racing
@@ -107,88 +90,91 @@ Venu
 Vivoactive
 Apple Watch
 Samsung Galaxy Watch
+Galaxy Watch
 Huawei Watch
+Huawei Band
 Fitbit
+Fitbit Sense
+Fitbit Versa
 Amazfit
 Xiaomi Watch
+Mi Band
 Whoop
 Oura Ring
 smartwatch
 fitness tracker
-activity band
-Suunto Race
-# [NEW]
-Garmin Watch
-Garmin Fenix
-Galaxy Watch
-Huawei Band
-Fitbit Sense
-Fitbit Versa
-Mi Band
 health tracker
 sports watch
 running watch
+activity band
+Suunto Race
+Garmin Watch
+Garmin Fenix
 
 # Action cameras
 GoPro
 DJI Osmo Action
 DJI Action
+Osmo
 Insta360
 Insta360 One
 Insta360 X
 Insta360 Ace
 action cam
 action camera
-helmet cam
-sports camera
-4K action
-360 camera
-# [NEW]
-Osmo
 actioncam
 sportscam
+helmet cam
 helmet camera
+sports camera
 bike cam
 adventure camera
+4K action
+360 camera
 
 # Grand Tours ja suuret kilpailut
 Tour de France
+Le Tour
+TdF
 Tour de France Femmes
 Vuelta a España
 Vuelta
+La Vuelta
 Giro d’Italia
 Giro
+Giro Rosa
 Paris-Nice
 Dauphiné
-Tour de Suisse
-Tirreno-Adriatico
 Criterium du Dauphiné
-Tour de Romandie
-# [NEW]
-TdF
-Le Tour
-La Vuelta
-Giro Rosa
+Tour de Suisse
 Tour Suisse
+Tirreno-Adriatico
+Tour de Romandie
 Romandie
+World Championships
+UCI World Championships
 XC World Championships
 Mountain Bike World Championships
-UCI World Championships
-World Championships
 women’s road race
 
 # Klassikkokisat
 Paris-Roubaix
 Liège-Bastogne-Liège
+LBL
 Flanders
 Tour of Flanders
+RVV
+Flandrien
 Amstel Gold Race
 Strade Bianche
 San Sebastián
+Basque Country
 E3 Saxo Classic
 Omloop Het Nieuwsblad
 Milan-San Remo
+Sanremo
 La Flèche Wallonne
+Walloon Arrow
 Gent-Wevelgem
 Classic Brugge-De Panne
 Tre Valli Varesine
@@ -196,96 +182,91 @@ Giro dell’Emilia
 Itzulia Basque Country
 Olympic Race
 WorldTour
-# [NEW]
-Flandrien
-RVV
-LBL
-Sanremo
-Walloon Arrow
-Basque Country
 World Championship
 Cross Country XCO
 
 # Minor races (USA, UK, small national events)
 Tour of California
+California Tour
 Tour of Utah
+Utah Tour
 Tour of Colorado
+Colorado Tour
 Colorado Classic
 Maryland Cycling Classic
+Maryland Classic
 Women’s Tour
+Women Tour
 Lincoln GP
 Rutland–Melton CiCLE Classic
 National Road Championships
 USA Cycling Nationals
 British Championships
 Simac Tour
+Simac Ladies Tour
 Yorkshire race
 Baltimore Classic
 Tour of Britain
+Pologne Tour
 Tour de Pologne
 Tour of Oman
+Oman Tour
 Tour of Turkey
+Turkey Tour
 Volta a Catalunya
+Catalunya
 Tour of Slovenia
+Slovenia Tour
 Tour of Norway
+Norway Tour
 Tour of Denmark
+Denmark Tour
 Tour de Hongrie
+Hungary Tour
 Arctic Race of Norway
+Arctic Race
 Tour Down Under
 Santos Tour Down Under
+TDU
+Down Under
 Kansas Race
 Chequamegon
 British National Gravel Championships
 Crans-Montana
-# [NEW]
-California Tour
-Utah Tour
-Colorado Tour
-Maryland Classic
-Women Tour
-Simac Ladies Tour
-Pologne Tour
-Oman Tour
-Turkey Tour
-Catalunya
-Slovenia Tour
-Norway Tour
-Denmark Tour
-Hungary Tour
-Arctic Race
-TDU
-Down Under
 The Philadelphia Cycling Classic
+CRO Race
+UAE Tour
+Saudi Tour
+Tour of Guangxi
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
 Kristen Faulkner
 shoulder surgery
 injury
+injuries
+injured
 season-ending
+season over
+career-ending
 out for season
 miss season
 remainder of season
 sidelined
 withdraws
+withdrew
+withdrawn
 DNS
+didn’t start
 did not start
+DNF
+did not finish
 crash
+accident
 broken collarbone
 fractured
 hospital
-surgery
-# [NEW]
-injuries
-injured
-season over
-career-ending
-withdrew
-withdrawn
-didn’t start
-did not finish
-DNF
-accident
 hospitalized
+surgery
 operation
 
 # Sopimusuutiset, tiimit ja ammattilaisuus
@@ -293,22 +274,21 @@ British champion
 new team
 pro contract
 signs with
+signed
+signing
 joins team
+switches team
+team change
 contract breakup
 contract dispute
 contract drama
+contract terminated
+contract extension
 ego
 salary
 money issues
 transfer
 transfer saga
-# [NEW]
-signed
-signing
-switches team
-team change
-contract terminated
-contract extension
 team transfer
 rider transfer
 
@@ -317,46 +297,48 @@ Big Ride Challenge
 finisher medal
 medals available
 challenge ride
-sportive
-gran fondo
-# [NEW]
 challenge event
+sportive
 sportives
+gran fondo
 randonnee
 brevet
 
 # UCI säännöt ja turvallisuus
 UCI rules
 UCI regulations
-weight safeguard
-weight rules
-rider safety
-safety measures
-petition
-# [NEW]
 UCI law
 UCI policy
 UCI decision
+weight safeguard
+weight rules
 weight limit
+rider safety
 rider protection
+safety measures
 safety protocols
+petition
 
 # Kilpailuorganisaatiot / politiikka
 USA Cycling
+cycling federation
 transgender
 ban
+banned rider
 policy
+race policy
 neutralised
 neutralized
-# [NEW]
 race neutralization
-race policy
-cycling federation
-banned rider
 
 # Katseluohjeet (ei Zwift, vain maantie- ja pienkisoihin liittyvät ohjeet)
 how to watch
 watch live
+livestream
+streaming
+on demand
+watch online
+TV stream
 broadcast
 TV coverage
 coverage
@@ -366,12 +348,6 @@ where to watch
 live coverage
 race start
 air time
-# [NEW]
-livestream
-streaming
-on demand
-watch online
-TV stream
 
 # Estetään YouTube Shorts -videot
 #shorts
@@ -398,6 +374,7 @@ Primoz Roglic
 Jonas Vingegaard
 Wout van Aert
 Mathieu van der Poel
+Van Der Poel
 Julian Alaphilippe
 Chris Froome
 Peter Sagan
@@ -432,7 +409,6 @@ Simon Yates
 Puck Pieterse
 Biniam Girmay
 Kilian Jornet
-Van Der Poel
 Bradley Wiggins
 Jonas Abrahamsen
 Uno-X
@@ -442,3 +418,10 @@ Riccitello
 Josh Giddings
 Ella Conolly
 Elly Hoskin
+Sepp Kuss
+Jay Vine
+Ben Healy
+Alberto Bettiol
+Remi Cavagna
+Kasia Niewiadoma
+Silvia Persico
