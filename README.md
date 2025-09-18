@@ -37,7 +37,8 @@ paikallisesti ajettuna.
 ## Tarkistuskanavan viestien hyväksyntä
 
 Kun `rcf-discord-news/fetch_and_post.py` ajetaan ympäristömuuttujalla
-`USE_REVIEW_CHANNEL=1`, kaikki uutiset lähetetään ensin Discordin
+`USE_REVIEW_CHANNEL=1` (tai yhteensopivuuden vuoksi `REVIEW_CHANNEL=1`), kaikki uutiset
+lähetetään ensin Discordin
 tarkistuskanavaan. Jokainen viesti sisältää `UID`-kentän, jonka arvo vastaa
 `seen.json`-tiedostoon tallennettua hashia. Samalla `pending_posts.json`
 -tiedostoon tallennetaan otsikko, lähde, linkki, kuva ja Arvin kommentti
