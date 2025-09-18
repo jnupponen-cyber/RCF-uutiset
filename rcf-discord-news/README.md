@@ -44,9 +44,10 @@ Jos haluat, että uutiset menevät ensin erilliseen tarkistuskanavaan:
 
 1. Luo Discordissa toinen webhook haluamaasi tarkistuskanavaan.
 2. Tallenna osoite secretiksi nimellä `DISCORD_REVIEW_WEBHOOK_URL`.
-3. Aseta workflowlle (tai paikalliseen ajoon) ympäristömuuttuja `USE_REVIEW_CHANNEL=1`.
+3. Aseta workflowlle (tai paikalliseen ajoon) ympäristömuuttuja `USE_REVIEW_CHANNEL=1`
+   (tai vaihtoehtoisesti `REVIEW_CHANNEL=1`).
 
-Kun haluat palata suoraan julkaisemiseen `#uutiskatsaus`-kanavaan, poista tai aseta `USE_REVIEW_CHANNEL=0`. Tällöin botti käyttää taas `DISCORD_WEBHOOK_URL`-osoitetta ilman muita muutoksia.
+Kun haluat palata suoraan julkaisemiseen `#uutiskatsaus`-kanavaan, poista tai aseta `USE_REVIEW_CHANNEL=0` (tai `REVIEW_CHANNEL=0`). Tällöin botti käyttää taas `DISCORD_WEBHOOK_URL`-osoitetta ilman muita muutoksia.
 
 ## Muuta hyödyllistä
 - Ajastus on `*/30 * * * *` → 30 min välein (GitHub käyttää UTC-aikaa).
