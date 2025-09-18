@@ -60,7 +60,7 @@ ALLOW_SHORTS_IF_WHITELIST = int(os.environ.get("ALLOW_SHORTS_IF_WHITELIST", "0")
 
 WEBHOOK = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
 REVIEW_WEBHOOK = os.environ.get("DISCORD_REVIEW_WEBHOOK_URL", "").strip()
-USE_REVIEW_CHANNEL = int(os.environ.get("USE_REVIEW_CHANNEL", "0")) == 1
+USE_REVIEW_CHANNEL = int(os.environ.get("USE_REVIEW_CHANNEL", "1")) == 1
 
 # Ping-asetukset
 MENTION_USER_ID = os.environ.get("MENTION_USER_ID", "").strip()
