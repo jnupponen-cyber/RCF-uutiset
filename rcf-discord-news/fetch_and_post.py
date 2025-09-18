@@ -120,6 +120,7 @@ SOURCE_COLORS = {
     "Velo – Road Gear":       int("0x05ffff", 16),
     "Velo – Road Training":   int("0x05ffff", 16),
     "Velo – Gravel Gear":     int("0x05ffff", 16),
+    "Gravel Gear - Velo":     int("0x05ffff", 16),
     "TrainerRoad":            int("0xd9291c", 16),
     "BikeRadar":              int("0xe9e6df", 16),
     "BikeRadar Gravel":       int("0xe9e6df", 16),
