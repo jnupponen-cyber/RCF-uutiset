@@ -82,6 +82,26 @@ ProTeams
 ProTeam
 WorldTour team
 CiCLE Classic
+mountain biking
+mtb
+Mountain bike
+XC
+XCO
+World Championship
+cross-country
+World Cups
+e- bike
+electric bike
+hub motor
+mid-motor
+mid motor
+EAPC
+E-bike
+wheel hub
+Bosch
+motor
+torque
+
 
 # Urheilukellot ja -rannekkeet
 Fenix
@@ -184,6 +204,8 @@ Olympic Race
 WorldTour
 World Championship
 Cross Country XCO
+World Cup
+
 
 # Minor races (USA, UK, small national events)
 Tour of California
@@ -425,3 +447,5 @@ Alberto Bettiol
 Remi Cavagna
 Kasia Niewiadoma
 Silvia Persico
+Nino Schurter
+Adrien Niyonshuti
