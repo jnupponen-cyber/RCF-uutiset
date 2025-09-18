@@ -47,6 +47,11 @@ WHITELIST_FILE = SCRIPT_DIR / "whitelist.txt"
 TERMS_FILE = SCRIPT_DIR / "terms_fi.csv"
 TOPIC_WINDOW_HOURS = 12
 TOPIC_WINDOW_SECONDS = TOPIC_WINDOW_HOURS * 3600
+try:
+    _raw_interval = os.environ.get("MIN_FETCH_INTERVAL_SECONDS", str(60 * 60))
+    MIN_FETCH_INTERVAL_SECONDS = max(int(str(_raw_interval).strip()), 0)
+except Exception:
+    MIN_FETCH_INTERVAL_SECONDS = 60 * 60
 
 # Estä YouTube Shorts -URLit kovasäännöllä (oletus: päällä)
 BLOCK_YT_SHORTS = int(os.environ.get("BLOCK_YT_SHORTS", "1")) == 1
@@ -179,9 +184,10 @@ def _coerce_timestamp(value) -> float | None:
     return None
 
 
-def load_seen(path: Path = STATE_FILE) -> tuple[set, dict[str, float]]:
+def load_seen(path: Path = STATE_FILE) -> tuple[set, dict[str, float], float]:
     seen_ids: set[str] = set()
     topic_times: dict[str, float] = {}
+    last_fetch_ts = 0.0
 
     if path.exists():
         try:
@@ -206,18 +212,28 @@ def load_seen(path: Path = STATE_FILE) -> tuple[set, dict[str, float]]:
                             ts = _coerce_timestamp(item.get("timestamp"))
                             if key and ts is not None:
                                 topic_times[str(key)] = ts
+                last_fetch_ts = _coerce_timestamp(
+                    data.get("last_fetch_ts") or data.get("last_fetch_at")
+                ) or 0.0
         except Exception:
             pass
 
-    return seen_ids, topic_times
+    return seen_ids, topic_times, last_fetch_ts
 
 
-def save_seen(seen: set, topic_times: dict[str, float], path: Path = STATE_FILE) -> None:
+def save_seen(
+    seen: set,
+    topic_times: dict[str, float],
+    last_fetch_ts: float,
+    path: Path = STATE_FILE,
+) -> None:
     try:
         payload = {
             "ids": sorted(list(seen)),
             "topics": {k: v for k, v in topic_times.items()},
         }
+        if last_fetch_ts > 0:
+            payload["last_fetch_ts"] = last_fetch_ts
         path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     except Exception as e:
         print(f"[WARN] save_seen failed: {e}")
@@ -812,8 +828,24 @@ def main():
     global _TERMS_RULES
     _TERMS_RULES = load_terms_csv()
 
-    seen, topic_times = load_seen()
+    seen, topic_times, last_fetch_ts = load_seen()
     _cleanup_old_topics(topic_times)
+
+    if MIN_FETCH_INTERVAL_SECONDS > 0 and last_fetch_ts > 0:
+        elapsed = time.time() - last_fetch_ts
+        if elapsed < MIN_FETCH_INTERVAL_SECONDS:
+            remaining = int(MIN_FETCH_INTERVAL_SECONDS - elapsed)
+            minutes = remaining // 60
+            seconds = remaining % 60
+            wait_msg = (
+                "[INFO] Skipping fetch: last run "
+                f"{elapsed / 60:.1f} min ago; minimum interval is "
+                f"{MIN_FETCH_INTERVAL_SECONDS / 60:.1f} min. "
+                f"Try again in {minutes} min {seconds} s."
+            )
+            print(wait_msg)
+            return
+
     bl_global, bl_source = load_blocklist()
     wl_global, wl_source, wl_sources = load_whitelist()
     feeds = read_feeds()
@@ -835,7 +867,7 @@ def main():
         total_skipped += stats["skipped"]
         total_entries += stats["total"]
 
-    save_seen(seen, topic_times)
+    save_seen(seen, topic_times, time.time())
     logd("run complete at", datetime.now(timezone.utc).isoformat(), "UTC",
          "| feeds:", len(feeds),
          "| entries:", total_entries,
