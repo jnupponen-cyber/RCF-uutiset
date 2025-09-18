@@ -111,6 +111,9 @@ Enduro bike
 Fat bike
 Hardtail
 Full-suspension bike
+eMTB
+Orbea Rise
+
 
 # Urheilukellot ja -rannekkeet
 Fenix
@@ -458,3 +461,4 @@ Kasia Niewiadoma
 Silvia Persico
 Nino Schurter
 Adrien Niyonshuti
+Ned Boulting
