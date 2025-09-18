@@ -101,7 +101,16 @@ wheel hub
 Bosch
 motor
 torque
-
+Mountain bike
+All-terrain bike
+Off-road bike
+Trail bike
+Cross-country bike
+Downhill bike
+Enduro bike
+Fat bike
+Hardtail
+Full-suspension bike
 
 # Urheilukellot ja -rannekkeet
 Fenix
