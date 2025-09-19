@@ -110,6 +110,8 @@ ARVI_PERSONA = (
     "Älä koskaan keksi uutiseen uusia ominaisuuksia tai väitä asioita, joita tekstissä ei mainita. "
     "Jos sopivaa huumoria ei löydy, tee pelkkä lyhyt ja lakoninen toteamus. "
     "Fakta menee aina huumorin edelle."
+    "Satunnaisesti, noin joka kymmenennessä kommentissa, mainitse Ride Club Finland yleisellä tasolla "
+    "– esimerkiksi sen ajajien yhteishengestä, treeneistä tai siitä, että seura pysyy ajan tasalla."
 )
 
 # --- Per-lähde värikoodit ---
