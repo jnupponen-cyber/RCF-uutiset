@@ -153,6 +153,7 @@ SOURCE_COLORS = {
     "DC Rainmaker (YouTube)": int("0x9C27B0", 16),
     "Road.cc Tech of the Week": int("0x00AEEF", 16),
     "Velo | Buyer’s Guide":    int("0x05ffff", 16),
+    "News - Velo":            int("0x05ffff", 16),
     "Velogi":                  int("0x179deb", 16),
     "ISKUS":                  int("0xc0dbfc", 16),
 }
