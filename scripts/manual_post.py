@@ -89,15 +89,31 @@ def http_json(method: str, url: str, token: str, payload: dict | None = None) ->
     return response.json()
 
 
-def post_text(token: str, channel_id: str, content: str, *, embed_image_url: str | None = None) -> dict:
+def post_text(
+    token: str,
+    channel_id: str,
+    content: str,
+    *,
+    embed_image_url: str | None = None,
+    reply_to: str | None = None,
+) -> dict:
     payload: dict = {"content": content}
     if embed_image_url:
         payload["embeds"] = [{"image": {"url": embed_image_url}}]
+    if reply_to:
+        payload["message_reference"] = {"message_id": reply_to, "channel_id": channel_id}
     url = f"{API_BASE}/channels/{channel_id}/messages"
     return http_json("POST", url, token, payload)
 
 
-def post_with_file(token: str, channel_id: str, content: str, file_path: pathlib.Path) -> dict:
+def post_with_file(
+    token: str,
+    channel_id: str,
+    content: str,
+    file_path: pathlib.Path,
+    *,
+    reply_to: str | None = None,
+) -> dict:
     url = f"{API_BASE}/channels/{channel_id}/messages"
     headers = {"Authorization": f"Bot {token}"}
 
@@ -106,10 +122,12 @@ def post_with_file(token: str, channel_id: str, content: str, file_path: pathlib
     if not mime:
         mime = "application/octet-stream"
 
-    payload_json = {
+    payload_json: dict = {
         "content": content,
         "attachments": [{"id": "0", "filename": filename}],
     }
+    if reply_to:
+        payload_json["message_reference"] = {"message_id": reply_to, "channel_id": channel_id}
 
     with file_path.open("rb") as fh:
         files = [
@@ -176,6 +194,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="Use an online image URL inside an embed instead of uploading a file",
     )
     parser.add_argument(
+        "--reply-to",
+        default="",
+        help="Reply to a specific message ID in the target channel",
+    )
+    parser.add_argument(
         "--verify-token",
         action="store_true",
         help="Verify DISCORD_BOT_TOKEN with /users/@me before posting",
@@ -212,12 +235,19 @@ def main() -> None:
     chunks = chunk_message(message or "")
 
     channel_id = args.channel
+    reply_to = args.reply_to or None
 
     temp_file: pathlib.Path | None = None
     try:
         if args.image_url:
             temp_file = download_url_to_temp(args.image_url)
-            response = post_with_file(token, channel_id, chunks[0] if chunks else "", temp_file)
+            response = post_with_file(
+                token,
+                channel_id,
+                chunks[0] if chunks else "",
+                temp_file,
+                reply_to=reply_to,
+            )
             print("Posted (with downloaded attachment):", response.get("id"))
             for chunk in chunks[1:]:
                 response = post_text(token, channel_id, chunk)
@@ -228,7 +258,13 @@ def main() -> None:
             path = pathlib.Path(args.image)
             if not path.exists():
                 raise SystemExit(f"image not found: {path}")
-            response = post_with_file(token, channel_id, chunks[0] if chunks else "", path)
+            response = post_with_file(
+                token,
+                channel_id,
+                chunks[0] if chunks else "",
+                path,
+                reply_to=reply_to,
+            )
             print("Posted (with attachment):", response.get("id"))
             for chunk in chunks[1:]:
                 response = post_text(token, channel_id, chunk)
@@ -240,13 +276,25 @@ def main() -> None:
             print("Warning: --embed-url may not be a direct image URL; Discord might not render it.", file=sys.stderr)
 
         if chunks:
-            response = post_text(token, channel_id, chunks[0], embed_image_url=embed_url)
+            response = post_text(
+                token,
+                channel_id,
+                chunks[0],
+                embed_image_url=embed_url,
+                reply_to=reply_to,
+            )
             print("Posted:", response.get("id"))
             for chunk in chunks[1:]:
                 response = post_text(token, channel_id, chunk)
                 print("Posted:", response.get("id"))
         else:
-            response = post_text(token, channel_id, "", embed_image_url=embed_url)
+            response = post_text(
+                token,
+                channel_id,
+                "",
+                embed_image_url=embed_url,
+                reply_to=reply_to,
+            )
             print("Posted:", response.get("id"))
     finally:
         if temp_file:
