@@ -1,3 +1,4 @@
+import argparse
 import os, re, json, time, requests, random
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -110,6 +111,15 @@ def fetch_messages(channel_id: str, after_id: str | None = None, limit: int = 50
     r.raise_for_status()
     return r.json()
 
+def fetch_message(channel_id: str, msg_id: str):
+    r = requests.get(
+        f"{DISCORD_API}/channels/{channel_id}/messages/{msg_id}",
+        headers=HEADERS,
+        timeout=15,
+    )
+    r.raise_for_status()
+    return r.json()
+
 def reply_to_message(channel_id: str, msg_id: str, text: str):
     payload = {"content": text, "message_reference": {"message_id": msg_id}}
     r = requests.post(f"{DISCORD_API}/channels/{channel_id}/messages",
@@ -170,6 +180,17 @@ def arvi_reply(context_text: str) -> str | None:
     out = out if len(out) <= ARVI_REPLY_MAXLEN else (out[:ARVI_REPLY_MAXLEN-1].rstrip() + "…")
     return out
 
+def build_context_from_message(msg: dict) -> str:
+    author = msg.get("author", {}).get("username", "user")
+    text = msg.get("content", "")
+    context_lines = [f"{author}: {text}"]
+    ref = msg.get("referenced_message")
+    if ref and isinstance(ref, dict):
+        ref_author = ref.get("author", {}).get("username", "user")
+        ref_text = ref.get("content", "")
+        context_lines.insert(0, f"{ref_author}: {ref_text}")
+    return "\n".join(context_lines)
+
 def should_trigger_on_message(msg: dict) -> bool:
     """True jos viesti triggaa: nimi 'Arvi' muunnelmineen, @-maininta, tai :arvi: emoji sisällössä."""
     content = msg.get("content", "") or ""
@@ -184,6 +205,13 @@ def should_trigger_on_message(msg: dict) -> bool:
     if ARVI_EMOJI_RE.search(content):
         return True
     return False
+
+def reply_to_single_message(channel_id: str, msg: dict) -> str | None:
+    context = build_context_from_message(msg)
+    reply = arvi_reply(context)
+    if reply:
+        reply_to_message(channel_id, msg["id"], reply)
+    return reply
 
 def main():
     state = load_state()  # {channel_id: {"last_processed_id": "...", "last_reply_text": "..."}}
@@ -224,18 +252,9 @@ def main():
 
         for m in filtered:
             msg_id = m["id"]
-            author = m.get("author", {}).get("username", "user")
-            text = m.get("content", "")
 
             # kevyt konteksti (reply-viite mukaan jos saatavilla)
-            context_lines = [f"{author}: {text}"]
-            ref = m.get("referenced_message")
-            if ref and isinstance(ref, dict):
-                ref_author = ref.get("author", {}).get("username", "user")
-                ref_text = ref.get("content", "")
-                context_lines.insert(0, f"{ref_author}: {ref_text}")
-            context = "\n".join(context_lines)
-
+            context = build_context_from_message(m)
             reply = arvi_reply(context)
 
             # Anti-toisto
@@ -263,4 +282,19 @@ def main():
     save_state(state)
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Arvi LindBotin automaattivastaaja")
+    parser.add_argument("--channel-id", help="Kanava, johon vastaus lähetetään")
+    parser.add_argument("--message-id", help="Viestin ID, johon vastataan")
+    args = parser.parse_args()
+
+    if args.channel_id and args.message_id:
+        msg = fetch_message(args.channel_id, args.message_id)
+        reply = reply_to_single_message(args.channel_id, msg)
+        if reply:
+            print("Sent reply:", reply)
+        else:
+            print("No reply generated")
+    elif args.channel_id or args.message_id:
+        raise SystemExit("Sekä --channel-id että --message-id on annettava yhdessä")
+    else:
+        main()
