@@ -127,7 +127,6 @@ babyseat
 kid
 Lidl-Trek
 Lidl-Trek´s
-UAE
 McNulty
 luxembourg
 
@@ -318,6 +317,41 @@ hospital
 hospitalized
 surgery
 operation
+
+# Maantiepyörätiimit – WorldTour
+Alpecin-Deceuninck
+Arkéa-B&B Hotels
+Bahrain-Victorious
+Cofidis
+Decathlon AG2R La Mondiale Team
+EF Education-EasyPost
+Groupama-FDJ
+Ineos Grenadiers
+Intermarché-Wanty
+Lidl-Trek
+Movistar Team
+Red Bull-BORA-Hansgrohe
+Soudal-Quick-Step
+Team Visma | Lease a Bike
+UAE Team Emirates
+Astana Qazaqstan Team
+
+# Maantiepyörätiimit – ProTeams ja muut tunnetut
+Q36.5 Pro Cycling Team
+Unibet Tietema Rockets
+Tudor Pro Cycling Team
+Israel-Premier Tech
+Total Energies
+Uno-X Mobility
+VF Group-Bardiani CSF-Faizanè
+Team Novo Nordisk
+Human Powered Health
+Euskaltel-Euskadi
+Burgos-BH
+Caja Rural-Seguros RGA
+Corratec-Vini Fantini
+Flanders-Baloise
+Bolton Equities Black Spoke
 
 # Sopimusuutiset, tiimit ja ammattilaisuus
 British champion
