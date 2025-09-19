@@ -224,6 +224,7 @@
     "699b524ce37a233d30137da526bd864592f546d5b2bdaa29886a150ac2f1e6ea",
     "69a136a4713f9796d98ea833132cc62596efe80fdc35a6b66e27436c291e3852",
     "6a1eefc02b38f4fdab1cd1f95810d08604d4b0738c535c4b2e3bf6264a21002b",
+    "6a6cf5c6c5d058ec2f0c3a098d7c7eb5b6a8aa0e81c2184e5ce3cf047539f688",
     "6a82032c3b870304964535b4699da2f4c4d9fa4c55c9b5894961a49ed569576e",
     "6b49ae238a912569ccedbd53216406ab572fb2dc12b0ef61f0c0de99a31b6642",
     "6c885d7b0e172c8f566cff37e5e5b9f7c3005cdeb476e64f6ddccf2d0d827aeb",
@@ -489,6 +490,7 @@
     "ec028d7111cabde47d2d943ab6fe48959e9c55736a0dfd692c39e623d6643088",
     "ec79feba8d00cbea08f847678b6f57215de3d19baa53ec9fdf1b8e14a94a492d",
     "ed164f5f8d7d43ba31898281c7064a3ae5d369f6d9fd63079a60d6dac762e20b",
+    "ed56ae8371bfc2c867f384134962d319dbafdb670103964e7eac248dbdae5fff",
     "ed707acff3f757ef018e38b38a7ac11e81f8e20b491a8fb99d2b37a7d7313b3a",
     "edf778680cc8506d425ebf8f95207b18ce6edae5cf5a9c75457f89324537c3e4",
     "eeb965cd184381a7c35569eeacfbe84757d126fd151b228a9d2308faa05f18d5",
@@ -522,9 +524,6 @@
     "ffb2f514fb2fefaea0e7ea27725f6ac3e6da21f2c3d10a6e22e8ee9b8c0f9303"
   ],
   "topics": {
-    "the tern byb makes it easier than ever to travel with your bike": 1758255180.0501068,
-    "shimano sram or campagnolo our expert reveals the best choice for your riding it might surprise you": 1758255183.609867,
-    "the f7 proves pinarello s racing pedigree isn t just for the pros": 1758255187.5509374,
     "cycling through britain s wild places how riders can help save rare species": 1758271097.0958216,
     "budget aero and gravel come together in the new vision sc 48 i25 wheelset": 1758271101.5281732,
     "new marin headlands could be the most exciting affordable gravel bike released in 2025 here s why": 1758271119.7299895,
@@ -544,7 +543,9 @@
     "dangerholm s mind bending gravel bike weighs only 7 19kg but its components are even more interesting": 1758292973.470284,
     "sram ceo ken lousberg we tried to engage uci but our concerns went unheard": 1758292978.3301718,
     "sram announces it is taking legal action against uci over gearing restrictions its implementation has already caused tangible harm": 1758292981.6706092,
-    "we don t need fancy new shiny bike kit every year": 1758292987.6326623
+    "we don t need fancy new shiny bike kit every year": 1758292987.6326623,
+    "denies lidl mcnulty record skjelmose time trek": 1758299003.2539015,
+    "cyclists finally here hiit most results swear wrong": 1758299014.8206956
   },
-  "last_fetch_ts": 1758292992.0868752
+  "last_fetch_ts": 1758299018.1381643
 }
