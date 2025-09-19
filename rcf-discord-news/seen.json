@@ -198,6 +198,7 @@
     "60106ecd4db093a5d27770f4166cf5826c883794c0d54358b253eb314f435935",
     "602b48371025d97baaa006c8c3b6afc4893acc0928b2ccdc26ada5475047fb50",
     "60548562716b371a36c95375a518289633f950eb6a43e00d48a893d5e1da5b86",
+    "60f137a4a43ffc5e9788e688241d4ac5df26d3e4d098ebd54f347f6a5c946784",
     "6169d225e3e487be1bb0128f964d12beaec3122436df8e401b58e1168d0d46e6",
     "61854c5b61159d76712cfc3619f1142c6bc0c2a369f511415d2daaa07e9acabe",
     "6237e1be5e3b95bd8aa735378bfc18a6cfe84a9e87e04a4298c045bdb047e4fd",
@@ -211,6 +212,7 @@
     "65b411c84a32933411648f36b14ef60315b6ba86d03ae8de68a805714ed284fd",
     "674168c50e1c17ad50c611ad2103b70e5530f44b8fd72fc4e3bf1bc0b0f7df08",
     "680e82b48a64e334fc82fecd45f8aa9b6ae0760a2e157e63ae57535611d3e2d6",
+    "6846c1d8367bb0c6f21471ade1b695571d7742692797b844e2e2001e696ee5d5",
     "68830426851d526aba9af050dca992775f74e6a29603fd09fc21f9bc0841653d",
     "688e9e306f5219a651aa4c124a503e8b88e9cc48800f02dea0432e8f8fdea4ad",
     "68b106273bda515268eabdd9658245dbb3fe94e204ea334c0fd9f5008888a44f",
@@ -249,6 +251,7 @@
     "7afa2d5cd954c36de79694bbc1510b95ed87e806580cc08281f0b7d8021f9806",
     "7afbc6eff18bfa6b98e0e51b3e5394ad25beb68ac457bdb514d3c9384c4c3f22",
     "7b6ba570f5bf45783869893a877303e6d392681f73f5e07ce28474f0ebd7f61c",
+    "7b72ee14ece6fe2b68a8d98651383d6ce3adfe1c1a4192e372aabdd7035b74d1",
     "7c279b14a5dbe1c93cd8e6a372a8c2a6219f9f0f8d2f07a4141d148c54196e1f",
     "7c67286dd78e9ebddb1badca5d2989f2f4a27a25df466be490dd16e0cf39e719",
     "7c7c9a6b1e3ceb76c5cc0d200e644ccac1413598fad44e78afca61502703c808",
@@ -260,6 +263,7 @@
     "7fdf18292824ba47b02afa6231c6cee699c02746208fcb751e4ee22d0053996d",
     "805221ff17a70013068e02fd433798e28b2a3ebedfa2497b5a84901ca186b9f4",
     "8071cf3f78022a0df7cc4b6efe50d330593308305a6a73cc37dcd6b4ce33eb62",
+    "80d43b2bf1d482cabf34feabe136aa95a396d288b3930d9c60bdefe2134fd089",
     "823a88cf1a663c2291e07619d6b985d942919fff5514a43755751373a0155ccd",
     "8297f401b66c5146e4140c33513ab39ae6e9f68c55f7c7f0f79bd7536213dc06",
     "834834231e5b49ebfae763c7aca282dfedd300cc01741928641cdc4b1c45e67e",
@@ -273,6 +277,7 @@
     "875392725de3c30bb47cae370613c837e3bc75bed2201e6ab3f50daf5fe8a5e5",
     "876a24a1331da910d6febb68a3c694ebd71bdc546f449aff9e70677407fa21e4",
     "87b5ebc0cfe2ebd58441877668efd8c4f1976a95cac18bd1d4894cb3d4152a67",
+    "87e48d3f05642c0292a949419aea758b24b04067895bf2deef741917ed6af47c",
     "87fee42793bd32eb8deef0fc95a4b6e4e4a43a67d5b4f04fd5bf000cfaad97fb",
     "88c74b308fd1cab4de070b805fc6f12eb320048873f083f5e476b0d0e31e0462",
     "899f236ab91b7b06625f3b17a2c31999406babf3c339f09939d7a1f2f41567c9",
@@ -456,6 +461,7 @@
     "dee8bdb852090d4866ea310b6b53a960b621035a4470a8e71f7453c8d895c14b",
     "df18916c9523af3bae84106ee15c0db223ef8bf68f64467fd9cfa70b2f2999d0",
     "df3d6683ad32e98b623f86817654c0b4a725dd107b8a3bac4a966f331cfb30a3",
+    "e0c0bd5e48d4434ea1e1b7939c3a1b3fe4bd2499219ba7d24e7d41b88aad46dd",
     "e19504610f923807c61c23ee00602c0e2569258a0118e3905fddb8a7ab2f721d",
     "e1e6f5107e59ad07f20215f0376f13105474bd8ca971dbdaf66419ad7c290337",
     "e3456766def40af2327d092b2a1d7c0af666b892ede8a30b8905f597e47e9826",
@@ -514,7 +520,13 @@
     "budget aero and gravel come together in the new vision sc 48 i25 wheelset": 1758271101.5281732,
     "new marin headlands could be the most exciting affordable gravel bike released in 2025 here s why": 1758271119.7299895,
     "valued at 2 2 billion strava could be prepping for an initial public offering": 1758271125.4213407,
-    "shimano di2 hidden buttons fixed for under 5": 1758271130.2075377
+    "shimano di2 hidden buttons fixed for under 5": 1758271130.2075377,
+    "strava is valued at 2 2 billion and you might be able to buy shares in the company soon reports": 1758278532.3889956,
+    "rotor releases its first groupset in 10 years and thinks it will be a reliable alternative to sram and shimano": 1758278544.134328,
+    "stance width and q factor may not be the most crucial bike fit measurements but consistency and familiarity are key": 1758278552.9356744,
+    "topeak babyseat ii babyseat ii rack disc": 1758278559.1422548,
+    "rotor uno groupset is back but this time it s wireless electronic powered by wheeltop": 1758278563.5878274,
+    "new vision sc 48 i25 wheels balance on and off road performance without breaking the bank": 1758278568.6592038
   },
-  "last_fetch_ts": 1758271133.5808873
+  "last_fetch_ts": 1758278572.8248882
 }
