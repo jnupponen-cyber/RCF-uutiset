@@ -255,13 +255,44 @@ def _cleanup_old_topics(topic_times: dict[str, float], current_ts: float | None 
             topic_times.pop(key, None)
 
 
+_TOPIC_STOPWORDS = {
+    "and", "are", "article", "bike", "bikes", "biking", "blog", "breaking",
+    "cycling", "daily", "from", "have", "latest", "news", "podcast",
+    "preview", "review", "roundup", "season", "stage", "story", "that",
+    "the", "their", "this", "update", "video", "week", "with", "win",
+    "wins", "won",
+}
+
+_TOPIC_ALLOW_SHORT = {
+    "uci", "tdf", "gc", "itt", "tt", "ttt",
+}
+
+
 def make_topic_key(title: str) -> str:
     if not title:
         return ""
+
     lowered = title.lower()
     lowered = re.sub(r"https?://\S+", " ", lowered)
-    normalized = re.sub(r"[^a-z0-9äöåéüß]+", " ", lowered)
-    return normalized.strip()
+    normalized = re.sub(r"[^a-z0-9äöåéüß]+", " ", lowered).strip()
+    if not normalized:
+        return ""
+
+    tokens = normalized.split()
+    filtered: list[str] = []
+    for token in tokens:
+        if token in _TOPIC_STOPWORDS:
+            continue
+        if len(token) >= 4 or token.isdigit() or token in _TOPIC_ALLOW_SHORT:
+            filtered.append(token)
+
+    if len(filtered) >= 1:
+        unique_sorted = sorted(set(filtered))
+        # Rajoita avaintermejä, jotta avain pysyy lyhyenä mutta informatiivisena.
+        trimmed = unique_sorted[:10]
+        return " ".join(trimmed)
+
+    return normalized
 
 def read_feeds(path: Path = FEEDS_FILE) -> list:
     feeds = []
