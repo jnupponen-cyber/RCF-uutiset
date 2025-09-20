@@ -144,6 +144,9 @@ activity band
 Suunto Race
 Garmin Watch
 Garmin Fenix
+God
+insult
+Michael Hutchinson
 
 # Action cameras
 GoPro
