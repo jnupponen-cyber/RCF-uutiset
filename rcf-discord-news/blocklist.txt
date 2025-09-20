@@ -116,6 +116,9 @@ Lidl-Trek´s
 McNulty
 luxembourg
 Hit by a Truck
+shop closing
+local shop
+community
 
 # Urheilukellot ja -rannekkeet
 Fenix
