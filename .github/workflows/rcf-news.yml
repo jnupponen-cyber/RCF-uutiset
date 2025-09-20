@@ -3,7 +3,7 @@ name: RCF Zwift & MyWhoosh uutiset
 on:
   workflow_dispatch:       # Mahdollistaa manuaalisen ajon
   schedule:
-    - cron: "15 * * * *"
+    - cron: "*/59 * * * *"   # Noin 59 minuutin välein (UTC)
 
 permissions:
   contents: write

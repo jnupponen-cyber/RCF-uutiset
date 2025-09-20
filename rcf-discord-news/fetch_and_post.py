@@ -47,11 +47,6 @@ WHITELIST_FILE = SCRIPT_DIR / "whitelist.txt"
 TERMS_FILE = SCRIPT_DIR / "terms_fi.csv"
 TOPIC_WINDOW_HOURS = 12
 TOPIC_WINDOW_SECONDS = TOPIC_WINDOW_HOURS * 3600
-try:
-    _raw_interval = os.environ.get("MIN_FETCH_INTERVAL_SECONDS", str(60 * 60))
-    MIN_FETCH_INTERVAL_SECONDS = max(int(str(_raw_interval).strip()), 0)
-except Exception:
-    MIN_FETCH_INTERVAL_SECONDS = 60 * 60
 
 # Estä YouTube Shorts -URLit kovasäännöllä (oletus: päällä)
 BLOCK_YT_SHORTS = int(os.environ.get("BLOCK_YT_SHORTS", "1")) == 1
@@ -873,21 +868,6 @@ def main():
 
     seen, topic_times, last_fetch_ts = load_seen()
     _cleanup_old_topics(topic_times)
-
-    if MIN_FETCH_INTERVAL_SECONDS > 0 and last_fetch_ts > 0:
-        elapsed = time.time() - last_fetch_ts
-        if elapsed < MIN_FETCH_INTERVAL_SECONDS:
-            remaining = int(MIN_FETCH_INTERVAL_SECONDS - elapsed)
-            minutes = remaining // 60
-            seconds = remaining % 60
-            wait_msg = (
-                "[INFO] Skipping fetch: last run "
-                f"{elapsed / 60:.1f} min ago; minimum interval is "
-                f"{MIN_FETCH_INTERVAL_SECONDS / 60:.1f} min. "
-                f"Try again in {minutes} min {seconds} s."
-            )
-            print(wait_msg)
-            return
 
     bl_global, bl_source = load_blocklist()
     wl_global, wl_source, wl_sources = load_whitelist()
