@@ -14,6 +14,7 @@ https://feeds.purplemanager.com/193c804a-a673-47bd-b09b-11baf4822a17/bikeradar-n
 https://road.cc/rss
 https://feeds.feedburner.com/BikeRumor
 https://www.bicycling.com/rss/default.xml
+https://pezcyclingnews.com/feed/
 
 # --- YouTube ---
 https://www.youtube.com/feeds/videos.xml?channel_id=UCuTaETsuCOkJ0H_GAztWt0Q
