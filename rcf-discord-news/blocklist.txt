@@ -119,6 +119,8 @@ Hit by a Truck
 shop closing
 local shop
 community
+E-BIKES
+E-BIKE
 
 # Urheilukellot ja -rannekkeet
 Fenix
