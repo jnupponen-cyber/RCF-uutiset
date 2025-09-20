@@ -82,11 +82,6 @@ ProTeams
 ProTeam
 WorldTour team
 CiCLE Classic
-mountain biking
-mtb
-Mountain bike
-XC
-XCO
 World Championship
 cross-country
 World Cups
@@ -101,16 +96,7 @@ wheel hub
 Bosch
 motor
 torque
-Mountain bike
-All-terrain bike
-Off-road bike
-Trail bike
-Cross-country bike
-Downhill bike
-Enduro bike
 Fat bike
-Hardtail
-Full-suspension bike
 eMTB
 Orbea Rise
 BYB
