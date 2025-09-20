@@ -17,6 +17,7 @@ https://www.bicycling.com/rss/default.xml
 https://pezcyclingnews.com/feed/
 https://totalwomenscycling.com/feed
 https://roadbikeaction.com/feed/
+https://roadcyclinguk.com/gear/gear-news/feed
 
 # --- YouTube ---
 https://www.youtube.com/feeds/videos.xml?channel_id=UCuTaETsuCOkJ0H_GAztWt0Q
