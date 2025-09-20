@@ -383,7 +383,6 @@ randonnee
 brevet
 
 # UCI säännöt ja turvallisuus
-UCI rules
 UCI regulations
 UCI law
 UCI policy
