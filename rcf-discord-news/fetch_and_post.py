@@ -153,7 +153,7 @@ SOURCE_COLORS = {
     "Velo | Buyer’s Guide":    int("0x05ffff", 16),
     "News - Velo":            int("0x05ffff", 16),
     "Velogi":                  int("0x179deb", 16),
-    "ISKUS":                  int("0xc0dbfc", 16),
+    "PezCycling News":         int("0x02598b", 16),
 }
 
 # --- Regex OG-metaan ---
