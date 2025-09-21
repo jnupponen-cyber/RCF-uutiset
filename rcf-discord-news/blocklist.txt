@@ -121,6 +121,9 @@ local shop
 community
 E-BIKES
 E-BIKE
+natinonals
+gravel nationals
+Nationals
 
 # Urheilukellot ja -rannekkeet
 Fenix
@@ -198,6 +201,7 @@ UCI World Championships
 XC World Championships
 Mountain Bike World Championships
 women’s road race
+US Gravel Nationals
 
 # Klassikkokisat
 Paris-Roubaix
