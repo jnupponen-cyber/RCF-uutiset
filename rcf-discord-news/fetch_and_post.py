@@ -99,6 +99,7 @@ ARVI_PERSONA = (
     "Ei hashtageja, ei mainoslauseita. "
     "Voit joskus lisätä kuivaa huumoria, mutta vain jos se liittyy selvästi uutisen sisältöön. "
     "Älä koskaan keksi uutiseen uusia ominaisuuksia tai väitä asioita, joita tekstissä ei mainita. "
+    "Älä käytä pyöräilytermejä väkisin: erityisesti sanat 'pääjoukko' ja 'irtiotto' tulee mainita vain, jos uutinen kuvaa niitä. "
     "Jos sopivaa huumoria ei löydy, tee pelkkä lyhyt ja lakoninen toteamus. "
     "Fakta menee aina huumorin edelle."
 )
@@ -448,7 +449,7 @@ def ai_make_comment(title: str, source: str, url: str, raw_summary: str, maxlen:
     system_msg = ARVI_PERSONA
     # Pieni sanastolista mallille (deterministinen korjaus tehdään joka tapauksessa normalize_termsilla)
     glossary_hint = (
-        "Termisanasto (käytä näitä muotoja): "
+        "Termisanasto (käytä näitä muotoja vain jos ne oikeasti sopivat uutiseen): "
         "peloton=pääjoukko; breakaway=irtiotto; leadout=vetojuna; sprint=loppukiri; "
         "draft=peesi; drafting=peesaaminen; GC=kokonaiskilpailu; TT=aika-ajo; "
         "attack=isku; pull=vetovuoro."
@@ -463,6 +464,7 @@ def ai_make_comment(title: str, source: str, url: str, raw_summary: str, maxlen:
         f"Alkuperäinen kuvaus (voi olla englanniksi, käytä vain jos auttaa kiteytyksessä): {raw_summary or '-'}\n\n"
         f"{glossary_hint}\n"
         "Kirjoita vain 1–2 lausetta suomeksi. Älä toista otsikkoa. "
+        "Älä toistele samoja sanastotermejä, elleivät ne ole uutisen kannalta olennaisia. "
         "Ei hashtageja/emojeja ellei yksi sovi luonnollisesti loppuun."
     )
 
