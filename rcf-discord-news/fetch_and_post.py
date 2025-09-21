@@ -59,7 +59,7 @@ _review_flag_raw = os.environ.get("USE_REVIEW_CHANNEL")
 if _review_flag_raw is None:
     _review_flag_raw = os.environ.get("REVIEW_CHANNEL")
 try:
-    USE_REVIEW_CHANNEL = int(str(_review_flag_raw or "0").strip()) == 1
+    USE_REVIEW_CHANNEL = int(str(_review_flag_raw or "1").strip()) == 1
 except Exception:
     USE_REVIEW_CHANNEL = False
 
