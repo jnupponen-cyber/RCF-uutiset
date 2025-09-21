@@ -446,6 +446,9 @@ def ai_make_comment(title: str, source: str, url: str, raw_summary: str, maxlen:
     if not ENABLE_AI_SUMMARY or not OPENAI_API_KEY:
         return None
 
+    title_for_prompt = normalize_terms(title) if title else title
+    summary_for_prompt = normalize_terms(raw_summary) if raw_summary else raw_summary
+
     system_msg = ARVI_PERSONA
     # Pieni sanastolista mallille (deterministinen korjaus tehdään joka tapauksessa normalize_termsilla)
     glossary_hint = (
@@ -459,9 +462,9 @@ def ai_make_comment(title: str, source: str, url: str, raw_summary: str, maxlen:
         f"Kieli: {SUMMARY_LANG}\n"
         f"Maksimipituus: {maxlen} merkkiä.\n"
         f"Lähde: {source}\n"
-        f"Otsikko: {title}\n"
+        f"Otsikko: {title_for_prompt or '-'}\n"
         f"URL: {url}\n"
-        f"Alkuperäinen kuvaus (voi olla englanniksi, käytä vain jos auttaa kiteytyksessä): {raw_summary or '-'}\n\n"
+        f"Alkuperäinen kuvaus (voi olla englanniksi, käytä vain jos auttaa kiteytyksessä): {summary_for_prompt or '-'}\n\n"
         f"{glossary_hint}\n"
         "Kirjoita vain 1–2 lausetta suomeksi. Älä toista otsikkoa. "
         "Älä toistele samoja sanastotermejä, elleivät ne ole uutisen kannalta olennaisia. "
@@ -492,7 +495,8 @@ def ai_make_comment(title: str, source: str, url: str, raw_summary: str, maxlen:
         if not text:
             return None
         text = _limit_to_two_sentences(text)
-        return truncate(text, maxlen)
+        text = truncate(text, maxlen)
+        return normalize_terms(text)
     except Exception as e:
         logd("AI SUMMARY EXC:", e)
         return None
@@ -823,10 +827,6 @@ def process_feed(url: str, seen: set, topic_times: dict[str, float],
             raw_summary=raw_summary,
             maxlen=COMMENT_MAXLEN
         )
-
-        # Termien normalisointi (varmistuskerros)
-        if ai_comment:
-            ai_comment = normalize_terms(ai_comment)
 
         # Postaa
         try:
