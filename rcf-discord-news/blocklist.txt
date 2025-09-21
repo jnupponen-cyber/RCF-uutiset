@@ -124,6 +124,10 @@ E-BIKE
 natinonals
 gravel nationals
 Nationals
+Minnesota
+Nebraska
+new champion
+
 
 # Urheilukellot ja -rannekkeet
 Fenix
@@ -511,3 +515,5 @@ Silvia Persico
 Nino Schurter
 Adrien Niyonshuti
 Ned Boulting
+Lauren Stephens
+Bradyn Lange
