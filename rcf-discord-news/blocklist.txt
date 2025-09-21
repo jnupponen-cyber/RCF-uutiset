@@ -211,6 +211,9 @@ XC World Championships
 Mountain Bike World Championships
 women’s road race
 US Gravel Nationals
+Grand Prix Montreal
+Grand Prix Cycliste de Montréal
+
 
 # Klassikkokisat
 Paris-Roubaix
@@ -299,6 +302,11 @@ CALIFORNIA COAST CLASSIC
 California
 calofornia
 California coast
+Ottawa
+Montreal
+Canada
+Quebec
+province
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
 Kristen Faulkner
@@ -365,6 +373,7 @@ Corratec-Vini Fantini
 Flanders-Baloise
 Bolton Equities Black Spoke
 EF Pro
+UAE Team Emirates
 
 # Sopimusuutiset, tiimit ja ammattilaisuus
 British champion
@@ -526,3 +535,5 @@ Adrien Niyonshuti
 Ned Boulting
 Lauren Stephens
 Bradyn Lange
+Brandon McNulty
+
