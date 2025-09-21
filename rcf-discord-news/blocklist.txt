@@ -127,6 +127,11 @@ Nationals
 Minnesota
 Nebraska
 new champion
+Arthritis Foundation’s
+Arthritis Foundation
+Highway
+CCC
+Team Amgen
 
 
 # Urheilukellot ja -rannekkeet
@@ -290,6 +295,10 @@ CRO Race
 UAE Tour
 Saudi Tour
 Tour of Guangxi
+CALIFORNIA COAST CLASSIC
+California
+calofornia
+California coast
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
 Kristen Faulkner
