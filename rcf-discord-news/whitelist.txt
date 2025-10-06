@@ -43,3 +43,4 @@ indoor trainer
 smart trainer
 turbo trainer
 home trainer
+Jonny Kibble
