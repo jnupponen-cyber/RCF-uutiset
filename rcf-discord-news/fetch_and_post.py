@@ -681,12 +681,7 @@ def post_to_discord(title: str, url: str, source: str,
         "footer": footer,
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
-    if review_mode and seen_uid:
-        embed.setdefault("fields", []).append({
-            "name": "UID",
-            "value": seen_uid,
-            "inline": False
-        })
+    # UID:tä ei enää näytetä Discord-postauksessa edes review-tilassa.
     if image_url:
         if PREFER_LARGE_IMAGE:
             embed["image"] = {"url": image_url}
