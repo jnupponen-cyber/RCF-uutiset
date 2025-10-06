@@ -34,35 +34,11 @@ valinnaiset parametrit, minkä jälkeen työ kutsuu `scripts/manual_post.py`-
 skriptiä. Työ tarvitsee salaisuuden `DISCORD_BOT_TOKEN` yhtä lailla kuin
 paikallisesti ajettuna.
 
-## Tarkistuskanavan viestien hyväksyntä
+## Uutisbotin ajaminen
 
-Ajettu GitHub Actions -työ **RCF Zwift & MyWhoosh uutiset** käyttää oletuksena
-ympäristömuuttujaa `USE_REVIEW_CHANNEL=1`, joten salaisuuksien tulee sisältää sekä
-`DISCORD_REVIEW_WEBHOOK_URL` että `DISCORD_WEBHOOK_URL`. Näin uusien kanavien käyttöönotto
-onnistuu vaihtamalla molemmat webhook-osoitteet. Kun `rcf-discord-news/fetch_and_post.py`
-ajetaan ympäristömuuttujalla
-`USE_REVIEW_CHANNEL=1` (tai yhteensopivuuden vuoksi `REVIEW_CHANNEL=1`), kaikki uutiset
-lähetetään ensin Discordin
-tarkistuskanavaan. Jokainen viesti sisältää `UID`-kentän, jonka arvo vastaa
-`seen.json`-tiedostoon tallennettua hashia. Samalla `pending_posts.json`
--tiedostoon tallennetaan otsikko, lähde, linkki, kuva ja Arvin kommentti
-hyväksyntää odottaville uutisille.
-
-Hyväksyntä tehdään GitHub Actionsissa työnkululla **Promote pending Discord
-post**:
-
-1. Avaa reposta Actions-välilehti ja valitse vasemmalta *Promote pending
-   Discord post*.
-2. Klikkaa *Run workflow* ja syötä yksi tai useampi `UID` tarkistuskanavan
-   viestistä kopioituna (enintään 10 kerrallaan). Voit erotella UID:t välilyönnein,
-   pilkuin tai rivinvaihdoilla.
-3. Käynnistä ajo. Työnkulku lukee `pending_posts.json`-tiedostosta vastaavat
-   merkinnät ja lähettää ne varsinaiseen `#uutiskatsaus`-kanavaan käyttäen samaa
-   muotoilua kuin alkuperäinen skripti. Onnistuneen ajon jälkeen merkinnät
-   poistuvat `pending_posts.json`-tiedostosta.
-
-Työnkulku tarvitsee salaisuudet `DISCORD_WEBHOOK_URL`,
-`DISCORD_REVIEW_WEBHOOK_URL` ja `DISCORD_BOT_TOKEN`. Sama skripti on ajettavissa
-myös paikallisesti komennolla `python scripts/promote_pending.py <UID> [<UID> ...]`,
-kun tarvittavat ympäristömuuttujat on asetettu. UID:t voi antaa erillisinä
-argumentteina tai esimerkiksi merkkijonona `"UID1, UID2"`.
+GitHub Actions -työ **RCF Zwift & MyWhoosh uutiset** kutsuu
+`rcf-discord-news/fetch_and_post.py` -skriptiä ja lähettää kaikki uutiset suoraan
+varsinaiseen `DISCORD_WEBHOOK_URL`-webhookiin. Varmista, että salaisuuksiin on
+asetettu vähintään `DISCORD_WEBHOOK_URL` sekä muut tarvittavat API-avaimet
+(esimerkiksi `OPENAI_API_KEY`, jos tiivistys on käytössä). Skripti on ajettavissa
+myös paikallisesti, kun samat ympäristömuuttujat ovat saatavilla.
