@@ -2,7 +2,7 @@ name: Arvi Replies
 
 on:
   schedule:
-    - cron: "*/30 * * * *"   # 20 min välein (UTC-ajassa)
+    - cron: "*/20 * * * *"   # 20 min välein (UTC-ajassa)
   workflow_dispatch:
 
 permissions:
