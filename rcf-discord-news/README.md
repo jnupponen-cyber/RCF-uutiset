@@ -21,7 +21,6 @@ Kevyt automaatio, joka hakee RSS-syötteistä tuoreita artikkeleita ja postaa ne
 3. **Aseta salaisuudet GitHubissa**
    - Repo → *Settings* → *Secrets and variables* → *Actions* → *New repository secret*
    - Pakollinen: `DISCORD_WEBHOOK_URL` → (liitä uutiskanavan webhook-osoite)
-   - Valinnainen tarkistuskanavaa varten: `DISCORD_REVIEW_WEBHOOK_URL` → (liitä tarkistuskanavan webhook)
 
 4. **Muokkaa lähteitä tarvittaessa**
    - Avaa `feeds.txt` ja lisää/poista RSS-osoitteita.
@@ -37,17 +36,6 @@ Kevyt automaatio, joka hakee RSS-syötteistä tuoreita artikkeleita ja postaa ne
 6. **Valmista!**
    - Botin pitäisi postata uudet jutut valittuun kanavaan.
    - Duplikaatit vältetään `seen.json`-tiedoston avulla, joka **commitoidaan** automaattisesti repoosi.
-
-### Tarkistuskanava (valinnainen)
-
-Jos haluat, että uutiset menevät ensin erilliseen tarkistuskanavaan:
-
-1. Luo Discordissa toinen webhook haluamaasi tarkistuskanavaan.
-2. Tallenna osoite secretiksi nimellä `DISCORD_REVIEW_WEBHOOK_URL`.
-3. Aseta workflowlle (tai paikalliseen ajoon) ympäristömuuttuja `USE_REVIEW_CHANNEL=1`
-   (tai vaihtoehtoisesti `REVIEW_CHANNEL=1`).
-
-Kun haluat palata suoraan julkaisemiseen `#uutiskatsaus`-kanavaan, poista tai aseta `USE_REVIEW_CHANNEL=0` (tai `REVIEW_CHANNEL=0`). Tällöin botti käyttää taas `DISCORD_WEBHOOK_URL`-osoitetta ilman muita muutoksia.
 
 ## Muuta hyödyllistä
 - Ajastus on `*/30 * * * *` → 30 min välein (GitHub käyttää UTC-aikaa).
