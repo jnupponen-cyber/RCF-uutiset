@@ -36,7 +36,11 @@ paikallisesti ajettuna.
 
 ## Tarkistuskanavan viestien hyväksyntä
 
-Kun `rcf-discord-news/fetch_and_post.py` ajetaan ympäristömuuttujalla
+Ajettu GitHub Actions -työ **RCF Zwift & MyWhoosh uutiset** käyttää oletuksena
+ympäristömuuttujaa `USE_REVIEW_CHANNEL=1`, joten salaisuuksien tulee sisältää sekä
+`DISCORD_REVIEW_WEBHOOK_URL` että `DISCORD_WEBHOOK_URL`. Näin uusien kanavien käyttöönotto
+onnistuu vaihtamalla molemmat webhook-osoitteet. Kun `rcf-discord-news/fetch_and_post.py`
+ajetaan ympäristömuuttujalla
 `USE_REVIEW_CHANNEL=1` (tai yhteensopivuuden vuoksi `REVIEW_CHANNEL=1`), kaikki uutiset
 lähetetään ensin Discordin
 tarkistuskanavaan. Jokainen viesti sisältää `UID`-kentän, jonka arvo vastaa

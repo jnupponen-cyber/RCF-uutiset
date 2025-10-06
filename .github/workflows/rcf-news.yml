@@ -27,6 +27,8 @@ jobs:
       - name: Run fetcher
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_REVIEW_WEBHOOK_URL: ${{ secrets.DISCORD_REVIEW_WEBHOOK_URL }}
+          USE_REVIEW_CHANNEL: "1"
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ENABLE_AI_SUMMARY: "1"
           SUMMARY_MODEL: gpt-4o-mini
