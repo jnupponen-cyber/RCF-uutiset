@@ -698,7 +698,11 @@ def post_to_discord(title: str, url: str, source: str,
         content = f"<@&{MENTION_ROLE_ID}>"
         allowed["roles"] = [MENTION_ROLE_ID]
 
-    payload = {"embeds": [embed], "components": components}
+    payload = {
+        "embeds": [embed],
+        "components": components,
+        "flags": 4096,
+    }
     if content:
         payload["content"] = content
         payload["allowed_mentions"] = allowed
