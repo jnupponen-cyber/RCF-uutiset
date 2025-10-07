@@ -147,6 +147,8 @@ toddler
 toddlers
 children
 velodrome
+cuts
+war on bicycles
 
 # Urheilukellot ja -rannekkeet
 Smartwathes
