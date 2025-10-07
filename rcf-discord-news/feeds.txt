@@ -18,6 +18,11 @@ https://pezcyclingnews.com/feed/
 https://totalwomenscycling.com/feed
 https://roadbikeaction.com/feed/
 https://roadcyclinguk.com/gear/gear-news/feed
+https://sparecycles.blog/feed/
+https://www.sportivecyclist.com/feed/
+https://www.wattkg.com/feed/
+https://www.humanvortextraining.com/feed/
+https://www.highnorth.co.uk/articles?format=rss
 
 # --- YouTube ---
 https://www.youtube.com/feeds/videos.xml?channel_id=UCuTaETsuCOkJ0H_GAztWt0Q
