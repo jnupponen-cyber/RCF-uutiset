@@ -441,6 +441,7 @@
     "97fffc292ed1ef436cc15d7c505b5556e13ece5bf95cd694e7f69cf7693124e4",
     "98b92dd67951ee6a0ea828631b512d43f2388360d2d3ae172b57e171b3120bc6",
     "98bce4f2e195aeced9af3c522e7fa7f393b9d7ded66fb0667bcc7a07865fe680",
+    "98fe8b6616e2b38630b656260233f64dcb376bda1f14e715445953b153b996a7",
     "99232bea644a9166e7c976f4849614ebe73d65aee73ae8ee44085f95c21d5b67",
     "994d5153b8700823198b6df1dac11f59780199c86583b06d6e30647815346040",
     "99569fb505e33d07fe6fe7f459b1d7f3c183bce6f1679c014c562238b399cfea",
@@ -536,6 +537,7 @@
     "c14a89c8e6a4bbd412d51d9078893ccaea4a8a141f3c42bbd829f53176936a67",
     "c16568feace4f3b617e1a90e56173f88be2dbde1c3596e630640d21feca7a1a8",
     "c186600bd2a0cec423bb8435145fc4bad3e302b088733048252d181831a82037",
+    "c1a60974d77a831fd4c7ba07485a89fa1f4b419a02e5917eed11e26baa5de499",
     "c1b09265463de01214f32cb19b374d64fe7d38a1475b0309ba06a34b6e204620",
     "c1bb69a0a76c7906901e275aecccd18185074c64e00377cb6516de5b145ff53b",
     "c1d4d5c752b14902df0e8ad556a666ea37ffdb9b687c5cd03431be487ff9c524",
@@ -717,9 +719,6 @@
     "ffb2f514fb2fefaea0e7ea27725f6ac3e6da21f2c3d10a6e22e8ee9b8c0f9303"
   ],
   "topics": {
-    "1 2025 5 club october qualifier race sunday": 1759803767.3227322,
-    "championships esports finals semi uci world": 1759803771.0164144,
-    "2025 28 club final monthly race september sunday": 1759803774.193905,
     "fueling georgia north reflections trans ultra": 1759821207.9272027,
     "broke fastest matthew purest record richardson track world": 1759825100.728786,
     "100 apex jacket proviz reflective": 1759828481.2011123,
@@ -753,7 +752,9 @@
     "active amid bicycles brief cuts donald doomed history paths recent": 1759840027.3284116,
     "2 buying core deal just kickr launched prime smart trainer": 1759843472.0530024,
     "11 2025 best indoor trainers": 1759843481.5386918,
-    "core days deal discounted indoor kickr prime setup upgrade wahoo": 1759843485.4755762
+    "core days deal discounted indoor kickr prime setup upgrade wahoo": 1759843485.4755762,
+    "break details electric route": 1759847742.8233852,
+    "amazon change days deal headphone indoor massive picks prime rides": 1759847755.0469627
   },
-  "last_fetch_ts": 1759843495.464192
+  "last_fetch_ts": 1759847766.6002076
 }
