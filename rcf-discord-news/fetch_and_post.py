@@ -142,6 +142,10 @@ SOURCE_COLORS = {
     "PezCycling News":         int("0x02598b", 16),
     "Total Women's Cycling":   int("0x91cfc1", 16),
     "Road Bike Action":       int("0xfcf47f", 16),
+    "Spare Cycles":           int("0x9cbf7e", 16),
+    "W/KG":                   int("0xf2c247", 16),
+    "Human Vortex Training":  int("0xcfff3d", 16),
+    "Articles - High North Performance":  int("0xffffff", 16),
 }
 
 # --- Regex OG-metaan ---
