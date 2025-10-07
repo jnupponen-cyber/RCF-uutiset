@@ -146,6 +146,7 @@ babies
 toddler
 toddlers
 children
+velodrome
 
 # Urheilukellot ja -rannekkeet
 Smartwathes
