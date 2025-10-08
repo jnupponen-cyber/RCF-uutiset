@@ -408,6 +408,8 @@ Astana Qazaqstan Team
 Israel–Premier
 Israeli
 Sylvan Adams
+Soudal-QuickStep
+Picnic-PostNL
 
 # Maantiepyörätiimit – ProTeams ja muut tunnetut
 Q36.5 Pro Cycling Team
@@ -604,6 +606,7 @@ Christophe Laporte
 Paul Seixas
 Blevins
 Rissveds
+James Knox
 
 #synonyymit
 
