@@ -157,6 +157,8 @@ Race Results
 burglary
 smashed the window
 Thieves
+XCO
+XCC
 
 # Urheilukellot ja -rannekkeet
 Smartwathes
@@ -466,6 +468,7 @@ sportives
 gran fondo
 randonnee
 brevet
+Lake Placid
 
 # UCI säännöt ja turvallisuus
 UCI regulations
@@ -599,6 +602,8 @@ Jordi Meeus
 Nils Eekhoff
 Christophe Laporte
 Paul Seixas
+Blevins
+Rissveds
 
 #synonyymit
 
