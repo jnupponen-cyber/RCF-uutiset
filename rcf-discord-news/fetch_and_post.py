@@ -146,6 +146,7 @@ SOURCE_COLORS = {
     "W/KG":                   int("0xf2c247", 16),
     "Human Vortex Training":  int("0xcfff3d", 16),
     "Articles - High North Performance":  int("0xffffff", 16),
+    "Latest from Cyclingnews":  int("0xd8fc35", 16),
 }
 
 # --- Regex OG-metaan ---
