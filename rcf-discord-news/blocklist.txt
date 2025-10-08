@@ -572,3 +572,262 @@ Magdeleine Vallieres
 Jordi Meeus
 Nils Eekhoff
 Christophe Laporte
+
+#synonyymit
+
+# Yleiset estot – uudet
+insta 360
+podcasts
+protester
+protesters
+rally
+march
+boycotts
+cargobike
+cargobikes
+cargo ebike
+commuter bikes
+urban cycling
+city cycling
+bikepacking
+bike-pack
+foldable bike
+collapsible bike
+phone holder
+smartphone mount
+AirPods
+Apple AirPods
+locals
+local people
+citizen
+citizens
+sickness
+ailment
+infection
+oncology
+radiotherapy
+anti-doping
+failed test
+legal case
+verdict
+judgement
+controversies
+aggressive driver
+reckless driver
+dangerous driving
+donation
+nonprofit
+foundation
+awareness ride
+law enforcement
+officer
+arrest
+detained
+drive unit
+assist motor
+ebike
+ebikes
+e-bikes
+pedal-assist
+electric bicycle
+electric bikes
+Fatbike
+midmotor
+IPO
+parliament
+climate treaty
+endangered species
+child seat
+infant
+infants
+residents group
+Prime sale
+Amazon Prime
+theft
+stolen
+robbery
+vandalism
+break-in
+anti-cycling
+idiot drivers caught
+
+# Urheilukellot ja -rannekkeet – uudet
+Smartwatches
+smart watch
+smart watches
+activity tracker
+sports wearable
+wearable
+wearables
+health wearable
+
+# Action cameras – uudet
+Go Pro
+Insta 360
+action cameras
+4K camera
+wearable camera
+
+# Grand Tours ja suuret kilpailut – uudet
+Olympic Games
+
+# Klassikkokisat – uudet
+Walloon Arrow
+
+# Minor races – uudet
+California Coast Classic
+province
+
+# Ajajauutiset – uudet
+hurt
+collision
+fall
+wreck
+fracture
+season ending
+career ending
+
+# Sopimusuutiset / ammattilaisuus – uudet
+national champion
+signs contract
+wage
+roster change
+pro deal
+professional team
+
+# UCI säännöt ja turvallisuus – uudet
+rule change
+new rule
+ban
+
+# Katseluohjeet – uudet
+live
+replay
+highlights
+
+# YouTube Shorts – uudet
+#shortvideo
+short-video
+ytshorts
+
+# Kaupalliset tarjoukset ja kampanjat (myyntipainotteiset)
+
+deal
+deals
+big deal
+discount
+discounts
+sale
+sales
+offers
+offer
+promo
+promotion
+promotions
+coupon
+coupons
+voucher
+vouchers
+clearance
+bargain
+bargains
+markdown
+markdowns
+price drop
+price cuts
+price cut
+price slashed
+slashed prices
+half price
+half-price
+special offer
+special price
+exclusive offer
+exclusive deal
+flash sale
+limited offer
+limited-time offer
+limited time offer
+gift card
+gift set
+sale alert
+on sale
+in sale
+available now
+shop now
+buy now
+order now
+now available
+back in stock
+in stock
+pre-order
+preorder
+restock
+restocked
+price comparison
+compare prices
+save 10%
+save 20%
+save up to
+save more
+save big
+save today
+Black Friday
+Black-Friday
+Cyber Monday
+holiday sale
+seasonal sale
+Prime Day
+Prime Sale
+Prime Deals
+Amazon Deal
+Amazon Deals
+Amazon’s Prime
+UK price drop
+US price drop
+UK retailer
+US retailer
+retailer offers
+discount code
+coupon code
+promo code
+referral code
+affiliate
+affiliate link
+sponsored
+sponsored post
+sponsored article
+advertisement
+advertorial
+ads
+adverts
+advert
+advertising
+store
+stores
+shop
+shops
+storefront
+marketplace
+online store
+retailer
+retailers
+Wiggle
+Chain Reaction Cycles
+Evans Cycles
+ProBikeKit
+Sigma Sports
+Competitive Cyclist
+REI
+Backcountry
+Jenson USA
+Canyon sale
+Canyon discount
+Trek sale
+Specialized sale
+Decathlon sale
+Halfords sale
+road.cc deals
+bikeradar deals
+cyclingweekly deals
+bicycling deals
