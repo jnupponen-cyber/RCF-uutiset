@@ -153,6 +153,7 @@ Amazon’s Prime
 Big deal
 Donald Trump
 SD Worx
+Race Results
 
 # Urheilukellot ja -rannekkeet
 Smartwathes
@@ -267,7 +268,7 @@ WorldTour
 World Championship
 Cross Country XCO
 World Cup
-
+Binche-Chimay-Binche
 
 # Minor races (USA, UK, small national events)
 Tour of California
@@ -565,3 +566,6 @@ Bradyn Lange
 Brandon McNulty
 Matthew Richardson
 Magdeleine Vallieres
+Jordi Meeus
+Nils Eekhoff
+Christophe Laporte
