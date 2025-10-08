@@ -192,6 +192,14 @@ Michael Hutchinson
 Track cycling
 Cycling route
 Cycling routes
+Smartwatches
+smart watch
+smart watches
+activity tracker
+sports wearable
+wearable
+wearables
+health wearable
 
 # Action cameras
 GoPro
@@ -213,6 +221,11 @@ bike cam
 adventure camera
 4K action
 360 camera
+Go Pro
+Insta 360
+action cameras
+4K camera
+wearable camera
 
 # Grand Tours ja suuret kilpailut
 Tour de France
@@ -365,6 +378,13 @@ hospital
 hospitalized
 surgery
 operation
+hurt
+collision
+fall
+wreck
+fracture
+season ending
+career ending
 
 # Maantiepyörätiimit – WorldTour
 Alpecin-Deceuninck
@@ -428,6 +448,12 @@ transfer
 transfer saga
 team transfer
 rider transfer
+national champion
+signs contract
+wage
+roster change
+pro deal
+professional team
 
 # Tapahtumat ja haasteet
 Big Ride Challenge
@@ -651,23 +677,6 @@ break-in
 anti-cycling
 idiot drivers caught
 
-# Urheilukellot ja -rannekkeet – uudet
-Smartwatches
-smart watch
-smart watches
-activity tracker
-sports wearable
-wearable
-wearables
-health wearable
-
-# Action cameras – uudet
-Go Pro
-Insta 360
-action cameras
-4K camera
-wearable camera
-
 # Grand Tours ja suuret kilpailut – uudet
 Olympic Games
 
@@ -677,23 +686,6 @@ Walloon Arrow
 # Minor races – uudet
 California Coast Classic
 province
-
-# Ajajauutiset – uudet
-hurt
-collision
-fall
-wreck
-fracture
-season ending
-career ending
-
-# Sopimusuutiset / ammattilaisuus – uudet
-national champion
-signs contract
-wage
-roster change
-pro deal
-professional team
 
 # UCI säännöt ja turvallisuus – uudet
 rule change
