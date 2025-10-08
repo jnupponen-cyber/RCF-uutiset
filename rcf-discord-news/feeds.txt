@@ -23,6 +23,10 @@ https://www.sportivecyclist.com/feed/
 https://www.wattkg.com/feed/
 https://www.humanvortextraining.com/feed/
 https://www.highnorth.co.uk/articles?format=rss
+https://www.smartbiketrainers.com/feed
+https://www.cyclingnews.com/feeds.xml
+https://escapecollective.com/rss/
+https://www.nutritiontactics.com/feed/
 
 # --- YouTube ---
 https://www.youtube.com/feeds/videos.xml?channel_id=UCuTaETsuCOkJ0H_GAztWt0Q
