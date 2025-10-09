@@ -27,6 +27,7 @@ https://www.smartbiketrainers.com/feed
 https://www.cyclingnews.com/feeds.xml
 https://www.nutritiontactics.com/feed/
 https://cyclist.co.uk/feed
+https://training4cyclists.com/feed
 
 # --- YouTube ---
 https://www.youtube.com/feeds/videos.xml?channel_id=UCuTaETsuCOkJ0H_GAztWt0Q
