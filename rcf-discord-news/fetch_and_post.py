@@ -149,7 +149,6 @@ SOURCE_COLORS = {
     "Latest from Cyclingnews":  int("0xd8fc35", 16),
     "nutrition tactics":      int("0x38bfd3", 16),
     "Escape Collective":      int("0xf39202", 16),
-    "Cyclist":      int("0xff6f42", 16),
 }
 
 # --- Regex OG-metaan ---
