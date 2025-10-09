@@ -25,7 +25,6 @@ https://www.humanvortextraining.com/feed/
 https://www.highnorth.co.uk/articles?format=rss
 https://www.smartbiketrainers.com/feed
 https://www.cyclingnews.com/feeds.xml
-https://escapecollective.com/rss/
 https://www.nutritiontactics.com/feed/
 
 # --- YouTube ---
