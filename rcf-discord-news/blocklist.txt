@@ -160,7 +160,7 @@ Thieves
 XCO
 XCC
 British racing
-
+race results
 
 # Urheilukellot ja -rannekkeet
 Smartwathes
@@ -261,6 +261,7 @@ Grand Prix Cycliste de Montréal
 BMX
 Il Lombardia
 Race of the Falling Leaves
+Gran Piemonte
 
 # Klassikkokisat
 Paris-Roubaix
@@ -616,6 +617,7 @@ Blevins
 Rissveds
 James Knox
 Elliott Colyer
+Isaac del Toro
 
 #synonyymit
 
