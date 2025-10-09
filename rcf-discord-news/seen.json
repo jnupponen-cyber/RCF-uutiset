@@ -410,6 +410,7 @@
     "7c67286dd78e9ebddb1badca5d2989f2f4a27a25df466be490dd16e0cf39e719",
     "7c7c9a6b1e3ceb76c5cc0d200e644ccac1413598fad44e78afca61502703c808",
     "7ceb2e67f882f45c061b3b8b62f834acebb943c0a7503e93fc6171acc83fc222",
+    "7d4034dcd0b6e74892c89e609610bac1de26fc0d7189fa6399930e6b2244fc3e",
     "7d47d4185549abb5eec99f9a7faaac2cf3e8fd33f303ade5c11711a755baa6a9",
     "7e92c16de2672bcf52f798eda9601eb5a527fc27a355b272a4995d10bd1d6f10",
     "7ed27d3212dcc68049bd9d6dd6476877963a497e428ca27397276405cbb60e10",
@@ -633,6 +634,7 @@
     "c264e9638df17c4ffccffd621c29df2a5de6df6659217f667bc532a128e6ff7d",
     "c29bb3a57390af022c5aecea97869fdd977600f077e22d23c00dbb3f28c19cec",
     "c2b2bd7d45af3b19ad71e62f2dc21cbd84ad3ec6ec78fb8f82413097eaff35a6",
+    "c2b8eb8d479c1d89851a85c2533c8d1b3a6bd4191d6a306118bd26675ae36645",
     "c3105ad693b8170a518edacca216ffefa07e9aa2435d953712fb6d60b6b30db5",
     "c3dadbd47ab2929a30d5e705d6fed45203e697a2eebb55c0570d4112039865b6",
     "c427b601cb2261346ba24cebb5b26b29c3f1ff1efff6af60deca3b878e90f7cc",
@@ -822,6 +824,7 @@
     "fdecb841d4ea0c0cfa31e7dde10850fba05bfca522a0c63f01fe26ef2d73fee9",
     "fdf122eb5472eff35b860eaeaef16f521e6ea2c208293c04a438d18fc1318ddc",
     "fe21bd0a0287412e29febcf361c1f05f89a063cb369bfcdd7df0c3cd8cca2384",
+    "fe5a5ca5308214f5985fde6f48074e540785766154fac9b6a6dec2192da10df3",
     "fe836b148c075986fee29300ab1b074f9d1e8aaea98b54cbb0498fe4076685ed",
     "fedd80b376ab4b65f9e50c577e417258536afc9c9051e7c79209bf775476c0cd",
     "fee537622f6617e27cb14afaace1f8be4f3f2ddee13104e6eaa2e43d59b1bcd8",
@@ -829,7 +832,6 @@
     "ffb2f514fb2fefaea0e7ea27725f6ac3e6da21f2c3d10a6e22e8ee9b8c0f9303"
   ],
   "topics": {
-    "13 2 addict aethos battle pound scott specialized": 1759993979.4291847,
     "between cleats difference mt001 road sh51 sh56 shimano three what": 1759997879.3616607,
     "again american avoiding centric euro gravel headline list north pidcock": 1760001236.9880052,
     "custom insoles sidas ultra": 1760001248.6323953,
@@ -855,7 +857,10 @@
     "alexander bicycles maker meet plaisted selwyn": 1760025090.165566,
     "insider italian spinning yarns": 1760025093.7657216,
     "argonaut dream": 1760029007.9968545,
-    "always faster indoor more prove quick riding secret these time": 1760033939.0903656
+    "always faster indoor more prove quick riding secret these time": 1760033939.0903656,
+    "5 beginner comebacks guide racing unlocked videos zwift": 1760038755.80605,
+    "against secures sram uci": 1760038766.7491422,
+    "clipless components ctrl pedals reboots tooth wolf": 1760038780.9635088
   },
-  "last_fetch_ts": 1760037080.113413
+  "last_fetch_ts": 1760038815.944171
 }
