@@ -161,6 +161,7 @@ XCO
 XCC
 British racing
 race results
+cyclo-cross
 
 # Urheilukellot ja -rannekkeet
 Smartwathes
@@ -262,6 +263,8 @@ BMX
 Il Lombardia
 Race of the Falling Leaves
 Gran Piemonte
+Winter Olympics
+Winter Games
 
 # Klassikkokisat
 Paris-Roubaix
