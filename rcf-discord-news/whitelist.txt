@@ -50,3 +50,5 @@ mobility
 High North Performance
 High North
 Bulletproof Cycling
+allow_source=youtube.com/jonny kibble
+allow_source=youtube.com/bulletproofcycling
