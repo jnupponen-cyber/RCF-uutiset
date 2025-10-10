@@ -162,6 +162,7 @@ XCC
 British racing
 race results
 cyclo-cross
+Fundraiser
 
 # Urheilukellot ja -rannekkeet
 Smartwathes
