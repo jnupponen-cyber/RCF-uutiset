@@ -313,9 +313,38 @@ def clean_text(s: str | None) -> str:
     return s
 
 def truncate(s: str, maxlen: int) -> str:
+    """Truncate ``s`` to ``maxlen`` characters without breaking words mid-way.
+
+    Discordin kentissä on tiukka merkkiraja. Aiempi toteutus katkaisi
+    merkkijonon suoraan keskeltä sanaa, mikä johti kömpelöihin suomenkielisiin
+    lauseisiin. Tämä versio yrittää ensin löytää lauseen- tai sananrajan ennen
+    merkkirajaa ja lisää ellipsin, jotta lopputulos tuntuu luonnolliselta.
+    """
+
     if len(s) <= maxlen:
         return s
-    return s[:maxlen-1].rstrip() + "…"
+
+    if maxlen <= 1:
+        return "" if maxlen <= 0 else "…"
+
+    cutoff = maxlen - 1  # varataan yksi merkki ellipsille
+    snippet = s[:cutoff]
+
+    # Yritä suosia lauseen loppua (., !, ?, …) lähellä loppua.
+    sentence_end = max((snippet.rfind(ch) for ch in ".!?…"), default=-1)
+    if sentence_end >= 0 and sentence_end >= int(cutoff * 0.5):
+        snippet = snippet[:sentence_end + 1]
+    else:
+        # Muuten valitse viimeinen välilyönti, jotta sana ei katkea.
+        word_end = snippet.rfind(" ")
+        if word_end >= 0 and word_end >= int(cutoff * 0.5):
+            snippet = snippet[:word_end]
+
+    snippet = snippet.rstrip()
+    if not snippet:
+        snippet = s[:cutoff].rstrip()
+
+    return snippet + "…"
 
 def domain_favicon(url: str) -> str | None:
     try:
