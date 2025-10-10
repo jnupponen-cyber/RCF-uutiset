@@ -356,6 +356,8 @@ Montreal
 Canada
 Quebec
 province
+Olympic
+Grand Tour
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
 Kristen Faulkner
@@ -393,6 +395,7 @@ wreck
 fracture
 season ending
 career ending
+retirement
 
 # Maantiepyörätiimit – WorldTour
 Alpecin-Deceuninck
@@ -618,6 +621,7 @@ Rissveds
 James Knox
 Elliott Colyer
 Isaac del Toro
+Elia Viviani
 
 #synonyymit
 
