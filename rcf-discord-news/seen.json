@@ -731,6 +731,7 @@
     "db3d79ea54daf9cf5c924edb99675ea231e7625f5dc3ce4d4b01f56abf1d446b",
     "db46ca26d504191b39f033f5523b92b2b103b5f69ba8d776c1de830429a87792",
     "dbac2d2a08dae8f0b4c658ed10526134560eb19af6c7c045dd6e388b7d132fc2",
+    "dbc2fff414780d0c157d56e0b61acb9bbd2b3e77706ea2addd18e4bed72ba646",
     "dbe22fd130c696ccffac78279c95270f72361e0673bf585f12e8cd5708c53791",
     "dc1545f3e8a5511f4d91526bf51a1ded01044e24bbb7b5f3ca61bc551b1067cf",
     "dce7d0d0458172866483b48beca17d4d1691bb5651e62cd29c5c5c6f2a413305",
@@ -752,6 +753,7 @@
     "e1ceb2551daeb9fcade1c8724d540ccecadafc7cc054c0d122fe1ff489ff7cc6",
     "e1e6f5107e59ad07f20215f0376f13105474bd8ca971dbdaf66419ad7c290337",
     "e3456766def40af2327d092b2a1d7c0af666b892ede8a30b8905f597e47e9826",
+    "e397db325672e8ad4affd6535138f611c688c47c37f0f20c4cbce08232266651",
     "e3a6f241d5f7874ae533c0a28d695cc064f70289bd7b74c9477f759874903631",
     "e43be2296da8ae12f865202ab5d372e347d94f09e269aa7e8a8d6efdf6c6b91c",
     "e48c914689c3d00e6c1f6264605843200a9e7d2442240986059d0ff9e987acb0",
@@ -841,12 +843,13 @@
     "ffb2f514fb2fefaea0e7ea27725f6ac3e6da21f2c3d10a6e22e8ee9b8c0f9303"
   ],
   "topics": {
-    "authority belgian competition gear halts rule scores sram uci": 1760051524.8190734,
     "experts faster grams hundreds lighter save secret simple think upgrades": 1760051529.9827037,
     "77 components introduces printed range saddle samassi": 1760080380.705742,
     "pannier restrap switch": 1760087701.9675384,
     "adds blade factor look option pedals wider": 1760091282.2986984,
-    "announces elia retirement sprint star viviani": 1760091294.7796679
+    "announces elia retirement sprint star viviani": 1760091294.7796679,
+    "change coming cross cyclo everything olympics winter would": 1760094698.9800014,
+    "bright every lights lumen number perfect scenario should": 1760094718.540462
   },
-  "last_fetch_ts": 1760091306.2393143
+  "last_fetch_ts": 1760094727.5461807
 }
