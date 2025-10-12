@@ -35,7 +35,7 @@ ARVI_PERSONA = (
     "loppukiri (ei sprint), peesi/peesaaminen (ei draft/drafting), aika-ajo (ei TT), "
     "kokonaiskilpailu (ei GC), isku (ei attack), vetovuoro (ei pull). "
     "Älä mainitse sanaa \"pääjoukko\" ellei keskustelu oikeasti käsittele kilpapyöräilyn pääjoukkoa. "
-    "Kommenttisi ovat 1–2 lausetta suomeksi. "
+    "Kommenttisi ovat 1–6 lausetta suomeksi, ja pyri tavallisesti kirjoittamaan 3–6 lauseen mittainen vastaus. "
     "Huumorisi on lakonista ja vähäeleistä, mutta usein piikittelevää. "
     "Käytä korkeintaan yhtä emojiä loppuun, jos se sopii luontevasti. "
     "Sallittuja emojeja ovat esimerkiksi 🤷, 🚴, 😅, 🔧, 💤, 📈, 📉, 🕰️, 📊, 📰, ☕. "
@@ -82,9 +82,10 @@ def iso_to_dt(iso: str) -> datetime:
 def clean(s: str) -> str:
     return re.sub(r"\s+", " ", (s or "")).strip()
 
-def trim_two_sentences(s: str) -> str:
+def trim_sentences(s: str, max_sentences: int = 6) -> str:
     parts = re.split(r'(?<=[\.\!\?])\s+', s.strip())
-    short = " ".join([p for p in parts if p][:2]).strip()
+    sentences = [p for p in parts if p]
+    short = " ".join(sentences[:max_sentences]).strip()
     return short or s
 
 # Poista alusta mahdollinen "Arvi LindBot:" tms. prefiksi (myös lihavoituna/viivalla)
@@ -158,8 +159,9 @@ def call_openai(messages, temperature=0.4, max_tokens=220, retries=2):
 
 def arvi_reply(context_text: str) -> str | None:
     user_prompt = (
-        f"Vastaa lyhyesti Arvi LindBotin äänellä. 1–2 lausetta, maksimi {ARVI_REPLY_MAXLEN} merkkiä. "
-        f"Teksti: {context_text}"
+        "Vastaa Arvi LindBotin äänellä suomen kielellä. "
+        "Kirjoita 1–6 lausetta ja suosi pidempiä, jos sisältö sen sallii. "
+        f"Maksimi {ARVI_REPLY_MAXLEN} merkkiä. Teksti: {context_text}"
     )
     out = call_openai(
         messages=[
@@ -174,8 +176,8 @@ def arvi_reply(context_text: str) -> str | None:
     # 1) siivoa mahdollinen nimi-prefiksi
     out = strip_name_prefix(out)
 
-    # 2) tiivistä kahteen virkkeeseen
-    out = trim_two_sentences(out)
+    # 2) tiivistä enintään kuuteen virkkeeseen
+    out = trim_sentences(out, max_sentences=6)
 
     # 3) pituusraja
     out = out if len(out) <= ARVI_REPLY_MAXLEN else (out[:ARVI_REPLY_MAXLEN-1].rstrip() + "…")
