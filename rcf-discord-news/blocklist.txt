@@ -775,7 +775,6 @@ sale alert
 on sale
 in sale
 available now
-shop now
 buy now
 order now
 now available
@@ -826,8 +825,6 @@ advert
 advertising
 store
 stores
-shop
-shops
 storefront
 marketplace
 online store
