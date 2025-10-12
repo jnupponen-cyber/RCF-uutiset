@@ -164,6 +164,7 @@ race results
 cyclo-cross
 Fundraiser
 North Wales
+Gravel Worlds
 
 # Urheilukellot ja -rannekkeet
 Smartwathes
@@ -632,6 +633,8 @@ Moda Donne
 Elisa Longo
 Marlen Reusser
 Oropa
+Vermeersch
+Florian Vermeersch
 
 #synonyymit
 
