@@ -52,3 +52,5 @@ High North
 Bulletproof Cycling
 allow_source=youtube.com/jonny kibble
 allow_source=youtube.com/bulletproof cycling
+allow_source=GCN Tech
+allow_source=youtube.com/gcn tech
