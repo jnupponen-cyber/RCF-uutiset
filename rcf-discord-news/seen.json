@@ -882,8 +882,6 @@
     "ff91d072d8120049a262dfb74c0dc0f61b281643969d92599749dd20b7479cbd",
     "ffb2f514fb2fefaea0e7ea27725f6ac3e6da21f2c3d10a6e22e8ee9b8c0f9303"
   ],
-  "topics": {
-    "cannondale happened strangest whatever": 1760303455.8889618
-  },
-  "last_fetch_ts": 1760343599.4540987
+  "topics": {},
+  "last_fetch_ts": 1760347028.739899
 }
