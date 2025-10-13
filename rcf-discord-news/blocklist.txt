@@ -166,6 +166,7 @@ Fundraiser
 North Wales
 Gravel Worlds
 Results:
+Gravel World Champs
 
 # Urheilukellot ja -rannekkeet
 Smartwathes
@@ -638,6 +639,8 @@ Vermeersch
 Florian Vermeersch
 Cam Jones
 Sofia Gomez Villafañe
+Matej Mohorič
+Francisco Mancebo
 
 #synonyymit
 
