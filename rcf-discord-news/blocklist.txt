@@ -304,6 +304,9 @@ Cross Country XCO
 World Cup
 Binche-Chimay-Binche
 WorldTour
+Tour of Holland
+European stage
+gravel stage
 
 # Minor races (USA, UK, small national events)
 Tour of California
