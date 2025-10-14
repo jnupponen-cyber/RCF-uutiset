@@ -1,5 +1,6 @@
 {
   "ids": [
+    "00a7abeffae3b050499d8121f80c32eeec03b805e741c0791cf7741ca9fe1790",
     "01aefc9ffceb972b0e30fecc4046ec07554066a5ae45be85876894df8fdc3322",
     "01ceb194e595d65379c4f89e9d341ac2f43b8e9b74791797aacbf17755ecc7f7",
     "01df707a38e6afa92e5982b4f30afbcf579f36657dfe4b0efcf908849538a529",
@@ -904,7 +905,6 @@
     "ffb2f514fb2fefaea0e7ea27725f6ac3e6da21f2c3d10a6e22e8ee9b8c0f9303"
   ],
   "topics": {
-    "gravel rouvy smarter spring train": 1760368415.1794536,
     "champs gravel matej merida mission mohori podium rides unreleased world": 1760372193.6051779,
     "49 finally francisco mancebo oldest race retires rider": 1760372210.781736,
     "4 indoor make more realistic tips training your": 1760375515.2426434,
@@ -913,7 +913,8 @@
     "850 catch delivers edge exceptional experience garmin just riders there": 1760375531.1938186,
     "best indoor rollers smart solution static trainer turbo which": 1760379519.2307346,
     "actually deal endurance fuel nutrition tailwind": 1760382592.676039,
-    "cameron early jones launches little secure sugar villafa": 1760397120.4691873
+    "cameron early jones launches little secure sugar villafa": 1760397120.4691873,
+    "back chapter enter next revel": 1760412587.7827284
   },
-  "last_fetch_ts": 1760408717.8014038
+  "last_fetch_ts": 1760412606.2177477
 }
