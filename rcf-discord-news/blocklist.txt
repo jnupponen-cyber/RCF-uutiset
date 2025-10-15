@@ -372,6 +372,7 @@ Quebec
 province
 Olympic
 Grand Tour
+Tour of Chongming Island
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
 Kristen Faulkner
@@ -647,6 +648,8 @@ Cam Jones
 Sofia Gomez Villafañe
 Matej Mohorič
 Francisco Mancebo
+Sofie van Rooijen
+Elisa Balsamo
 
 #synonyymit
 
