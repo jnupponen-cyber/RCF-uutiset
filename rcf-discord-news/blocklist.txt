@@ -172,6 +172,9 @@ Monument
 Brompto
 EUROTRASH
 EUROTRASH:
+Richfield
+Utah
+Spinal Tap
 
 # Urheilukellot ja -rannekkeet
 Smartwathes
