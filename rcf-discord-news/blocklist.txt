@@ -175,6 +175,8 @@ EUROTRASH:
 Richfield
 Utah
 Spinal Tap
+Grand Prix
+Big Sugar Gravel
 
 # Urheilukellot ja -rannekkeet
 Smartwathes
@@ -656,6 +658,8 @@ Francisco Mancebo
 Sofie van Rooijen
 Elisa Balsamo
 Jody Cundy
+Keegan Swenson
+Sofía Gómez Villafañe
 
 #synonyymit
 
