@@ -644,6 +644,7 @@
     "9b8c9c24d55e50d71ad5a72759e3127672e847e4f0648ef5bc5c3d5488cbb9f6",
     "9c05ada8b4f5b658b4b7ee8c552de2fcf232f60aa6192cf4c197996deeb9120f",
     "9c12df0c8f1aa445a8e38cf454c0e011c79ff926fe38089f083775582af35613",
+    "9c2beedbfbc1e88f4bda6abe272f2a6e8bcf4fe3e3ddc657c22076ce626ad8d9",
     "9cf6285e5adf93de6463d67578b2420b40b53cfc15011afb3c2a0abbfdd5f947",
     "9d1788cf5fcfc28642b66cdb4330908ad9dd54165a590691c6fa80a6928404c8",
     "9e0bad1c09e0c4ad8be7c71df745338d9b0ae76cc4b457334f59256035350931",
@@ -665,6 +666,7 @@
     "a295e682f80deae65ee303bb484ee6dc74d58bf3c819d87c49870e2c5c5cbe94",
     "a2c55c38f03729f7984330d1ae7015c60d4ad4f5ee5ba8509e2a861bdafbd4ce",
     "a361130e55aebb87b4fb142bd231b8fcd37f0ec0464cf8bf0c34cdb4ec691838",
+    "a393005ad8df18593b2b031d4cfedea2d452d779caf041f4f1eb89b3719558d4",
     "a457acc3d00cd826fb1e9a49b94e6bcd1dfb2ffe46c19aa703793e70b8976afc",
     "a514fb4978c1a4427f026e6a7c79a91af9ed533d03523617760ffc8c2664d3d1",
     "a54f411f6ba88992cc22e799e4d56c3bcc46b445f353fe1200f68a32935e3c30",
@@ -1024,7 +1026,6 @@
     "ffb2f514fb2fefaea0e7ea27725f6ac3e6da21f2c3d10a6e22e8ee9b8c0f9303"
   ],
   "topics": {
-    "friday quiz whose": 1760681964.7899377,
     "about changed feel first group ride went": 1760685190.324123,
     "bianchi break campagnolo clik garmin gear gravel komoot lezyne racemax": 1760685203.1683319,
     "chainring drive enduro hides high inside pivot split steel vysoko": 1760689123.028775,
@@ -1052,7 +1053,9 @@
     "2026 after comes cynisca empty hiatus hunt sponsorship": 1760717783.3669941,
     "care hard here skin take winter your": 1760721086.8191438,
     "advice back form holding lifting share trainers weight your": 1760721089.7358885,
-    "comfortable layer properly stay warm winter your": 1760721092.817585
+    "comfortable layer properly stay warm winter your": 1760721092.817585,
+    "accuracy affects crank length pedal power setting": 1760728220.2397053,
+    "15 away designs giving hand painted rampage specialized stumpjumper troy": 1760728230.563342
   },
-  "last_fetch_ts": 1760725016.6432722
+  "last_fetch_ts": 1760728246.5455956
 }
