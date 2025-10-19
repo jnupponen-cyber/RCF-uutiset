@@ -182,6 +182,9 @@ campaigning
 Modern Adventure Pro Cycling
 Cup
 CUP
+WorldTour
+Tour of Holland
+UCI Gravel Worlds
 
 # Urheilukellot ja -rannekkeet
 Smartwathes
