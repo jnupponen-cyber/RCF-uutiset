@@ -24,7 +24,6 @@ https://www.wattkg.com/feed/
 https://www.humanvortextraining.com/feed/
 https://www.highnorth.co.uk/articles?format=rss
 https://www.smartbiketrainers.com/feed
-https://www.cyclingnews.com/feeds.xml
 https://www.nutritiontactics.com/feed/
 https://training4cyclists.com/feed
 
