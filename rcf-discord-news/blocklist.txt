@@ -225,6 +225,8 @@ sports wearable
 wearable
 wearables
 health wearable
+Superprestige
+Ohio
 
 # Action cameras
 GoPro
@@ -319,6 +321,7 @@ WorldTour
 Tour of Holland
 European stage
 gravel stage
+one-day race
 
 # Minor races (USA, UK, small national events)
 Tour of California
@@ -385,6 +388,9 @@ province
 Olympic
 Grand Tour
 Tour of Chongming Island
+Veneto Classic
+WorldTour
+Kings CX
 
 # Ajajauutiset – loukkaantumiset ja kauden päätökset
 Kristen Faulkner
@@ -449,6 +455,7 @@ Picnic-PostNL
 Uno-X
 Intermarché-Lotto
 Arkéa-B&B
+Uno-X Mobility's
 
 # Maantiepyörätiimit – ProTeams ja muut tunnetut
 Q36.5 Pro Cycling Team
@@ -665,6 +672,11 @@ Elisa Balsamo
 Jody Cundy
 Keegan Swenson
 Sofía Gómez Villafañe
+Michael Vanthourenhout
+Joris Nieuwenhuis
+Niles Vandeputte
+Lizzy Gunsalus
+Jules Van Kempen
 
 #synonyymit
 
