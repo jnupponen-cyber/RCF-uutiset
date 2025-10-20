@@ -1,4 +1,6 @@
 # Yleiset estot (kaikilta lähteiltä)
+tariff
+tariffs
 insta360
 Pixel Watch
 Coros Nomad
