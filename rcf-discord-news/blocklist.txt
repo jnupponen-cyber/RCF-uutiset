@@ -293,6 +293,8 @@ Race of the Falling Leaves
 Gran Piemonte
 Winter Olympics
 Winter Games
+Bank Road
+British National
 
 # Klassikkokisat
 Paris-Roubaix
@@ -683,6 +685,9 @@ Joris Nieuwenhuis
 Niles Vandeputte
 Lizzy Gunsalus
 Jules Van Kempen
+Galler and MacFarlane
+Harry MacFarlane
+Rachel Galler
 
 #synonyymit
 
