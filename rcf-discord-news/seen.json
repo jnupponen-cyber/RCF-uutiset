@@ -20,6 +20,7 @@
     "04c343eb2ad4d5bdf62b6449d7d42fbb8c41114cec3c595477ab50d4b2211b92",
     "04dd6225c648f7a04a8a9ad5eba9ac7ecd762cdbb016ffbf6462f1b049efc8bd",
     "04eb25ac274ea404b56c8ac229e06749444b9c130f268c03201ab95170237f44",
+    "051c7098f64908480156828af77d3e27cdc4e81b481a5d084ebc70b72ed8c902",
     "05945c5b234c71262ec28a192d6501b09eaeb794415bc407ad1efcd8066917b5",
     "05ae323d2c4b593b2e735d97bc58374ba07aac4cc6aa4d8a0b8abc99f7c9e421",
     "05e3efbb98dfcc0f768b30a2a6ae2381a8e26f58ff909bcea0bc1430ef7f2150",
@@ -177,6 +178,7 @@
     "22d6085c154e569a6f7eae10f22392c9045f61580f6a5afae9832b9e04f6a320",
     "22e2a68ae89994aca4588baaa98389810f1bc5c6ac66afb617eefe4a57ff21b0",
     "22e8b7f7c9cf9445e85f78b298f5ff99e718efc828590c93160f8d938ea6a068",
+    "234ea2d5c27297618df5b465551828b33fbfd1ef9403f8240491c267167d4082",
     "235d9159cb30b47b7202d1e08c95354a112eaf71e0f14eae7f32ed1b5e373484",
     "238bab64b400c94b6ddf8179b9c7d942ed20192aa5a9a405bcbc411f15fbe7aa",
     "23a16ddb0b4cfff70b8f1047315f4c48ff06d9b00c442cc44179a3eda09dee66",
@@ -1212,9 +1214,10 @@
     "ffb2f514fb2fefaea0e7ea27725f6ac3e6da21f2c3d10a6e22e8ee9b8c0f9303"
   ],
   "topics": {
-    "chris fusionfiber king nothing others respond revel reynolds shutdown supplier": 1761599497.183947,
     "framework goals motivation progress proven smart": 1761635618.1159081,
-    "2026 7 expect hookless road shades trends": 1761639519.6437519
+    "2026 7 expect hookless road shades trends": 1761639519.6437519,
+    "bottom bracket what": 1761642900.1699162,
+    "expansion feature power segment york zwift": 1761643204.9645097
   },
-  "last_fetch_ts": 1761639550.506159
+  "last_fetch_ts": 1761643209.9910839
 }
