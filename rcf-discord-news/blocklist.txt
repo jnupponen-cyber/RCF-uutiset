@@ -1,5 +1,7 @@
 # Yleiset estot (kaikilta lähteiltä)
 e-mountain
+Destination guide:
+Destination guide
 tariff
 tariffs
 beach cruiser
