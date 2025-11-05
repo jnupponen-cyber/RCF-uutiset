@@ -826,6 +826,7 @@
     "939d05dadd217173ea75a0d767e1dadfaac3ab48a99c29b154f8065c3137f514",
     "93c7f7801b8620851603849ad17736087bf1e824b3a9fbfff4e46923bacee276",
     "93f3a5905d4e9942181cc60dcb43590f71115183100f492fac5b3d4fd5fc4b19",
+    "93f9c2c37706779a8aa4e8f4960e68549475346042783e7677cdc770cdf989f2",
     "94054da7f02536c1b1276f9c83e96ac1b505266b37a55a4e5d2d566708bbd2e2",
     "9421623bf12295d75bc7a7c83d4d976498f537825f015dc5fce230bd0643de2f",
     "945786c82bf03956881b9019ba2e4967f87d129752cca2b9b8eb3add74f39b84",
@@ -1284,6 +1285,7 @@
     "ea2ba7e074d45304dd59912b0116117b7c32c76cc31297dcfdf94e365123641c",
     "ea368d652ebb9164e3d2178251cf8c46fef208922f964468ef6c677d1484743a",
     "eab2be2f6c95c79f36924f3d94b185dd63ea539e021577056b15b0357c39b4bd",
+    "eab9820f257328edf34ea56be72e2be95389d52bfddcaa81e66d401dc34446ab",
     "eadd71fea592e428c062b769c09cc3d5256a21a68ff8ead0e4d74e64b93fe603",
     "eadda065d4944e15cbe03d4690a661a8fece7a13abb29af6f14e434fb113aad9",
     "eb6f6c73cf40596e1f525b91a15f80337ee6d80435daa8c69e956fae0994fb80",
@@ -1401,13 +1403,14 @@
     "ffb2f514fb2fefaea0e7ea27725f6ac3e6da21f2c3d10a6e22e8ee9b8c0f9303"
   ],
   "topics": {
-    "defies every geometry love matt phillips talk tech trend": 1762304679.5746377,
     "bear cross dead declare point some thumb tyres winter wrestling": 1762330740.9576414,
     "actually garmin glasses make meta oakley smart teamed want wear": 1762334142.2403224,
     "castelli changeable jacket jersey pace perfect race save thing weather": 1762337731.665109,
     "ecosystem fast indoor track training wahoo winter your": 1762337741.556607,
     "40 berd carbon gravel scribe spoke wheelset": 1762337747.289026,
-    "about been british contract future hard many regrets retires sprinter": 1762345657.4339328
+    "about been british contract future hard many regrets retires sprinter": 1762345657.4339328,
+    "2 bagel everything guide league points race racing zwift": 1762349260.4782207,
+    "2 empire guide league points race racing rising zwift": 1762349264.41656
   },
-  "last_fetch_ts": 1762345682.4027426
+  "last_fetch_ts": 1762349295.0883853
 }
