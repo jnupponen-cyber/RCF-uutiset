@@ -489,6 +489,7 @@ Flanders-Baloise
 Bolton Equities Black Spoke
 EF Pro
 UAE Team Emirates
+EF
 
 # Sopimusuutiset, tiimit ja ammattilaisuus
 British champion
@@ -694,6 +695,9 @@ Jules Van Kempen
 Galler and MacFarlane
 Harry MacFarlane
 Rachel Galler
+Luke Lamperti
+Michael Leonard
+Tom Boonen
 
 #synonyymit
 
