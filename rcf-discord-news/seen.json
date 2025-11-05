@@ -79,6 +79,7 @@
     "0d4540155e08eb00adb2856640d85e7ca2743d913d1779c2fc73d4096da47383",
     "0d46be0f48a36759f1c5ea800bf9a26763e7a303382d5c6026128b90e32004f7",
     "0d6e13b35782ac1c4195119a083df9e45eb8cdf98760777a5393df5651cc2ab9",
+    "0d8fa43b4d00b21550de8467e41f1d0d8050e07b3dc8c1b68b5291d3f9f9e64e",
     "0d9e9d662f92a93a578457814cf6ad26e91432f57271cac63c8196a2c7efc77d",
     "0dc941d23692715c0796e08f8eac757089b19047994cd30d213527a8ccd93466",
     "0e01a1110deb0fc42cc97f0799f91e2cd6c3b9c2cab2f2a9cdd7034ef1fc0ab1",
@@ -495,6 +496,7 @@
     "58b0bfdf164ed4e0a9de3b2b583503aab30c8e13443ae4093574b80a3f3490b3",
     "58d613f72ffa86bc2b84da0ddbdf1890dacfe27b00b4d4fceb7495a26affa04b",
     "593f76b8fa9a35d93ad36e7672e960818bd64658889927506a60712ba71cf0e2",
+    "59490fa11f58a1aa76b3df63a2ca94a1d190c41a6f8edbf22c8a6416334dd6a6",
     "598020d4fbe912b55ef9e9f3a7fd415bda33a4e4fea6523bf3b04283c2a1c139",
     "59b697115f0bac9349925e8afb9d91c32b1ad740688f660464e6c6cbc940459e",
     "59bf2d107ab4120f61c69c6ed9ba0018c37d0b2664ee8818a81b926cd9188e53",
@@ -679,6 +681,7 @@
     "7914ac2c8f27909cdf96620e1a7c0a1bec5d123dab01d4e816304830b2c071a3",
     "79f9f0864b7a94e236d4059fd82c61704b5f4e49905b4ae6cdccfcdb68ec1327",
     "7a014b779768585181e130a899d97f16239d64e6a8a204d956245005be7bd205",
+    "7a330ffb2c1ba0c6fb97e6977ebdca3f051c46f25708dd8d9e5fe93545915463",
     "7a894e5030cd3ca40c0404aedb16c10a5cbce72399083b28e5d096dcacf2fbd7",
     "7aa951569086b6e34f541d4ed9f8207ce52fae4fbe7bbad93d139a3202505310",
     "7ab692176da1acd6b90f428e215414075a165c2ea9b9c0bdb6c05f27127fb1d9",
@@ -1397,10 +1400,12 @@
     "ffb2f514fb2fefaea0e7ea27725f6ac3e6da21f2c3d10a6e22e8ee9b8c0f9303"
   ],
   "topics": {
-    "back holding setup your": 1762294317.7005532,
     "defies every geometry love matt phillips talk tech trend": 1762304679.5746377,
     "bear cross dead declare point some thumb tyres winter wrestling": 1762330740.9576414,
-    "actually garmin glasses make meta oakley smart teamed want wear": 1762334142.2403224
+    "actually garmin glasses make meta oakley smart teamed want wear": 1762334142.2403224,
+    "castelli changeable jacket jersey pace perfect race save thing weather": 1762337731.665109,
+    "ecosystem fast indoor track training wahoo winter your": 1762337741.556607,
+    "40 berd carbon gravel scribe spoke wheelset": 1762337747.289026
   },
-  "last_fetch_ts": 1762334168.5338314
+  "last_fetch_ts": 1762337765.9145634
 }
