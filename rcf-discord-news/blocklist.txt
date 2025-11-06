@@ -4,6 +4,7 @@ Destination guide:
 Destination guide
 tariff
 tariffs
+hotel
 bike lane
 bike lanes
 beach cruiser
