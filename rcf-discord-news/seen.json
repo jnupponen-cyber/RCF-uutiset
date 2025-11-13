@@ -207,6 +207,7 @@
     "1e9108dffd3e039432ea24f996d77e8dd41cee5834015b63ba5862191fd2818d",
     "1e9d2e7c302cfd7943954c7e85845db0ae6e5964ed3658c6e7ab8953355855ac",
     "1e9e516999b70d68a60c10bab1bfc6651b7ba3d778566e78e9a15cf986ba9c32",
+    "1ea74b3a85c50b8bce4002fa435d2428a906d0b437755d64d0b9b165478f7c67",
     "1ed136faf0711cdb11589f0b483bce5db34c11362e7ab760154c0e8ece9974ff",
     "1eeeeccf4c6d7c7c79ac6fff786ac2c2146c1f3578330e7458c861905a019110",
     "1f76a51227ee50014cbc4d39b9b5161002956b158d3c7b30a29f652ea42482bc",
@@ -234,6 +235,7 @@
     "235d9159cb30b47b7202d1e08c95354a112eaf71e0f14eae7f32ed1b5e373484",
     "238bab64b400c94b6ddf8179b9c7d942ed20192aa5a9a405bcbc411f15fbe7aa",
     "23a16ddb0b4cfff70b8f1047315f4c48ff06d9b00c442cc44179a3eda09dee66",
+    "23fc8daab11a0f2691c89c4a5999e55cfb8c59cfb94d5976819e24ed63e3c9d6",
     "23fc9870608c81741464df2b60cd475403d804668ab5412e5f35c6bc704a017e",
     "24223108c6c45c747e772fab9cef2b8aeb2e541b71f6ff8e6dc4c0a88439dc14",
     "245efa55a00448d214abf7448cc9e521873a16323f6c0349ee3d0da2357a4456",
@@ -730,6 +732,7 @@
     "72d83d12a2d17d8136733c033f52761eff40d7322fc69e7da2ed7287ac9edd56",
     "73386d228e020c00dd5afe72b611ed7c02ca5c03c4a590fae0b92c245e033bf3",
     "734a67f822297357945f26db48f6d7452bc557747490b41ba913433adc136a67",
+    "7355b217a0b477a686db883ad8c09cecf225546b4f9d2ddaa322988e43efddba",
     "7365060d8f9c62b36c3f6e0e55e138070314676df68f00607dde79f0fa4f805e",
     "73cb294c6278b7767caeba9e9e80cef707b99565ea6e77b605ecdac891e3a588",
     "73f1e8c59c70db30a0e9548fc48f8f826c4df3a23c306784f2f52952582e42a4",
@@ -1554,7 +1557,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "bicycle goes gravel heighliner race wilde": 1762995854.3720412,
     "affordable feedback most upgrades workstand": 1763003406.9435294,
     "aerodynamics future innovations laverack printed road titanium unveils": 1763014899.5705385,
     "aero could custom fully future laverack printed road template titanium": 1763018019.4830825,
@@ -1564,7 +1566,10 @@
     "2 both cinelli couldn different just launched love more road": 1763028948.9975278,
     "2025 dhabi elite factory finals floor powering smart trainers": 1763028971.4359393,
     "bill budget capped cycle footing leisure luxury purchases shouldn taxpayers": 1763032357.458318,
-    "cannondale deeper derailleur generation hanger headtube images leaked next race": 1763036903.1446788
+    "cannondale deeper derailleur generation hanger headtube images leaked next race": 1763036903.1446788,
+    "2 empire lost race rising session": 1763040500.465361,
+    "accidents against blaming councillor cyclists fire happen kamikaze rant rivals": 1763040513.9719522,
+    "2 aero aeroscoop cinelli corsa first italian rides road speciale": 1763040517.9020355
   },
-  "last_fetch_ts": 1763036921.2918048
+  "last_fetch_ts": 1763040532.6030538
 }
