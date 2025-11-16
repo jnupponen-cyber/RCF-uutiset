@@ -375,6 +375,7 @@
     "3786c2d151c0e3aab0f0b354a9e7cb533547db80dc82bcc0f3a775d876695e77",
     "37a8036650ab5f2adbe10fecdb8d73933cc7198ee69fc90238c60e502e3de91e",
     "37b22f6d460c74077243c000bf81d0b1dee748440771f04f881172e76326a62a",
+    "37c62cec408182ff45c3aae98b1870e54d7ddc43c85c06ceb22786fabb336463",
     "37d05e3b24042bf563c891f86388135a4b6b7548d0d3023afec29a23c89b3ca5",
     "38710556d576a001142df485bf7cceb38b6d161d8c64f538db06eadf05d79708",
     "38794fcf863045b8ce6e857aee9166cb061dd6d911268d6a4e8bdcab34956ac1",
@@ -1609,11 +1610,11 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "0 3 4 fairlight just perfect road steel strael tell": 1763226641.9350288,
     "2025 championships dhabi esports finals live race uci world": 1763241060.799372,
     "champions esport mccarty osborne repeat uci world": 1763244602.1217978,
     "70 80 belgian ferdi gets haute": 1763244615.3999572,
-    "boundaries pushing technology": 1763244619.1734848
+    "boundaries pushing technology": 1763244619.1734848,
+    "16 2025 3 club november qualifier race sunday": 1763269993.940069
   },
-  "last_fetch_ts": 1763266814.5087712
+  "last_fetch_ts": 1763269997.1340156
 }
