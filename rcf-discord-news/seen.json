@@ -812,6 +812,7 @@
     "782639475ecc3251f7318af0b57752859aec157b92a00e18dae04de1e50353b6",
     "7834039fc87b027ff337469e1b41480823b35166949fd2cf80086897add8a490",
     "7877582a34452dbf75c1904fab7fe3fd6687e432f5219713e7891df7cd4e5d0c",
+    "789cbc7f2cf0b5e98e7b8ee12a3d4a6444a7cd3afefd553f249cab1ce6ed4434",
     "78a9537c04d60cdf8c9b86373d21d9038adc21eff459b61ee19ceef73d34ba9a",
     "78ab348f6cddd7c57ce36d9b100b5b10dffc88fce12db40c652cbaaa9abf8667",
     "790bc7090fa20c99942ee3cd89e9d42fae60919fd249311cfbc5e3603cc4bc6c",
@@ -1670,9 +1671,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "boutique brand cycles founder invests mottram quirk rapha simon": 1763457357.869177,
-    "advancement foam groundbreaking helmet layer lazer safety says twin": 1763457361.6870544,
-    "first helmet impala introduces kineticore lazer look rides": 1763457366.1964273,
     "colours jersey long mono sleeve universal": 1763460992.280972,
     "endura fs260 thermo tights": 1763461001.701452,
     "becomes brand british cycles founder independent investor lead mottram quirk": 1763461006.2799673,
@@ -1697,7 +1695,8 @@
     "about dura shimano wheels zwift": 1763493101.1053233,
     "olympian reclaimed": 1763493111.3288224,
     "ado air one pro": 1763497012.8162766,
-    "boyd full kanuga mountain send wheels": 1763497016.5388658
+    "boyd full kanuga mountain send wheels": 1763497016.5388658,
+    "about know riders what": 1763503997.7023444
   },
-  "last_fetch_ts": 1763497035.0394719
+  "last_fetch_ts": 1763504095.7833927
 }
