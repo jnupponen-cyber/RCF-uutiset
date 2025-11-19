@@ -398,6 +398,7 @@
     "38ab526b1766345d5d2ff3927299ac3617b3b14b569bb81d55bf0de21c32fdfa",
     "38b67ae07b1c8b84b0245b6533a135f163a9d44270bc98f14543ac5ff373eaf1",
     "38da8028378a5ffdd4a60100816f266a7f8fdcd930076835ee7dcb9fbd5c7ef0",
+    "391d6d4016a512f8ea594269627bc55f27a688a98e334add0f37ea145ac3cb03",
     "393cd788883ff1726e393d78a8721e973df606249930f6c785e4396f8e2d981b",
     "398d21001f898c503f26483656c9507e7862a8c6ef315245178b2175ced9ce41",
     "39ca36010637cd822bcd39116b4ecb0f2c568c302abd68be8d0c19641be03393",
@@ -679,6 +680,7 @@
     "62ffed1a3552fa002e7fe9e10c907f9988bb16dd8acda807be7cf7d6fb7af017",
     "6315ea838e3e532697a63fdee68cbb288f6f5a76a45c5900c5c534272551ad22",
     "631e6333143d2a5a5889d1adf1a1815065c2272cce58f245a5ef8e9d7a460deb",
+    "63200f05b527e3c2e2687b4df3ba3d265ef065649b4943e1070dd8574a193f08",
     "633b4e9d97840e9ea62931af1a81beef5a0697cf159a65b74d7d5b5c48ccd78f",
     "636b30f9fbad05fddde8f36bf8fa2224640962fcfb1cc747edcb270097f45035",
     "63b14b9d5651894bfd974847669857bae9742a424f83e5fcda1ee154e872f431",
@@ -1695,8 +1697,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "40 about away break claims make result ritchey septimer spent": 1763536458.05556,
-    "airmail business fading fans fragmented future outerline stars": 1763540328.7993467,
     "conditions foul full jersey long protection rapha shadow shines sleeved": 1763547324.663305,
     "corima wheelset": 1763547338.2296023,
     "cars cyclists driver killed lorena many struck wiebes": 1763550730.9904659,
@@ -1716,7 +1716,9 @@
     "7 alternatives apps best free indoor zwift": 1763572415.5984123,
     "casing every range ride rule trail vittoria": 1763576422.9434454,
     "412 champ heavyweight hitch racks velocirax vertical": 1763576428.0655065,
-    "announced cade crit races steering": 1763579486.8121471
+    "announced cade crit races steering": 1763579486.8121471,
+    "about everything intensities knew thought training what wrong": 1763583228.1584644,
+    "fastest gravel size tire which": 1763583238.3147676
   },
-  "last_fetch_ts": 1763579516.691928
+  "last_fetch_ts": 1763583547.6463742
 }
