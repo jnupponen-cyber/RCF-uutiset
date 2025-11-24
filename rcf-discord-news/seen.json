@@ -510,6 +510,7 @@
     "46f91447c8e5ad95d347d43a5909cda9aa6951d1d54cec8f2b1a8869f3f52779",
     "47505c7ef13d8314987e9d1820a54c146df88a35fea44af318b31a0d447031a1",
     "47c9740a2a0c8def242bf24d37f2f9263970e74dabcb403c4d3f5271b6bd2f21",
+    "481c6888eacb40eac6818555e3cd4ac6c1296e9bba72573bd074eb12572c765b",
     "4836d58b30f83bb70bd0b3c1e6e9126ce9b6ee446b53722d83b3b44d9d6b1864",
     "489a203a2aa377ef0dc72610fd313cec113e126cdf10c5c9493644015492d3c9",
     "489c833efdf11eeb1c38900964a61ce3faaca8b8896d1a35e946d6cde60c6254",
@@ -1587,6 +1588,7 @@
     "e359a41a141569c22e1a671145b916b5440faefd21e13b30d1abaf8008436123",
     "e397db325672e8ad4affd6535138f611c688c47c37f0f20c4cbce08232266651",
     "e3a6f241d5f7874ae533c0a28d695cc064f70289bd7b74c9477f759874903631",
+    "e3c19f9f89d92cf42f9793bacb72b9932b67b92016ecce5cbec4b800fd640fbe",
     "e4129c8e866afb5ad143a96d6e32b242880ff5bddfd637f250c83ef65d98b4cf",
     "e43be2296da8ae12f865202ab5d372e347d94f09e269aa7e8a8d6efdf6c6b91c",
     "e48c914689c3d00e6c1f6264605843200a9e7d2442240986059d0ff9e987acb0",
@@ -1775,9 +1777,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "caracal gravel hutchinson improvements race significant speed tyre": 1763979381.464475,
-    "2025 change coming gravel hottest mountain there trend tyres were": 1763979391.0445356,
-    "allroad comp ergon": 1763979397.0280886,
     "3 build camp walkthrough zwift": 1763990934.09319,
     "30 cities none public reclaiming snapshot space world": 1763997361.7792878,
     "artica continues feet fizik keep terra updates warm your": 1763997375.295398,
@@ -1794,7 +1793,9 @@
     "barefoot first lems look shoe shoes thrasher trail wears well": 1764022384.2872803,
     "3 episode frameworks keeping loctite series together": 1764022387.900678,
     "achieve perfect pressure tire": 1764022391.686485,
-    "2025 best budget high trainers zwift": 1764022409.4611468
+    "2025 best budget high trainers zwift": 1764022409.4611468,
+    "afford another battery cannot company crisis power recall seattle": 1764025969.2387085,
+    "actually anything cyclists gain smart": 1764025982.1964881
   },
-  "last_fetch_ts": 1764022413.8914952
+  "last_fetch_ts": 1764025999.472187
 }
