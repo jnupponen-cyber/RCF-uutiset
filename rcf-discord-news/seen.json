@@ -628,6 +628,7 @@
     "56e93adf99150da22b185b1cb9164a908aa604851ca83413326addaa5af2f5e7",
     "570a9158ad5e1942660ca96a3c0c3e13fe83e3b32c992ba7646fa35a13a8f762",
     "5740ec24ab2ddc71fda7b8c5c8b924990379f77afd07c5fedb45af838f4481d3",
+    "578814680697b1ec9af56203a5b65f255e0bfb6dda6fc3cc4387fb521542db8c",
     "57ace016ec3f42195d1a977dfc4a67cbbf5907eacc4009edbdf274ce29149a57",
     "57b45586d5f43c5371c3329318c77934a071af803defe28ead3b0cd2e6d01b04",
     "57ef768e215157f5eaa7c54e4000be5896ebfe0310d2ec11f40fbccdc7e86ee0",
@@ -1114,6 +1115,7 @@
     "995bb8755ee5770dab81273627ec6cf2c1e56abe6a9816fcd8eb2a53333930b8",
     "9968345a446927fac7b0d69560df325d7f3043ab479c33d8a38c61590cfee4f0",
     "9973e895f68ad3434b08375acdaf0d4b08da88b75d769c6abed6ff59369eb46c",
+    "99b343e3b1c728f9bef3b736e79805e81891eb049b1eb4e5cc851e3ad2291d0d",
     "99ec79d7fdfe91a03552f353b70972983922e0c03d8aa451d4b54f1b3c3ae1ad",
     "9a350b0002039e7a027daa6e6ab2a501d4bd857dc49f7a04bfa4bd3a00f6a138",
     "9a38d3b334ca308e22ecced4349a0dfa551e0aeff2bac9246b639cfad3552a23",
@@ -1801,7 +1803,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "demands race racing training zwift": 1764058797.1003628,
     "3 better elemnt more roam than touch wahoo": 1764065812.8784356,
     "gorewear mens swiftride thermo tights": 1764069174.4161987,
     "batteries brand cspc fire hazard insists pose power safe they": 1764073745.4189763,
@@ -1823,7 +1824,9 @@
     "carbon fully gone mainstream never quietly replace spokes steel they": 1764094878.9149764,
     "inside racing ride rollers zwift": 1764097911.519145,
     "analysis line outer paying playing rising": 1764097926.31374,
-    "climb portal schedule zwift": 1764101735.2374187
+    "climb portal schedule zwift": 1764101735.2374187,
+    "about calories riding stop thanksgiving worrying": 1764105181.596623,
+    "blood control could exercise help sugar time": 1764105185.334561
   },
-  "last_fetch_ts": 1764101759.1788843
+  "last_fetch_ts": 1764105205.3688931
 }
