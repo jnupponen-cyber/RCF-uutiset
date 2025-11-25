@@ -727,6 +727,7 @@
     "64724df6fd084c478dcb5ef0bc6852534397d986297a9b3a3c1523a0fdda3c6b",
     "64b9b26903d167c91f3e6fd9d01f1c72942a16b344abe6866b6e8aa35aa85467",
     "64c815e9ec79bb380a4ee1cf5544ffd474ba6b466e9c729816e4bde9c90d7287",
+    "6502394a7ee8f6917189e38a378b9adebf97978d29378277114565e1d89875ce",
     "650c3b0320e894afdd46ebdb3a99dbb757e3e0712507648639603a70a98186ad",
     "653135fe22b18b21d7fe908750d4cc0f47effd6f60d73543f5f95f34ef5389fd",
     "65432bbb6c1d85630ab39fcc0e7d1c32d4f47e1774acc687658acfdaeee3a9d2",
@@ -1532,6 +1533,7 @@
     "d8ea5179614d8f796d6e3e9e2c4e32e3f6a2e0d15b995293c8fa41578b9bad25",
     "d92ae0a0a43b9cede5a8e0f2676b00401d88f96e66875c725ca210e5954f5cc3",
     "d9409321a1a42e2e60e77ad36628eb800516e1cab42aa85e74accad009aa022d",
+    "d959a48348c96eb15323bdfecb83999c9807c0ca121c52081efc4348923d781f",
     "d9672aa260c6b66d3f88d7f1fc1f0ac4677a579868a1269424271c4bb149a6f3",
     "d96eed61b587645f703d4447fc9eb4d42bf19bd00937d32e822e52cf52130012",
     "d9a75c5f06789c6cae68b5b7857ad62c4dc3306f8f095b18f604b136ccf80e43",
@@ -1780,6 +1782,7 @@
     "fede8b288f0b1c813b8516b9b7d0475433f5703562a8626097f9fc6dca4557cc",
     "fee537622f6617e27cb14afaace1f8be4f3f2ddee13104e6eaa2e43d59b1bcd8",
     "ff2abd04572b04bb7a8e187061be83f7a6301a0b485a65503d3539b436fb3cb7",
+    "ff390330abb522a098946551f707466dac91dda484e1d8daea1027b84ad96e0a",
     "ff6e2ac870ba0bda77a1550e73f5306abcc31bd79a5da38667202af9b79f4500",
     "ff8ad62a9385aaf87c5b5af24fedb62945f26d37c7e6b12c38286db13a462edc",
     "ff91d072d8120049a262dfb74c0dc0f61b281643969d92599749dd20b7479cbd",
@@ -1788,7 +1791,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "benefits bicycle cabela christmas health picks": 1764040201.731067,
     "demands race racing training zwift": 1764058797.1003628,
     "3 better elemnt more roam than touch wahoo": 1764065812.8784356,
     "gorewear mens swiftride thermo tights": 1764069174.4161987,
@@ -1798,7 +1800,10 @@
     "britain could future learning like look netherlands what": 1764077370.9561822,
     "cyclists dial hated remain shift take vilified what would": 1764080061.939952,
     "43 bicycle boom covid cycle hails high impact journeys lanes": 1764080073.3128397,
-    "25 block celebrates party protection sweet years": 1764080077.4197788
+    "25 block celebrates party protection sweet years": 1764080077.4197788,
+    "2 click core features kickr premium ready smart trainer wahoo": 1764083732.2515402,
+    "apptag automatically cannondale computer hybrid launches line quick": 1764083743.22501,
+    "672 allowed cyclists lights should show": 1764083761.1911433
   },
-  "last_fetch_ts": 1764080098.4657779
+  "last_fetch_ts": 1764083766.8304667
 }
