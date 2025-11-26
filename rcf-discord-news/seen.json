@@ -118,6 +118,7 @@
     "0f4e52a98e6607606d4fc5461f89f78b471e22c9af8aa96ad4925fc054787815",
     "0f4f24cf31bbddfb19a78186654cb22b558f8e6244eac11833f28e1d3fb5225e",
     "0f621e860f1d5a3dbc7d2dfaf06009ff8a109d34722ef83bf4537800ee3a3995",
+    "0f91682ac834d3c11df53f614fc139830f91a515e2b0b8aaa0ac9ce463020b3c",
     "0f9f30f0db8ef0228fb38dc74992b771e3782ea34ef782ed5dd2919a7d6c64ed",
     "0fc23697b3c88fae0d1b2ff6701668f2d304cc3dc3aeead2a9cfc94849af2a98",
     "101321471f5eef54c2987fc0b09f8e306eca5ec6bb14a81525b251723d232548",
@@ -1153,6 +1154,7 @@
     "9e0bad1c09e0c4ad8be7c71df745338d9b0ae76cc4b457334f59256035350931",
     "9e65536d40c88ad12fa6d69add257d8517a0ec743030a6b9fa4e635f1636067c",
     "9e76f519bbcdde912ae9590c6a2dcebe7ecd772c41038d09ebab1c42f7a69b58",
+    "9e8df74caf32da40438751fd25e1b79f62214d51022d8b51ca873446f34eb38f",
     "9e9395299cd51387ee552e1755624177beba6ab506d08e2a3fe22c5696ecf8f9",
     "9e9b464d24742ecc7deb366c5de3f581e94f14fe5fdaea7095b48c1f429adef7",
     "9ec996cec07d8e9f03fac54db6ee0bf9f7eebbf588cfdb7fbbdd28247afe07c4",
@@ -1169,6 +1171,7 @@
     "a09ca1b41649cd94a3d494da15baec25cd68f0b93c94848a4d178c4194eaf0b6",
     "a0cc4de91e8db51e697d0255397f20053c3da1cfe404b3d5e71d864d3bbf23b4",
     "a0ffd0aac3ec05410e70840ca6aa6e499c9ebdcaaf9415e7beeaf1ff4366b257",
+    "a14555309b5d2c1a55720767b638a19da4b93315d46ee14473d2d286c2a59c25",
     "a14a0c80fb719c3eddf00d832e52d015796bc8b1543d146f83fb73cb9ef2fbe7",
     "a173e9ecd17b99870e246f49a52a439943da0c9c2a30af6284b1aa9cc646eefe",
     "a1daddcd4c15988693cefd744b4777586f5c762db697872a29b1fb4eecffa31b",
@@ -1447,6 +1450,7 @@
     "c947727287041469794639cc57249d8e74e188da67e5c5a6131c19b4f65461dd",
     "c951f1544b77a80bc892e5a1349f8c72e6ee97badfcb88374a594fb4c29422bb",
     "c95272b0d608ef1cb51081537040109435774971cf2e05a7dd7ef44b6def7f82",
+    "c966bca87d290f8546c3ab1b53d46e51e0a08bdc37de7cefd95d565fe996d7a1",
     "c96903027c6f65d4e13a1b3508bd1f3d15fdd37c612e3d3a07cd17ff63ad3084",
     "c981269131fb6941b9e5ee1c0ab4eddf206098366dbd2da36e1b042045f0c6e0",
     "c986aefb229a44848ff7561ff9d0102ad75f2c17911bbf38e250c452285c7f4f",
@@ -1628,6 +1632,7 @@
     "e3c19f9f89d92cf42f9793bacb72b9932b67b92016ecce5cbec4b800fd640fbe",
     "e4129c8e866afb5ad143a96d6e32b242880ff5bddfd637f250c83ef65d98b4cf",
     "e43be2296da8ae12f865202ab5d372e347d94f09e269aa7e8a8d6efdf6c6b91c",
+    "e43de2ca167b792530761550e2e6a11cda0b75fcb49d5e570a86c2635bf9f2f1",
     "e48c914689c3d00e6c1f6264605843200a9e7d2442240986059d0ff9e987acb0",
     "e49199cf5ea451cba9ae696c528cda53ec40d11910c0a02007bdf75b94817afb",
     "e4a85f338321afeb98c8a9cb235d84cf63be446de8d69297300e102e27ec663c",
@@ -1817,7 +1822,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "2 cyclists diabetes dietitian explains risk sports type": 1764130820.4872847,
     "5 conditions dottore genuinely ideal jacket light mediterranea most termico": 1764152173.891752,
     "9 next reasons should titanium your": 1764152183.0812879,
     "1 5 aspero cervelo": 1764152188.0589688,
@@ -1827,7 +1831,12 @@
     "5 circuit crit glasgow guide league points race racing zwift": 1764163816.851276,
     "3 better cyclists helps plan secret step suffer than": 1764163826.4372385,
     "255 around best black core cycplus deals dropped friday just": 1764166506.0543861,
-    "feedback friendly introduces repair sports stand travel ultralight": 1764166519.7930899
+    "feedback friendly introduces repair sports stand travel ultralight": 1764166519.7930899,
+    "850 almost brilliant computer edge every garmin": 1764173864.4291923,
+    "christmas computers cyclist cyclists electric gifts life pumps really something": 1764173877.0603034,
+    "compliant controversial engineering fully handlebar radical rules system takes toot": 1764173882.1714096,
+    "bellonside topeak": 1764173885.7085261,
+    "2025 christmas gifts ultimate": 1764174196.5867634
   },
-  "last_fetch_ts": 1764170010.693758
+  "last_fetch_ts": 1764174200.8352273
 }
