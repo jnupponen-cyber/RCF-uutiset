@@ -198,6 +198,7 @@
     "19c53576b7cf4fecbd94c0179463311c334ebc0c0157eb6d9ab0ae10eec1ce35",
     "19cbb3d5b977e5759500c9e715cc9528748b1d10a88fd19a8fd267309e65fec9",
     "19e1acb4d66a81006ffc148ba53c4aaaab60660a385144ab469a3180da6f5319",
+    "19f9e7687f898f151671fadb2db6ad1626dad65406e2af257d5f16f94d45a675",
     "1a04ca4d8817a1f087b4c1bbfbfcf0c6f0faea0d07ed76d20127a0a3c8b479e7",
     "1a1bd645d10288a231adfb9039d9e993311d7aac18f5b8179cdef9e2861347a7",
     "1a3c3c5d892461a0d9c4a0559d342e8b260465eed67ec06a64957668bd81acee",
@@ -1424,6 +1425,7 @@
     "c7c97d03e8f0cab73e33e76e0ea271c562105a5b6724c907b4039446f66bee13",
     "c7f24c8af8818de0d4f5fb95ec14f3d86b98ede9f501ef9230a6c3e50bbfec25",
     "c8051c11d96cbfa2132703a83fdb412576df31de1dfba9497b699f5c81e73ac3",
+    "c84cba2d7e43b1eeeb6cb82c6eac44ba2d8b8587c04d867a88b9dcfef47e7b19",
     "c8666f074cb1f0b0815e053006e557d7e44a3dffdf474f4f4c2d6ba68cf708c6",
     "c87170153563c5afcaa0a83a938159deb4e6dfd9829d145f15f9d3b964d82092",
     "c87a48e2b54be3a79ec42bf886b415aaab8e9527a475bae4f0aedf7551c15c36",
@@ -1804,8 +1806,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "batteries brand cspc fire hazard insists pose power safe they": 1764073745.4189763,
-    "aims bumpy curious frame lanes panorama shaped tame": 1764073751.0337985,
     "declines drafting inclines updates zwift": 1764077366.785597,
     "britain could future learning like look netherlands what": 1764077370.9561822,
     "cyclists dial hated remain shift take vilified what would": 1764080061.939952,
@@ -1826,7 +1826,9 @@
     "climb portal schedule zwift": 1764101735.2374187,
     "about calories riding stop thanksgiving worrying": 1764105181.596623,
     "blood control could exercise help sugar time": 1764105185.334561,
-    "2026 29ers 32 inch matt phillips replace talk tech wheels": 1764112378.1650827
+    "2026 29ers 32 inch matt phillips replace talk tech wheels": 1764112378.1650827,
+    "afford batteries power recall should": 1764119052.9921877,
+    "cyclists days rest": 1764119058.3110416
   },
-  "last_fetch_ts": 1764112394.3641584
+  "last_fetch_ts": 1764119367.8077025
 }
