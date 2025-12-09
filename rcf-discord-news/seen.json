@@ -157,6 +157,7 @@
     "1222981953b3b01021e205b5541c6ab4971633ade1bd7ec8bb4ac639511ab025",
     "123cce4528dc14ac397746411800f0b3df520d24d3e28b2127d8fb7866eb361e",
     "1257aa7fabc12dff265d50e2c1a80e21d959fa8d64558e804af38c88bfc78dfe",
+    "128468df5bb987e1a9ea57b147e4392449476b4b463a2c126b96fa5175ec79bd",
     "129caac04bb80c0b5f80aef7d9fab77352e93de2a1277f0b71cbb6e0805d6842",
     "12ce27991a84a357e32e8a5200f0667681315a34e98fd9574a981930e055409b",
     "12cfbf9e8d26dd3d2a9fbae20db6b4e983216e57dcad701f03bb9f98d942c1d1",
@@ -1368,6 +1369,7 @@
     "a706ea68867f8d0d651b60b4577247a7c54b4f0fe7fc2c6adb7c5304d6077219",
     "a7086740381a4fdcddf89fd8a9187feac6c0a8f23ae033d9a402e1a604a18fb7",
     "a7399ef4ecc4185f42ebd1ed85d716f9808bd09e197ab7e074523146d7a55864",
+    "a7a85289e93c14f38a761279f97d8007dc7367968ca2a252306052a35e18abc5",
     "a7bf05ba9af57a79b3401bc5c94c015487152505bdbc117ee5383680b340212a",
     "a80adbf5a11bf0c1db81e5789048ed9a3e3978fb0decfd15192b7178e90783a4",
     "a83279c9fb66f0e637ab2994dbfa88f04c7923fd9f0d4a2baed0e1265b66b956",
@@ -1963,6 +1965,7 @@
     "f2309fc21788145cf4ce1b0c7a7dea518ec0cddc10fa88fb735509cdbd8a9a3e",
     "f23a3abfcccbb057c25cf0d3a82cccb93a0b4c4edf8489009fca01ff7041cc7b",
     "f28934a590a2c16e4e6e037ed5e3d3186c1cc0c6371fc7fc6a311162c6bfeef4",
+    "f28c41225722426023d6e8cffdd144884cf43121408c7ecd7d014bb8073d617e",
     "f29ec25632daf516fdba31b937e178a8885420b9773c5deaeabb4994059e2d12",
     "f2adbeed92693370125061c7dc6029d80c4126250b63664d3409f03f037d308c",
     "f2e054d230513965c2d21018e2b70549bf187a49f5b344c83a4d08aa3693813d",
@@ -2059,7 +2062,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "about affects detraining fitness says science time what": 1765268465.8846524,
     "ball bearings canyon deflectr helmet safest thanks world": 1765275428.6652424,
     "700x55mm design fenders full metal portland works": 1765275434.120247,
     "exercise increases resistance volume": 1765275449.5073578,
@@ -2078,7 +2080,10 @@
     "behind competitive logic modern sport": 1765304309.3146057,
     "5 best increases trainers using videos zwift": 1765307445.6917741,
     "balls canyon deflector helmet rating safety spews tech tiny": 1765307459.2275991,
-    "3 faster help increase speed these want workouts": 1765311282.9603472
+    "3 faster help increase speed these want workouts": 1765311282.9603472,
+    "best fast gotta pedals really shirt tooth tropical wolf": 1765314730.4985607,
+    "most pumps reliable still tested": 1765314734.8189752,
+    "9 drink help homemade hydrated recipes sports stay": 1765314738.1351085
   },
-  "last_fetch_ts": 1765311304.308986
+  "last_fetch_ts": 1765314768.6808414
 }
