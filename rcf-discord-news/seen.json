@@ -1614,6 +1614,7 @@
     "bc72dfb9277e5925f59875a9e7b62c1d32be6d3354f9c993f775ac1ecc9bbeda",
     "bc98c57f5a6dcced9535980cb755aaea546aab02eb3388811050154c178f439b",
     "bcf83354a10fe118d152477b265f8c82396d02a0f3908ee347a4d08f92267824",
+    "bd05f08e7eec47460d21c9cab5dff97fd82da5e83f17376eec5f2521e83caf44",
     "bd3821df75aa3d33ea2649c50474e7c32f64badd5c5a602cc71accd7a3077398",
     "bd4c5f625cfb233bcdfbf366423a9a1a46d0bff97c6b4cd61e38773f43272a22",
     "bd556e2a1efe2fb80ff913456533bbbdeacb0ed56a4e7901f545d6d353f702d8",
@@ -2192,7 +2193,8 @@
     "cannondale chaos gravel lefty machine topstone": 1765909334.9817624,
     "face familiar owner racing shox": 1765909338.2365334,
     "browser curves extension history more power updated zwiftpower": 1765912493.3155153,
-    "11 73 amid bankruptcy chapter debt files looking million mounting": 1765912498.1745825
+    "11 73 amid bankruptcy chapter debt files looking million mounting": 1765912498.1745825,
+    "ride smarter stronger train": 1765916220.9243166
   },
-  "last_fetch_ts": 1765912527.3064167
+  "last_fetch_ts": 1765916250.664698
 }
