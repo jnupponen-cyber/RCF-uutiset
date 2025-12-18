@@ -899,6 +899,7 @@
     "65a0dbd886b729514364590e8e9c23ec5ab8ad7a318e764355ea7e66f0e05269",
     "65a4fc6c5187ba48974b44e427bf3005703ab9fbafcbbedf5624893290a6f3fc",
     "65b411c84a32933411648f36b14ef60315b6ba86d03ae8de68a805714ed284fd",
+    "65c1fc2fe9e63947c6107ff5b94e0f82535f56e2657da399ece36f01513d0ac0",
     "663ca17d4b69f8d37938fc8d9ae938ef021294ca05ba634273f33e61f864e87f",
     "666f7822a54a870b2696ae2eacc94f5b7d05b6470c6bebe67270dceac3e5a22a",
     "668cabc9a685506461e2770bf0353424b282337815ab819a148a9ec541c42d8b",
@@ -2208,9 +2209,9 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "draft indicator reports ride rolls zwift": 1766009667.3375034,
     "4 camelbak chase days hydration just more race than vest": 1766027741.3022268,
-    "cake call continuous glucose graph life monitor powerful predictably proved": 1766046044.3748941
+    "cake call continuous glucose graph life monitor powerful predictably proved": 1766046044.3748941,
+    "300 drive lezyne light radar rear": 1766052961.1737392
   },
-  "last_fetch_ts": 1766049796.5937138
+  "last_fetch_ts": 1766052982.377793
 }
