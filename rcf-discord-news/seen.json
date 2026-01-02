@@ -1146,6 +1146,7 @@
     "7550075c129c0b0a752a398f51f2d96ed5eb66ff62e9173d38fdfdd83ebd22ec",
     "756380b23af4a1ff42b51e8c930675955238e43dffe1d60f8ccda77030607e09",
     "756509fe19dc9b784d31e9d66abea174c3a1259220d3ae213577bfbcd5bda194",
+    "757b4e9e926dfe83ad545768e8da741b883ee26b2e57d5003a218994032cd8e3",
     "75921e3f451aa149f124fb2b62c3e365e3a3d0eafac0d5c3b3c79e2357452673",
     "75adcf115f899d02ea74819c4c2867a7e61060d32d1a5470e199018bb26c806b",
     "75c55bbdce0c9ef2d49d76af1dbe6dd4849b09bca0049654dd983c0c65e7bb8a",
@@ -1808,6 +1809,7 @@
     "bb855219fa15128c7c1ae8da98bd01f6db4c8edcbcc9097f00370cf8404c1f3b",
     "bb9836112bf11234d54dc984e748a0046f4abf554f4acae87f6b90a5ec91b262",
     "bba5939060999f28394fcfffbea7af9ff0321bff155705f111e68107c9ee978f",
+    "bbb9f4c9618d810ab664786cf35c880ccf2527c822b74da5a3205fc797a46c39",
     "bbd11ea8f6c6a2e773799b0c7fec6d15ff186c1a716c289ac83be16b32942f5d",
     "bbecc6f14c553f8bf96aa32f63e60662c9ee99df36ac2bcc74b998cadf719987",
     "bc33fe29316759646be7248fb7b37b9744f135e8470fba43f7d4fcedce863821",
@@ -2248,6 +2250,7 @@
     "ebb431765718d9da3f429db7bf80d99d60028ec0a9287a46d86ba2877ed7557f",
     "ebbc3b6dd52547af417cf3604a4caf263bb9535f7e0b91ddbd96be5a38c2c5d6",
     "ebcbac4761d7647721d3ee99104fc42b257145c83fa82b1d08635061e033f3a1",
+    "ebf0012f38c493de4e70cdcf6bbde3c5f68da918d9eb15d6ef4bb9eba11ca23c",
     "ebfe6ad3fe3d31c466b1dd150a14902936e8a036d0d1fa4d9f82b530f7484b8d",
     "ec028d7111cabde47d2d943ab6fe48959e9c55736a0dfd692c39e623d6643088",
     "ec424098898f1c8aa3817ab4f9f322903987982fe9a5c5d049a502ff2247c2f4",
@@ -2445,7 +2448,10 @@
     "3 4 events january notable weekend zwift": 1767360490.9982655,
     "calls commitment cyclists doubles group irish killed number political protect": 1767360502.7293,
     "2026 amateur could cyclists faster gains make power significant study": 1767360507.5483584,
-    "bhutan everyone mywhoosh open world": 1767367072.5960584
+    "bhutan everyone mywhoosh open world": 1767367072.5960584,
+    "10 2 additional announced core discount kickr": 1767378072.757986,
+    "2026 china confusion crossover gravel predictions tech": 1767378081.9585142,
+    "2 execute experts explain fitness health training transforms your zone": 1767378086.9898722
   },
-  "last_fetch_ts": 1767374046.2510204
+  "last_fetch_ts": 1767378403.4871168
 }
