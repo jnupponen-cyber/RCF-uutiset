@@ -1355,6 +1355,7 @@
     "8ad904c56224113af80ae7e2ace8a09715039e319c3a93765eecdaa6fa79def2",
     "8b00b8e3a2df8a01fd242dcb9a784fb1364eb266564ccebac7f0b17b6f298ce9",
     "8b17e26dd285999f36a0dae7001f330a77a25cd7dcf802f65b193dd3c9fcca08",
+    "8b4dddb8e837e9e35bce41dd1458d7f09a5621e1b7872bbf3b3d0b721c5f4c39",
     "8b8ab59834db89a8189cb6de8dace7b778923150d9b25499b4a20f643338abd1",
     "8b902ade7163fd870ed3ff11cc4044ffffc718d3d349cd569c17d9ad170b7d73",
     "8bb251849f7fb5850a9d7a3770d06a639dd7e4d7f69be33eb1d600675a76cd8c",
@@ -2461,7 +2462,8 @@
     "1 2025 5 best books bookshelf": 1767514760.8931706,
     "2026 bonus epic tour unlocks zwift": 1767514932.936744,
     "france never titanium tour": 1767521813.1845868,
-    "2026 escape essential fitness flyer strategies these": 1767525104.1455193
+    "2026 escape essential fitness flyer strategies these": 1767525104.1455193,
+    "elite rivo": 1767543390.0556848
   },
-  "last_fetch_ts": 1767539611.313107
+  "last_fetch_ts": 1767543409.5290008
 }
