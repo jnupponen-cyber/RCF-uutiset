@@ -975,6 +975,7 @@
     "6125dc0dc54ea396bd862c1213c2d68af5642484530dfd04a74f462430e8e289",
     "6137beb24fcfbb96ab56df95a05935f92cbc18fdc11addd1f629db49476a8c63",
     "614732abfdac90e0d0ee08c136d24bf94a2edb08bf3de2cfb0195bd179fd0dbe",
+    "614889be081b52bb1eb7ab94fe163ff091c9d18f297adc40b3534b9498b7bc92",
     "614ab813dd6e932db8858fff2d9f407be206047404694d95b5802a3720d56b8d",
     "6167430f28d76f5c10cd2dc4c89c299547c4475ba888e703550a6ecb402541ee",
     "61690f581312633d11832b1eb373cd6efddeeddb630328a951492a89c54d13b5",
@@ -2493,6 +2494,7 @@
     "fc3b18074e99cc7a0fb99e91ff651057687b54b17b44b95f9c3aa0fb30fbf60e",
     "fc6450d813ed1aa35d277df782d01a98a098402e6672d120ba14cbd6bd75bd63",
     "fc97babbff362b69b1ab5ccb8e6ec39415836f3b2583808d24658604a3da743b",
+    "fca4a276f7f394779493b1ea794a269d2f3b07d535cec5465eb0a2dff163e142",
     "fcc353f99780ad5da2f6ef3127891c56ea51980128228e0dff4bde04c0359054",
     "fd1ba3532f5c4ef4b3045c3a24f8ab11d00d17f4e469b38343622ce12e7aae7d",
     "fd241beb2f6a4849b41ebbd006dbc78732db79597eb160c91392f5b3760ca3f5",
@@ -2531,7 +2533,9 @@
   "topics": {
     "amid announce apparel brand employees endura leaving long multiple redundancies": 1767870902.4413967,
     "bikepackers clever design hydromount strap tailfin thirstiest": 1767875474.917886,
-    "3 integration just philips smart trainer": 1767875506.8222895
+    "3 integration just philips smart trainer": 1767875506.8222895,
+    "claims classes designed drink drive farage incredibly islington leader limit": 1767879371.1286037,
+    "cannondale founder industry legend montgomery remembering": 1767879374.9329386
   },
-  "last_fetch_ts": 1767875513.6497803
+  "last_fetch_ts": 1767879542.4196823
 }
