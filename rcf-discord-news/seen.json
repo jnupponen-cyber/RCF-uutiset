@@ -1241,6 +1241,7 @@
     "7b253f45f32355101883ef8723c7f1023dc8a3d6ee6230b79aadf5e8d3429cb3",
     "7b2a13dae57a06c5b278c580bfc25a01ad8587a44313b2c67ca05ee6f7b7327f",
     "7b3e7d4f9aab435b3207cde968028d2223a56f21dda4bd9ae277e69db99462ae",
+    "7b6040e3b83da2353c1c628caff0e2031ff20a9b99703b3b0767510317e4fc4c",
     "7b6ba570f5bf45783869893a877303e6d392681f73f5e07ce28474f0ebd7f61c",
     "7b71ddbf77b66c782ece8238af4d05c441995384b06159159c59059f3d42c3ad",
     "7b72ee14ece6fe2b68a8d98651383d6ce3adfe1c1a4192e372aabdd7035b74d1",
@@ -2061,6 +2062,7 @@
     "cfa1d24d368cc1ea44e61aa45566c03ec8190558c72a2b2c2dadf3b14e2add43",
     "cfa87b887d375d8234f03f3fba0b49281b9326d85b675a50b0d42b0ed37afd38",
     "cfc8213a9ce209ad6c09a47492b54d3da93bdf246ed8fe39bc0a997839d6f699",
+    "cfde185842c7f5db36f4e4edab06166d084703a4d17edf131f798ef88d18eb53",
     "cffb1bd531b9e538a9a6264a28dc148e67e6b4a5f7907765229690d7c4005cf5",
     "cffb71ad5b9a3930d5fc0b9135d46430d9b6e268703877ef9871ed4e1ee6b2b1",
     "d017242f057319cd6eb76daaf0c9dcef7d1b8efcfc92997694dfb6246265fdf5",
@@ -2527,7 +2529,9 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "amid announce apparel brand employees endura leaving long multiple redundancies": 1767870902.4413967
+    "amid announce apparel brand employees endura leaving long multiple redundancies": 1767870902.4413967,
+    "bikepackers clever design hydromount strap tailfin thirstiest": 1767875474.917886,
+    "3 integration just philips smart trainer": 1767875506.8222895
   },
-  "last_fetch_ts": 1767871071.9802794
+  "last_fetch_ts": 1767875513.6497803
 }
