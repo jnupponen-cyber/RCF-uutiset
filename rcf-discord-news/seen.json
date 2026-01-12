@@ -604,6 +604,7 @@
     "3a680ad6e561ee5d324103818165517ab5b3806289d6e2baf4f7a7903c683af4",
     "3a8e706cb35b1772abc4e6236ae4988d3a919a5e1267fd8234d124e304e8e298",
     "3aacd384ba1a0706ba1c13e18c572c2f992d6f4072e49161a09f8113be27a397",
+    "3ad6488ba8e7d8cb9d689e91e55e35a81ddf7cbb526ff762156c01dea5b78516",
     "3ad66471aee2f4b3df4e242c079fe436e09defeb487932654393c93ec32bdb8c",
     "3ae5b7f5307eea2d390f67e4d48118058eb9e13056fefe351c730290c2241fc5",
     "3af86602223d39214111a3010d50c0ebc3ae8234d6aba2a3c2b55cdfdc549da4",
@@ -2068,6 +2069,7 @@
     "ca4a93f590918b8591f54095f7c00c0388ce01ef33ffeee5781ff4ca9b72196b",
     "ca658a7817e7b1d9fa5f29345a9a12795a188606514cc1c7e92a8405878934cf",
     "ca6db909cd62ba429a4d2885b42c5f16c70d38b80a14acc253508d8e7715a4c5",
+    "ca7e144ad961631f556d7e55754e56f98a8247ac24d7ca8ecc97cbb999c2baf3",
     "ca8341ac8d59e7069d83e701ebe74cf4c9e7ae68e0b3e3e13c1e9daeac7759f4",
     "caa0a18b124400c387992430decac26ce975aac7e98a20b900e4c9417806b0c2",
     "cafb923d813927b80ee08d2400aaeff4ba86e3c7effcaad2ed019ae79602b746",
@@ -2596,7 +2598,9 @@
     "1983 500 cannondale check ever first": 1768169628.3315015,
     "anna breggen comeback huge mind target unexpected year": 1768180384.9626944,
     "engineering road works": 1768180395.847462,
-    "150 first helmet kineticore lazer look road sphere": 1768199218.7812061
+    "150 first helmet kineticore lazer look road sphere": 1768199218.7812061,
+    "gets helmet kineticore lazer safety sphere tech updated": 1768206144.6094987,
+    "feature helmet introduce kineticore lazer road safety sphere": 1768206155.8277223
   },
-  "last_fetch_ts": 1768202511.0577765
+  "last_fetch_ts": 1768206173.4453528
 }
