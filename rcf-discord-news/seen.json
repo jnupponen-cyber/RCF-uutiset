@@ -835,6 +835,7 @@
     "4f1d322cefff6eb77953b7d693d7259d5d6654f3863bff1383b57740022b4b71",
     "4f220a137d3557b9061821a084a2cce080a736e572abf2b27d72830119826c1f",
     "4f32ee0c4cecae917c0d771fe5411b869175be767ee59b9202e0053e5fe0a2a0",
+    "4f50874381751daf8cc39091b7c513620fb433671dbe050cecc70cfaae8686dd",
     "4f6aefcade2ddfad5796668d4e078a78bdb0ce8b92420c9d71294911a9c9e4a9",
     "4f814f20af09a2a4da3882c84a91b02796bae9790354d2ba68b2a3a2e027f2cf",
     "4f8b8eba052562ab9c750d4776673fe763b48dda1454319ef497e2db1a1582fb",
@@ -1438,6 +1439,7 @@
     "86a05a58fc9dfdc53bbb6f8a0421841bf45a50594a97a52dfaef411335d01c4e",
     "86a6fe143e2d23949a62e16950ed8f8f745dc523fc9165be7bb413d3b35db52d",
     "86bdab67cf3c719e0eaade24381c05e19548f9f24ec99340cecbc4863b1483f6",
+    "86e4f069d5ce068dc35bac96ae8c9135cffbcced63ca053163b4091942b54b39",
     "86e66de4e0149246225f48d6ac1aaec4c39a0cf9aadd6ff6131d822f61429cc8",
     "86fb4ab5237b0d8b35815474f16f30b6461e1806745a2be6fbfd193f51498f74",
     "86fef7bfb24b4ab138fec040a414af8d5f83085bca017a4304396e8daea6dcf0",
@@ -1453,6 +1455,7 @@
     "87bc2cbf3b3fd9e2dfd713117878dc21170a6f37405ef5c7c9057c8360ddc19a",
     "87d77d8ad5dddbd2d111cf52ea942df9bee4427444750e3239b5d07989c74be8",
     "87e48d3f05642c0292a949419aea758b24b04067895bf2deef741917ed6af47c",
+    "87eab400b6abf5a401620677fcfb167ea40b19f5da02c1ba081ae21407c81ba6",
     "87fee42793bd32eb8deef0fc95a4b6e4e4a43a67d5b4f04fd5bf000cfaad97fb",
     "882b2554bf0aea13d95c21a2c86f1e2db1b325a970d11e2c3d646b24c48e7a61",
     "884a4eddd7e8f9be7997d5e1626aeb2674a8046a48059e4c1e8d967afa0605f6",
@@ -2509,6 +2512,7 @@
     "eeb65deece3161c199b935bc15f426dc5c437373d390b5fb01b4028200ff5864",
     "eeb965cd184381a7c35569eeacfbe84757d126fd151b228a9d2308faa05f18d5",
     "eeb9d6025c3c1956f0cbc808cea0902205d3caefcd9557c524fd44239a433e4e",
+    "eec43ede74dac829634e9e67d04fa171a6ecb50e18eedbc4c62398c0e05ffbc5",
     "eedd7d96130731eb35842401629fd2abbdff3f9341b1a71ef8d343052e3de3aa",
     "eeddbffa8afda1fe91bea8ed6852b6a98889f475190389b35ad8af3cc57c2d72",
     "eefedcc0b38b83e44081475abf13a6051c2e6baa0577891d9919180b5366b527",
@@ -2688,15 +2692,16 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "alexey career contract enve home landmark long sign vermeulen": 1768511700.41034,
-    "being buying ride safer seen starts these upgrades visibility worth": 1768511712.8660312,
-    "aerobic cyclists miss most optimising training what when": 1768511736.9226491,
     "corsa eddy expands merckx range titanium": 1768525824.921879,
     "corsa eddy introduces merckx strasbourg titanium versions": 1768547966.0640645,
     "assioma digital drops peak peloton power2max prices rider using zwift": 1768547982.490626,
     "book cyclist health heart killed midlife missed nearly risk wrote": 1768551643.8070166,
     "could eh510 hybrid pedal perfect shimano your": 1768551653.285366,
-    "aeolus airloom comfort dimension next printed promise saddles trek": 1768551657.690031
+    "aeolus airloom comfort dimension next printed promise saddles trek": 1768551657.690031,
+    "becoming broken industry legacy model smallest survival": 1768555197.1018412,
+    "adds bars dogma drop gravel grevil pinarello rebadges takes": 1768555200.8287294,
+    "came collection concept crazy launched like looks movie rysel straight": 1768555203.325488,
+    "dimension expands line nago prologo saddle": 1768555215.0607483
   },
-  "last_fetch_ts": 1768551678.9900436
+  "last_fetch_ts": 1768555239.6682553
 }
