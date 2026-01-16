@@ -708,6 +708,7 @@
     "42fe17ea83ff4c42b3ed59c2b02bc36492a83349e2a6593a3d1053449641e77d",
     "437db1d88feae308b1f648518b2252be6519c265cb6283c253dd1a8a41e42af8",
     "438bd5d48eb03b9bf14565c984a8be62b679bc19925c8a20b0b1d99f14216999",
+    "43bae6a6f39e05f8d5ee1c0c88fc38711e92b8482270ca5547b9e74f1d3af3b8",
     "43c1b752af8222d418aa12bfc1422f3bd3e6bfb5e67d7032d725776e49d4a2df",
     "43c98d8ad463f6676385c6782451415d46ecbf7d447d29f51bb6f39e6559b776",
     "43e31f465076374b6693e0d6ebc113ff0abf8702c9e590730da3d9944fc893ac",
@@ -1289,6 +1290,7 @@
     "7914ac2c8f27909cdf96620e1a7c0a1bec5d123dab01d4e816304830b2c071a3",
     "791754d1ccf0f009368305d2dfd3da9178002633990e1bc61a710d795ca36260",
     "793d058bf60aa8bdc52f839f2f412e327a177fdaa473f00a073fed33e3823bea",
+    "79415812b97fc27cbcb5fb5184aa335ddbc046352c1bad3c8b73e36404e40001",
     "79926e4adcf207435e973d58bde81c5ef2ff46688b6b4e1752082d3781f0fbdf",
     "7994d19f06314838476130aeded8f05c3669c9614ed1d395614a7eeeb0082dc9",
     "79f9f0864b7a94e236d4059fd82c61704b5f4e49905b4ae6cdccfcdb68ec1327",
@@ -1893,6 +1895,7 @@
     "b41046436e1f5ba782538e55f1a37117e2ead676827ccfa67d3a328b7f5c21fa",
     "b413d4a6f7d38dd3152505d9cd8d14ec899928f77b53438611b6e0848aaeedfa",
     "b4178def49dea102615cebeb92bed3d69c04b6703b35ad463ddf5f63f6007e83",
+    "b422c437bb4b6b8860aba1558a3a50a9dedcd8c7ead2a9a585c9340f2d0f8cf9",
     "b424d7ab173468a9908b2f0e1230c527bd041f66875838f1d6d7f350f39365d5",
     "b425f83f43a0d227438cf6e914158a300b9426e1af8aeed78b3385e39276e202",
     "b43e312794d69cf68cca9276070e71f89c56b93571630a921560996d007a4db6",
@@ -2685,13 +2688,15 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "century does long ride take": 1768508261.164413,
     "alexey career contract enve home landmark long sign vermeulen": 1768511700.41034,
     "being buying ride safer seen starts these upgrades visibility worth": 1768511712.8660312,
     "aerobic cyclists miss most optimising training what when": 1768511736.9226491,
     "corsa eddy expands merckx range titanium": 1768525824.921879,
     "corsa eddy introduces merckx strasbourg titanium versions": 1768547966.0640645,
-    "assioma digital drops peak peloton power2max prices rider using zwift": 1768547982.490626
+    "assioma digital drops peak peloton power2max prices rider using zwift": 1768547982.490626,
+    "book cyclist health heart killed midlife missed nearly risk wrote": 1768551643.8070166,
+    "could eh510 hybrid pedal perfect shimano your": 1768551653.285366,
+    "aeolus airloom comfort dimension next printed promise saddles trek": 1768551657.690031
   },
-  "last_fetch_ts": 1768547987.8921237
+  "last_fetch_ts": 1768551678.9900436
 }
