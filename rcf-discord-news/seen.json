@@ -1,6 +1,7 @@
 {
   "ids": [
     "004ac95f756a050afd4f14921309f9c14e5059081bf2d7a82a9bd048fc6270b0",
+    "006c8213f02dbebb3beaa1d8e996fcdc42ae8dc2c18bc0e558bc460bc7ae0d65",
     "00777170140f96fee9083606b9ca3886edab4eb402e1339e251ed2d02c7333b0",
     "0078523cfe6c399ae05193da00d047c3de3793f230854730de33475be6c5db7d",
     "00a7abeffae3b050499d8121f80c32eeec03b805e741c0791cf7741ca9fe1790",
@@ -2071,6 +2072,7 @@
     "c4a79b14395738b941b8058bda96f701e51c2cc3e3d721361f2f6dd6a3735a88",
     "c5203b5be8225309a0ef10a8ef7d078c2f8650a270273707e83ea30ee1198203",
     "c535dfb6710e454e49d6e6c1686397e0a5475ccabd44dd4160021b286e4965fd",
+    "c5398ba33bbdb0dcff5f7ee286da960dcb3f993b32f7e648d1da605d77567bfe",
     "c53d1bf1411c4f7d8c4fe9388c878edb0247e77808980cd15b6a2c44344539c7",
     "c544a9f790a938620f216a29a199037b6a846dd90489f953fa4a2eed6778de84",
     "c559299ab7aad5fc29d1c63f438a0eb6cbd2c89d9be6bab7550e57efcbd18eb4",
@@ -2683,14 +2685,13 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "2027 announced anything bigger british cardiff départ femmes france grands": 1768501657.843695,
-    "50 cyclists most over probably wrong": 1768501834.8568811,
-    "17 january loop race routes series tiny variations": 1768504752.0305645,
     "century does long ride take": 1768508261.164413,
     "alexey career contract enve home landmark long sign vermeulen": 1768511700.41034,
     "being buying ride safer seen starts these upgrades visibility worth": 1768511712.8660312,
     "aerobic cyclists miss most optimising training what when": 1768511736.9226491,
-    "corsa eddy expands merckx range titanium": 1768525824.921879
+    "corsa eddy expands merckx range titanium": 1768525824.921879,
+    "corsa eddy introduces merckx strasbourg titanium versions": 1768547966.0640645,
+    "assioma digital drops peak peloton power2max prices rider using zwift": 1768547982.490626
   },
-  "last_fetch_ts": 1768544690.6201997
+  "last_fetch_ts": 1768547987.8921237
 }
