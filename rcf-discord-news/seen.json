@@ -554,6 +554,7 @@
     "32935dfcb4deb10c4cbf86ba4d2d7ed3c444dedfe141736ed9d03e7af24fea0d",
     "32b24204e4778bb47673a1973d5797d8678bae338fdbd0316d06d08d89658e64",
     "32b89a83f27e4c10a1778f6b180a730e9cadb24cce5f81895329c8c6ab9f7279",
+    "32bace84c65213cdf421737fa85d556fc9b9ad097d32d3cd1d22ba199c984776",
     "32ca9dd16b0e2a8652b7ddb46bd5bcf1b1ae1132820e6121fe2563d3361d9058",
     "3304686eac417779d5862b6d73b5a70acf28a8829f560aa7dcabeb40b787c590",
     "333788d256d004c83af6ac4529a3b4c5c670f6532715c437fa3b2f251419f4db",
@@ -2723,11 +2724,11 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "18 2026 3 club january qualifier race sunday": 1768717342.9053948,
     "2025 carbon helmet market safest trenta": 1768727694.9146492,
     "after break cyclist every fears fitness lose question quickly riding": 1768734703.675533,
     "oquo rp50ltd wheels": 1768753010.9634016,
-    "8 adds bolt chainrings components offset tooth wolf": 1768760352.506768
+    "8 adds bolt chainrings components offset tooth wolf": 1768760352.506768,
+    "18 2026 3 club january qualifier race sunday": 1768763470.0641098
   },
-  "last_fetch_ts": 1768760377.7151377
+  "last_fetch_ts": 1768763473.5224848
 }
