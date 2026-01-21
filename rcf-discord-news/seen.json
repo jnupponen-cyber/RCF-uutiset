@@ -16,6 +16,7 @@
     "01477fdb5cd262707216a356dcc7e342dcbac330c426131f9ca6217c058c3919",
     "014afd23b7367c035a662b79adb2583dae91bc2b450960dcd3cc05892931ca7c",
     "015872823e7653efd56365e609489cca7f03d3ec31b1cef3167eb53ad6679672",
+    "01595da44113bc25b58bd9e65109b88fab20bd4163322afa39e07c01971c55fc",
     "015a095e50f85833e110192d0f454f77ce05b4a6735c6a65b240d11ff01a866e",
     "01aefc9ffceb972b0e30fecc4046ec07554066a5ae45be85876894df8fdc3322",
     "01b5cac22e67332d92e58fc9e3bb0149f208ac9dff9d11ba5eadde2ace48abbd",
@@ -2758,9 +2759,9 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "better commutes ears keeps open openfit purpose safer secret shokz": 1768947377.426287,
     "cannondale carbon gets smartsense topstone treatment": 1768950934.2357936,
-    "faster never single used workout wrote": 1768987586.598943
+    "faster never single used workout wrote": 1768987586.598943,
+    "3 ibex": 1768990841.9442577
   },
-  "last_fetch_ts": 1768987611.066896
+  "last_fetch_ts": 1768990897.4927347
 }
