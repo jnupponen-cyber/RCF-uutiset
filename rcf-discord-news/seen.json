@@ -134,6 +134,7 @@
     "0b388ebcdda33c49b70de6cd6ebb8f6ff5746233a0098acb71f8dbf6d74c3254",
     "0b3e238ec9d142f263a5df943d4b769b41e781f360b7be518415c5905cf4dd35",
     "0b5721423ea228370c6372a2f1034970c7aac27ceacd273bb68ae98b4577d486",
+    "0b668e6cfc2a38b03379e7161b61cd0ea3d8a0473f91afb160975bf1df612647",
     "0b980153f0a3f56686d9f3e15e592979b59a5a1b0df0268defe1b2aa1d8a2d18",
     "0b9db35897dac8822458c79728e2e97b09039c34d6c3b977db0e0408ef9cfca1",
     "0bb5a3c2b17d254164ab66d073c1217f91392969f8ef20e32dc59b357c0195cd",
@@ -2836,8 +2837,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "4 jacket performance price rain road rysel wind": 1769163461.0368261,
-    "booster digital mini topeak": 1769163475.0171595,
     "adjustable bankrupt behind brand declared lease pressure system tyre visma": 1769171517.8475227,
     "back brake ever framesets greatest only steel want": 1769171527.3946989,
     "24 25 events january notable weekend zwift": 1769175454.841769,
@@ -2854,7 +2853,8 @@
     "average fast group should speed": 1769199489.1996217,
     "actually caused could hand neck numbness tight": 1769199492.2358308,
     "check desert gravel killer next regroup road tempe weekend": 1769206374.8924184,
-    "2 behind boring training truth zone": 1769206399.4747088
+    "2 behind boring training truth zone": 1769206399.4747088,
+    "ride smarter stronger train": 1769210106.9679081
   },
-  "last_fetch_ts": 1769206401.6235838
+  "last_fetch_ts": 1769210431.941341
 }
