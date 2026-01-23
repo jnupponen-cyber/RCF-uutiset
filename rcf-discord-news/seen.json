@@ -368,6 +368,7 @@
     "1f8b572b0bfcbcb1afcde85ca32cf8276ebcd2c4f5483d4fe416fb7d6af804bd",
     "1f98d91095b63e99e03959c5602684c144b9c6c727bb855b2c0a4c8fc4b4f0c1",
     "1f9b0509976b4689fc1ddab5cce9f344d002177771c9695520c0d1ea08cdb63d",
+    "1fba045f0d3f8f5f77a1c39ca370063b30c743f40473d18ce19952dabc5a6a63",
     "1fe3a8610eb49173ab90c8de96767c80a17c92c14eb951eef2f1ff0b25a3b4cc",
     "200bd06f8dca6c2ce51d13366b114c4904e8348b7267836ddd22da485dd5c739",
     "2044d2d931fc173fa9692a2125d5d516f94c29a56ed2f1bdd24eeae2dbfd61fd",
@@ -1032,6 +1033,7 @@
     "5d7848d1bdc2134cf6de94097b129533662c2685e9fa972917471712804922d7",
     "5d96a067098deae75e8c5de4782abc8f6b63cc971ad07da97ddeaf0216c58de7",
     "5dbba7eed391cece011905f8c1fd42071a9f3de84cec9b0ca93b427dbe7e7943",
+    "5dd7af32c90dca590be5ac4feeb636c14f94ba91f256a1430cc2d782df534557",
     "5df28e44c083fda863a08845f6adf6d14c62922fb2ae089d37478237be1059a7",
     "5e2990df671461469e1897980d55a0e69770182104042d889158bcc619f14452",
     "5e2cc4cc3bf84789b58f8c0c0661e9ca580321424af788af4cf2b1de0b85d48c",
@@ -2817,11 +2819,11 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "away dear drivetrains high industry mechanical please take": 1769120172.4578526,
-    "about base bicycling crush show training winter your": 1769120176.0678687,
     "affordable fresh gear lights more products shifting shoes wireless": 1769123702.7294965,
     "built faster make trainerroad": 1769130676.171051,
-    "3 break castelli cleat cyclowax dirt eddy gear grevil grip": 1769156479.6826773
+    "3 break castelli cleat cyclowax dirt eddy gear grevil grip": 1769156479.6826773,
+    "4 jacket performance price rain road rysel wind": 1769163461.0368261,
+    "booster digital mini topeak": 1769163475.0171595
   },
-  "last_fetch_ts": 1769160377.9814482
+  "last_fetch_ts": 1769163528.936592
 }
