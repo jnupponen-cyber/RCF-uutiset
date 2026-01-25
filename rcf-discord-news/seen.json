@@ -60,6 +60,7 @@
     "04dbca7bc1650b414b9d17c179d932bb1d9d5c93c94077622c364806618595a5",
     "04dd6225c648f7a04a8a9ad5eba9ac7ecd762cdbb016ffbf6462f1b049efc8bd",
     "04eb25ac274ea404b56c8ac229e06749444b9c130f268c03201ab95170237f44",
+    "04ff65a5d15f581c1f76885bc743a00b4e196082a24de9e9d2204b7347357cad",
     "0508793fb0a71c422a561a8d789c9aed522e81cc02dcbb4d9b96f3c5b2bd4674",
     "051c7098f64908480156828af77d3e27cdc4e81b481a5d084ebc70b72ed8c902",
     "05251f91e298c2aeb80583cebcab134b93939bc278145ba248dc81d70e2e9aea",
@@ -2855,7 +2856,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "2026 25 club final january monthly race sunday": 1769318623.2186756,
     "british coastline movies whole": 1769329155.4163795,
     "becoming enjoyable former laments less modern pressure pros pundit riders": 1769332519.5712035,
     "blind british charge classified competition cyclists find impaired professor spoke": 1769332532.6972604,
@@ -2863,7 +2863,8 @@
     "biggest challenge leadville road": 1769336129.6958566,
     "backwards gears pedal shifting when": 1769339536.0906909,
     "2026 5 endurance these want": 1769357857.7698827,
-    "filante sram wilier": 1769357864.5368824
+    "filante sram wilier": 1769357864.5368824,
+    "2026 25 club final january monthly race sunday": 1769365303.8079238
   },
-  "last_fetch_ts": 1769361184.3317044
+  "last_fetch_ts": 1769365306.8858693
 }
