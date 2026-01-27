@@ -625,6 +625,7 @@
     "368a026ef1e9d68fae6ecac41e626a9ee6451818ea97bcf10e293ec43ed1378b",
     "36aa4d1b0bbf61cc55ced1adaa6cc894013f12749a84216273b7d776ececded6",
     "36b86d4f39cdf5db94d3845b8da7dc560eea090449ac981fed87c1ec502e41b6",
+    "36b9150d56a303e425ec70d22ebd9b2abd88507a36ec9ba0ce50ef27fca7deb7",
     "36c2c4d64c23e161b27e3cba8633b243bc4802621fb8d6c2cf71c552cc2caf1f",
     "36ce4e00277274283ba1ea457fb3941eec7e382ab7aee4471f5e32174a12220a",
     "370faac85ef19ce27d61bb675aadb6ad873e690eb73209a6b846bc002e921ef0",
@@ -978,6 +979,7 @@
     "56f12725faf005dbcf07350c7b363916735a927654c973099a372495e5ff733b",
     "570a9158ad5e1942660ca96a3c0c3e13fe83e3b32c992ba7646fa35a13a8f762",
     "5740ec24ab2ddc71fda7b8c5c8b924990379f77afd07c5fedb45af838f4481d3",
+    "5779cb8ceb5b06f4455e930a09ad11b823e2ac60022b62d775907ffaa50ad9e0",
     "577ba926b9ff1c0afd348cefd600e2fe7bdf9c07057a3959566cab05bd62e0de",
     "578814680697b1ec9af56203a5b65f255e0bfb6dda6fc3cc4387fb521542db8c",
     "578ca48ea1351fd3df517b8eeb4ec41be08910d8c32d099e3bb4307ab71c4797",
@@ -2881,12 +2883,10 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "adds modifies robopacer route schedule sofia zwift": 1769458719.411945,
-    "beginner clipless gravel guide mountain pedals road": 1769458830.4396038,
-    "body carb could cyclist diet handle high race": 1769458834.0839522,
-    "about adapt bicycling older show your": 1769458837.5676873,
     "belfast built experience hand revolutionize riding scribe wants wheels your": 1769462227.1645532,
-    "prediction trainerroad": 1769465726.6522489
+    "prediction trainerroad": 1769465726.6522489,
+    "3dapt study": 1769502206.7482011,
+    "argon18 e117 great": 1769502233.758036
   },
-  "last_fetch_ts": 1769498831.6510625
+  "last_fetch_ts": 1769502235.4943142
 }
