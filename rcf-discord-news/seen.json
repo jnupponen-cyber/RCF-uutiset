@@ -1329,6 +1329,7 @@
     "73149c0a89ca4ff6f427d52e764c01970495d06592d8f80eb6061bdcb3017c12",
     "73386d228e020c00dd5afe72b611ed7c02ca5c03c4a590fae0b92c245e033bf3",
     "734a67f822297357945f26db48f6d7452bc557747490b41ba913433adc136a67",
+    "7354f6f777078b821fefd3587b22b780c5c55c090cb4fc3696055bd9f937f4ae",
     "7355b217a0b477a686db883ad8c09cecf225546b4f9d2ddaa322988e43efddba",
     "7365060d8f9c62b36c3f6e0e55e138070314676df68f00607dde79f0fa4f805e",
     "73abcb6e22e8a46ad410e8b1e3b723ab2fce89f24b6994a59529de7ddc17f1f9",
@@ -2346,6 +2347,7 @@
     "cde4b679e7b2e497387c40a81f02e28306881af9dae0a32cedda20b8f8acd1a9",
     "ce27856307bea6c32d8813f9fa0bed48091799f2dc7c6ec01f414d9b67863f2f",
     "ce3ec44127f86876f93da463f1ff1e64de068809c5507d10bdebc5f548f7412c",
+    "ce8d3c1a15e3fdaf89c7a65590a13925689e30022a976df4e935a77b643221ec",
     "ce8e8833ba301986f522db371ed8b5bc838afbb4d8707bc4467f4884a7d7d4a1",
     "ceab185075b4260b9a09d6a3529b0b3c8bdf143743edb40add52522c632a7e81",
     "cf10fe172aa56f6532db847263a99666850072bc0a9a9437862089c733308f8c",
@@ -2901,8 +2903,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "3dapt study": 1769502206.7482011,
-    "argon18 e117 great": 1769502233.758036,
     "australia bushfire cancellations extreme race risk sparks": 1769509219.5702791,
     "jacket mechanism normal shell studios": 1769509230.9614918,
     "australian cancelled decision extreme most proseries races responsible safest temperatures": 1769512673.6095872,
@@ -2920,7 +2920,9 @@
     "13 about best events gravel know need races road these": 1769534579.9410212,
     "cold hard hardface lets winter": 1769534585.9086597,
     "gravel light nobl racing series ultra very wheels wide": 1769534589.4178154,
-    "681 gone industry nuts officially show": 1769534619.9635096
+    "681 gone industry nuts officially show": 1769534619.9635096,
+    "31 january makuri punch race routes series tiny watopia": 1769545012.2960947,
+    "adjusting bankruptcy declares despite gravaa hubs performances pressure race winning": 1769545654.2031431
   },
-  "last_fetch_ts": 1769541710.318262
+  "last_fetch_ts": 1769545727.9991462
 }
