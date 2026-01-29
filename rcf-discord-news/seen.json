@@ -454,6 +454,7 @@
     "25aaec0ba5b4ce679a2c9c8cae8e4dbae5a7d08e494be36713f3789185bdc8c4",
     "25c6851eed7764f050ac067fd8eae56af761af87c67fcc3a30cb9bdc1c487f89",
     "25f16ee47f8eb91a201dbd8d51ba9c01f057a6c8a9f990bc5ca8dcf574585b4e",
+    "261ffc8ea030393548749ae8a69ab470af4457edf21034686ce5e33bb4741edf",
     "262118c2268a9c890509d6f2b9149f1bf746605eb516197af87e2fd1bc9ec15a",
     "263353359a5d4b49a735c1fac6e3e2c8924e3505b19917d1c44a302b5f2dfaf3",
     "26366e668c6520cadc3428a19395793b264f6b91e3ffae63a456d01502c597ed",
@@ -853,6 +854,7 @@
     "4b48a7dc664e1478d54566fb8d11b086967feef13e9a2d4252c3ba8585b18be0",
     "4b4926bc7882144a1a427ba5dc7b90ea028eb49d28759d2c82a3909f091121ef",
     "4b6b3c2ed6d13f5f3f3e38bb5df141e657726b1277db0877095ac5b9d387b398",
+    "4b7b8964db83fac1f950471e0d92cd8ccd6fa2ee4f767682d995d417b0d402f7",
     "4bb7219ecd897e7f5f884fe4b8dc6e2a5a0bfbce6c777fc404423f8a9e750be9",
     "4bcafc42b38508180e29191aad6541d3a2dce33e0eef35716031cb415f56b54a",
     "4be83059ef3927224489970af98b89c676c4ab360f305009e34355d25b985c4f",
@@ -1172,6 +1174,7 @@
     "64d54fdb9b5b2f8062f9320c57ce9ad3766215e5a05fd8e8485288e38b7c20c7",
     "64da714247787a1570a70f6dc7c618d94dbd9bc398a0dca660541d97454ae83a",
     "6502394a7ee8f6917189e38a378b9adebf97978d29378277114565e1d89875ce",
+    "650363f7c65995090a5b96c69f1c317f3705a983e382154f13cc8de06856fa9f",
     "650c3b0320e894afdd46ebdb3a99dbb757e3e0712507648639603a70a98186ad",
     "6518cfc9418206f3a54ca825c853b171be92e6cf66428f93cd2bf5cb43c197f8",
     "653135fe22b18b21d7fe908750d4cc0f47effd6f60d73543f5f95f34ef5389fd",
@@ -2206,6 +2209,7 @@
     "bfa6cedc25ba6aefc2ec663a806098eb7706dca8be6b3c83caaef6e383003114",
     "bfb3154bf342b7c843edfbaf52d44ae6256a06073549bb570c8576d04926fcb8",
     "bfd4ef2ac9e8b8908bde7a1c64d2aa85df2d6474c7d4969d17709690f3e997e1",
+    "c03ddb409f26bd4d895b6c73cd6aad83717330caa0fd1ca0baf272cee03bb04d",
     "c042880b46833f56e88a93e03b8dd3ba69410bcce375870920bdef1764a25c19",
     "c05443f1146b561340aa432be899729e0aea768985bf3197c89f569523617db8",
     "c0673823ce1b0dd29a12816db0ec8eb9786255a6acc3fc896c0d20dfe62fedec",
@@ -2324,6 +2328,7 @@
     "c9687f428c6765e2b5cfc227cfe508fe0d559f8ecf3f0aa265808ef43d429639",
     "c96903027c6f65d4e13a1b3508bd1f3d15fdd37c612e3d3a07cd17ff63ad3084",
     "c981269131fb6941b9e5ee1c0ab4eddf206098366dbd2da36e1b042045f0c6e0",
+    "c98480cb95c06817c6769c49ffbcd5f5f628db6ad87731560f7e4267bb2566ed",
     "c986aefb229a44848ff7561ff9d0102ad75f2c17911bbf38e250c452285c7f4f",
     "c98911fde232c5f7e5b1e41c347b44a2783469db8bc5d3136d822957892801d7",
     "c9bcc6149bba1c1ebee0202aeea28eb9b3acaf5afe4d5e862329e1cd2acc24ec",
@@ -2943,8 +2948,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "50th anniversary bold characteristically ellipse extra glasses gold oakley": 1769659320.7914128,
-    "plans problem": 1769659346.6046233,
     "listen more stories velo want while": 1769679311.7897077,
     "been dressing time wrong": 1769679633.29987,
     "aero aspero cervelo fast gravel keep original still": 1769682557.511638,
@@ -2958,7 +2961,12 @@
     "25mm brakes cinelli coppi fausto ghost reintroduces supercorsa tyres": 1769694881.8603513,
     "campagnolo choose complete everything groupsets guide know need right setup": 1769694895.037774,
     "27 backed benefits body brain life need science start your": 1769697289.8947053,
-    "apollo bicycles creates flat gravel priority version": 1769697296.0991187
+    "apollo bicycles creates flat gravel priority version": 1769697296.0991187,
+    "alex global place pretti remembrance rides take they": 1769704480.7368057,
+    "11kg challenge cyclist diarrhoea eating hardest horrific much oats ultra": 1769704493.0294032,
+    "destination grants hello mountain oregon pass southern": 1769704498.0420055,
+    "ability balance boost exercises longevity simple your": 1769704501.4495974,
+    "570 coach faster pros what": 1769704523.829181
   },
-  "last_fetch_ts": 1769700553.4771717
+  "last_fetch_ts": 1769704527.9932978
 }
