@@ -881,6 +881,7 @@
     "4a31345d0a2f9a5d78565036f9427d0f5c1129ca47538abc5fb9ffc0a950c6ba",
     "4a648bfd8429859fe121737fcb1b3605f4bf77f919b4797276bbd97aaacc72b2",
     "4a69575b990ff70b1e9105b91dc73845de2d069b1d6e426fbfaa2cd095753a8a",
+    "4a789b547ba447e2f39556c5fed9a5f059b9d4bfee873dfe0ae5372ffdb20520",
     "4a8476e2644a7f8d7608d6a824f08044842cfea5ca503b58d9bab0393653bee9",
     "4a8b619203af5cc6a21f249dc7c843cd7c79838195f54992a60df9b9a0afcf01",
     "4a979099f760d953985f9598c29b42e513a592f2fe48e2552fa7ef896f85f148",
@@ -2943,6 +2944,7 @@
     "f34cb64a481d527e0b0738f3d2ce63e21afe4cb6b254ec5f68c2aaaabb474a72",
     "f353e858ea33a293bbdded98a4e17823e9cf96722763d29afb094b035b74c6ab",
     "f37f549e3f8fe4c7fc37feca4aede1819970a1e8daa839875e9a857a4e8e8af5",
+    "f37f7228a6d239b81f651efc9a56be2ca426fb304027288385599c880d960a94",
     "f3816ac40cae85e0a6af644fdbf057096a46ddb09bcf14c12010377eca370172",
     "f39e92ac1cd75a13f35f80a98e57f3e36d0223df7020f167be6a06a34bdac95b",
     "f3a816670f3f4450ae8e002e3a01d5406e90912980a5fe0f4f56619930e68aee",
@@ -3076,8 +3078,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "13 brand campagnolo comeback confirms layoffs refutes speed trickledown": 1770274134.597549,
-    "100 150 core february kickr promotion save whopping zwift": 1770274147.5944448,
     "collection including launches normal race skirt ss26 studios tech": 1770280475.801452,
     "2026 best campagnolo groupset road shimano sram what": 1770284195.8963652,
     "allgrit brand british gravel hitting offering ribble titanium": 1770287621.635493,
@@ -3098,7 +3098,9 @@
     "controversial crushes evenepoel neutralizes racing road storm tt valenciana wind": 1770313307.8876486,
     "about brosnan bull hardline only sram tasmania teases thing troy": 1770316729.9839642,
     "agency communications fidlock hires record simbol": 1770316735.5554361,
-    "after feel rest worse": 1770316762.817618
+    "after feel rest worse": 1770316762.817618,
+    "2 february race routes series tiny tricky": 1770319990.1299996,
+    "britain fignon france iconic laurent made raced raleigh victory": 1770319993.8977027
   },
-  "last_fetch_ts": 1770316766.8758147
+  "last_fetch_ts": 1770320048.170878
 }
