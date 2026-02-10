@@ -1732,6 +1732,7 @@
     "8ad904c56224113af80ae7e2ace8a09715039e319c3a93765eecdaa6fa79def2",
     "8b00b8e3a2df8a01fd242dcb9a784fb1364eb266564ccebac7f0b17b6f298ce9",
     "8b17e26dd285999f36a0dae7001f330a77a25cd7dcf802f65b193dd3c9fcca08",
+    "8b2f524855053c85bf4ba73f7505737e2ec7ea2120f1f25175c5620856787868",
     "8b4dddb8e837e9e35bce41dd1458d7f09a5621e1b7872bbf3b3d0b721c5f4c39",
     "8b4e3997664717399da5f5fff61b3f1fcce88467d384b4763db003a07e51d97f",
     "8b8ab59834db89a8189cb6de8dace7b778923150d9b25499b4a20f643338abd1",
@@ -3124,7 +3125,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "32in bicycle heavy light proves wheels wheelset": 1770641569.0016565,
     "2026 about comes games race where world zwift": 1770646236.629255,
     "2026 games routes unlocks zwift": 1770646274.621557,
     "expert fast guests join labs talk zwift": 1770659046.7912037,
@@ -3136,7 +3136,8 @@
     "details route sisters step three": 1770667094.4780517,
     "cadence experts explain improve rpms what your": 1770667108.482375,
     "armstrong austin biopic butler featuring hollywood lance make": 1770669853.402413,
-    "3 aero combines furion helmet road safety solid unmatched value": 1770669865.6528804
+    "3 aero combines furion helmet road safety solid unmatched value": 1770669865.6528804,
+    "announces damper mass rimpact tuned updated version": 1770688203.9272552
   },
-  "last_fetch_ts": 1770679837.5857267
+  "last_fetch_ts": 1770688225.483949
 }
