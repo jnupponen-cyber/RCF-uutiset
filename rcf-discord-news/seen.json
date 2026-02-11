@@ -1202,6 +1202,7 @@
     "61141c475f5c490f67e7fd635dc01b56425ae486a4fcca14ce59fb5d65abb671",
     "6125dc0dc54ea396bd862c1213c2d68af5642484530dfd04a74f462430e8e289",
     "6137beb24fcfbb96ab56df95a05935f92cbc18fdc11addd1f629db49476a8c63",
+    "613995908107b2d834439f52a21bc85618ae2633133110e15dff4100910ca90c",
     "613d197465cc3f6be10669d5b2969cbbd395b9ef153c601682a0d730dcdbb496",
     "614732abfdac90e0d0ee08c136d24bf94a2edb08bf3de2cfb0195bd179fd0dbe",
     "614889be081b52bb1eb7ab94fe163ff091c9d18f297adc40b3534b9498b7bc92",
@@ -1240,6 +1241,7 @@
     "636b30f9fbad05fddde8f36bf8fa2224640962fcfb1cc747edcb270097f45035",
     "63904ec5ec8b7149befc44d08673421e17d11262092866f584d4c9e15da988e4",
     "6396a730dde1242208e89d5ecce6e02fbfb91f69e8a6359b3db1d158be3e298b",
+    "6399cf9e95717043af26529ccdec120b96405d55285f297dde692e1685d9c9ed",
     "63b14b9d5651894bfd974847669857bae9742a424f83e5fcda1ee154e872f431",
     "63ba10187f5a8c4fa9d908b3e6fbfa8405209d452d7fdf5a5c4614b4af7e0383",
     "63bb6a5d8318b337102c61ef0072fe258e82cfb30476d5ab27a95f41f3403cd1",
@@ -3144,6 +3146,7 @@
     "ff008d48c0aa6e35f3452f2db123717cc7c7b374b1683813d4d17a47d3b63594",
     "ff2abd04572b04bb7a8e187061be83f7a6301a0b485a65503d3539b436fb3cb7",
     "ff390330abb522a098946551f707466dac91dda484e1d8daea1027b84ad96e0a",
+    "ff649ebb202cc85898afb8580ca40b8c6872ef7f4594ff80f6ae8a91b6c5a6b8",
     "ff6e2ac870ba0bda77a1550e73f5306abcc31bd79a5da38667202af9b79f4500",
     "ff838881b4c0bb752e81cfda2a2dedfebb1153ef24462323075f35c8a6bae079",
     "ff8ad62a9385aaf87c5b5af24fedb62945f26d37c7e6b12c38286db13a462edc",
@@ -3161,7 +3164,10 @@
     "added fitness goals streaks tracking trends zwift": 1770819142.3479693,
     "announced british championships details first gravel national": 1770819147.1244602,
     "99 between collaboration icons italian": 1770825236.4482107,
-    "analysis feature improved power records workout": 1770829048.5654206
+    "analysis feature improved power records workout": 1770829048.5654206,
+    "3 announced beginning championships club edition march racing sisu york": 1770836458.6522446,
+    "actofive away colors cranks grams machine more signature spindles": 1770836475.4625943,
+    "6 boost improve power threshold workouts": 1770836480.444354
   },
-  "last_fetch_ts": 1770832611.885808
+  "last_fetch_ts": 1770836503.0237415
 }
