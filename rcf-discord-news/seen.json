@@ -744,6 +744,7 @@
     "3be017d8820eb93818f0ec869129c32ab1f5ad03406d257252fc42b76e4cce6d",
     "3be12297192022d791f3b0b98a89b3135613de47fc3de48e470fc2af31c3114a",
     "3bf0b55a55c2c0f9c6b58cdcfff008c446bdce723eadc98179c04b31298d3607",
+    "3bfb8a2dc7733346640df8e2918d56bd574f82814d9fe42b7fda96ac055a8f96",
     "3c40fbdec9f3a41033ce57b2132003a65f1a1e940ea5dd044cb961676647f669",
     "3c443451e2a5225f11ea74feae39af5732cda23297b4f550ab1366b0ece80b54",
     "3c4f9695d476407188943fa6ff464aa42c8acfe778d779e635106aaf1c8a0ad3",
@@ -2600,6 +2601,7 @@
     "d24d5ce13575206140ba9bea1e6959f4550ec0ce8f1089e51223aec635427300",
     "d263da6321c286cfd1c53dda801276ac0079d0f0532e8b2aaef3ed9c2dc5f392",
     "d26e719b765a1e15f46cffba0d29f975fd0cd87523b8b96f5409dc29ded5fe62",
+    "d26f853ede4a14b6f3be4f5bda0d09c2bcfd0143fb5bcf5fe7fcd5985346771c",
     "d28785c2a9a025323bafe39c1f58f46eb27f92dc3206067901301cb8babae610",
     "d28ca3283dc400e646baccb80e3072cb7a01d4118429a14af4dff361756f1939",
     "d2a7748345a03c1ef0d956b870ebe2fa2f2c3f0d43de95e8ef8b9d16eae07fdc",
@@ -3150,11 +3152,12 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "aren race real road": 1770774405.9943707,
     "extreme repellent road rysel tights water winter": 1770806501.776888,
     "cyclist knows motivation punishing race ride series started ultra veteran": 1770806515.6163769,
     "explainer mode mywhoosh rowing": 1770806539.8305707,
-    "eddy handmade italy merckx stunning they think titanium": 1770814351.698274
+    "eddy handmade italy merckx stunning they think titanium": 1770814351.698274,
+    "added fitness goals streaks tracking trends zwift": 1770819142.3479693,
+    "announced british championships details first gravel national": 1770819147.1244602
   },
-  "last_fetch_ts": 1770814663.1009321
+  "last_fetch_ts": 1770819172.3958871
 }
