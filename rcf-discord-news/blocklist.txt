@@ -593,6 +593,7 @@ shorts
 source=MyWhoosh|shorts
 
 # Ajajanimet (uutiset ja siirtohuhut)
+Demi Vollering
 Juan Ayuso
 Matthew Brennan
 Remco Evenepoel
