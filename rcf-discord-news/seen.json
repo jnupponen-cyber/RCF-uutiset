@@ -1615,6 +1615,7 @@
     "7f6f03b0375869f74ce2beca71e724d427dc1b9b12f54f0a7d234fe1dd1ac42a",
     "7f7c487957c453457fc48cb058e11269b52f83fc08746695d207ec8e741b0f37",
     "7f9215a54e5f708bf8f0eed1863a0d78ae672c85aa6b3bb4f029059561b09239",
+    "7fa2e3fdbb8e0bd1d6df5ea5901a5464f2db3f3e12517a9d9675ccdf4d40f3a7",
     "7fb288d96bb62f5dbd3d771a3f9a32920f38bc759140146b27e8e5eadd2d0a8c",
     "7fb38f976c02820b380ff2d53a28179091b7d5fad772a9d21953fec36bf91eee",
     "7fbfc401201673065f6aa8e1c1527ff6a11f7cc1280ae7870c8c01b017a5bc72",
@@ -3211,7 +3212,8 @@
   "topics": {
     "2 castelli cold espresso glove pick proper winter works worst": 1771172424.6050835,
     "look road same": 1771175999.5114126,
-    "demi dust first leaves race rivals trio valencia vollering": 1771193800.0123184
+    "demi dust first leaves race rivals trio valencia vollering": 1771193800.0123184,
+    "assioma fitter guide pedals power": 1771215474.1487336
   },
-  "last_fetch_ts": 1771205183.8599298
+  "last_fetch_ts": 1771215476.4355254
 }
