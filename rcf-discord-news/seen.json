@@ -708,6 +708,7 @@
     "3786c2d151c0e3aab0f0b354a9e7cb533547db80dc82bcc0f3a775d876695e77",
     "3788462aee27098732d88540bf0145b9a4255282f7f06f1d2870447f2e87fd0f",
     "378d0781b847f85d018d17249fcc160dc731ea9e96f59ec671b60f3e61c9e321",
+    "379d13c66fe9911b2ca14f9ee13ec858e1209c1f609ff1de565a8ba85f4c3624",
     "37a8036650ab5f2adbe10fecdb8d73933cc7198ee69fc90238c60e502e3de91e",
     "37b22f6d460c74077243c000bf81d0b1dee748440771f04f881172e76326a62a",
     "37c62cec408182ff45c3aae98b1870e54d7ddc43c85c06ceb22786fabb336463",
@@ -2338,6 +2339,7 @@
     "b6f6388c19a829e55d944f07058237b0f07ae3bdcfb4f8195d77b0ccc4f20163",
     "b709478607668f16869b92c4218c280dcafa88258fcdf959ddc35a44ef4065b8",
     "b7163e629d33478f83268385a377d91a8ab0feb1b54f47c4718dffe1d81f1c10",
+    "b71aa3ce46e736dc888e3fa817933e06de6a4c914464f53f05d6c4ca9d099c6b",
     "b731d1ea8d81c0420b0455cb28fe0de6e1216f009f598b4f45989e16bcaddd45",
     "b74a2ad08df4672d0fe681d4cfee8a9b81c0d9722ff5e0c412ae9c07fd46bfc2",
     "b77a6d68c7b7338bd355e7d05f7cdfd9e123aeba12d085ce973ae4d1aca8f05c",
@@ -3249,7 +3251,9 @@
   "topics": {
     "artist edition everything high launches limited series specialized tarmac": 1771378029.9043903,
     "1980 aero built epitomised hand italian thinking": 1771394151.8463898,
-    "back future granted patent right self shimano shoes tightening": 1771401165.062903
+    "back future granted patent right self shimano shoes tightening": 1771401165.062903,
+    "best conditions extremely gravel mixed schwalbe tyre": 1771411012.4676893,
+    "british everything good need price road versatile": 1771411023.7875514
   },
-  "last_fetch_ts": 1771407584.3102474
+  "last_fetch_ts": 1771411041.3519332
 }
