@@ -2950,6 +2950,7 @@
     "e49199cf5ea451cba9ae696c528cda53ec40d11910c0a02007bdf75b94817afb",
     "e4a85f338321afeb98c8a9cb235d84cf63be446de8d69297300e102e27ec663c",
     "e4bf89c9e699ee726238dcd83e50dd930ba5352007cd1847db79c940ce7e8bce",
+    "e4cc2550be746a41fdcaad91b9e452aad4284af8289891d4bf4950bd2b1e54b0",
     "e4e150901f372eca4d6b2122597842b40c8f041109f585fb857467ea61eea53f",
     "e4e199320cea9e606b096ffbb4e602dc01457df9db100de4c443b53efd4ae0ba",
     "e4ea3224b2509def7eec4c3f6dbc196391c4af9fa702378dd21b79804a4755b5",
@@ -3303,7 +3304,8 @@
     "adjustment arione back extra fizik flat long road saddle tech": 1771573352.6547546,
     "01 11 arione break corsa editions exposure fizik gear lights": 1771576361.1082458,
     "14 cabezon deuter": 1771583415.4810348,
-    "airbags calls clear framework govern regulatory rider uci": 1771586764.9874563
+    "airbags calls clear framework govern regulatory rider uci": 1771586764.9874563,
+    "cannondale fastest retired road": 1771591251.379548
   },
-  "last_fetch_ts": 1771587074.6802173
+  "last_fetch_ts": 1771591281.5123167
 }
