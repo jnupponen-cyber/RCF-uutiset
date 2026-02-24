@@ -41,6 +41,7 @@
     "031ee365953f0c11b5272d7c8e154cba03952112e03e57671a922034e0e70aa8",
     "0329a49612241fd94302d9694493aa26488bca6ce97cbc4f26827d719309e167",
     "032c4535b3d822e75484ee0b2cd70cad634c62c26a0d30cf3a82d46ae8bf7a70",
+    "033b2e0f196f78174b3ca0227e86491007ac4dac2b7c7bb6c6770ffb03f72bca",
     "034c6354e4a34de244ff99ad4f0371eb9998fd5f7bdb276963963fc048a13df9",
     "035ff078166ae3458cc6ae6b310e294d976d33c8d33fbb54983cb80b9a3db4ad",
     "036fca7bd1ce61b287e05b25bb1bc7d129ef122b1c60e9228c1ce34f7395e8f6",
@@ -2002,6 +2003,7 @@
     "966ca4264c699535897012baf741a10e3512cb8bd95e43b4b45de4cdde0c632f",
     "9670adba7472d98864d503cc036b33fdc24e62e751fe42ace269797829bf69ad",
     "968346a1313d5c59ca15f25a351392ac0f5fc0c607a7b779a73f170c9f0af9f7",
+    "96845a86e5d6bdf3f79152c7718952aa5473625a2d12df79fc41eae50703c0d6",
     "96b3675f1b861abef0b30e6ad969645c65182360e3279c74b004281bfe7e3206",
     "96b7c4eb575018ced7904d983ec68d16a81f7ec62b5881d251c135ca6c13d5ac",
     "96c45ecb59609ea0e65cc38a5993fc9dddd5c74169b756bd5db5bffae626391f",
@@ -2612,6 +2614,7 @@
     "c62d483106faf5de284790a747de4205de32565ad92635281681e93a21b41b92",
     "c62f7d01dd3ea4d4720769ffb2a16619270ff593033e55c0ccb03475dc6ec766",
     "c64f41f1c10b2442f1f7c75f9e2b129cd3e829bca7b4018d7d20f6e5278d4724",
+    "c64f6c6957233d88b0f811be721acd59970bb1a937d66923e43d05f9c5f3551d",
     "c64fc6ac8f154a941a0fee183aff4f557f55bb34fc1891acf8938a1ceb2c04af",
     "c68b506a64f4881ff14aaad0fe905e82136096b3d2b19c1bf596a93e30e35f31",
     "c6a0089243cbfcdfd246249c3564258ff391a56a6be9a7e5afa490a8c6b18288",
@@ -3366,8 +3369,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "01 1 2026 club march qualifier race sunday": 1771912477.2894378,
-    "01 1 club march2026 qualifier race sunday women": 1771912480.2132435,
     "fitness helped ladder racing zwift": 1771922273.4016893,
     "7 convince could ditch features smart trainer your": 1771926219.6340122,
     "dropped gravel here just meet racer skateboard turned wheels": 1771929643.604982,
@@ -3383,7 +3384,10 @@
     "1 108 159025 released version zwift": 1771952266.6571567,
     "1050 2 edge garmin right wrong years": 1771952270.8827977,
     "cheapest comfortable faster make more ways your": 1771952282.8196464,
-    "best cheapest comfortable faster make more upgrades value ways your": 1771952302.3367977
+    "best cheapest comfortable faster make more upgrades value ways your": 1771952302.3367977,
+    "about everything know need winter": 1771955794.4746664,
+    "01 1 2026 club march qualifier race sunday": 1771955814.2354178,
+    "01 1 club march2026 qualifier race sunday women": 1771955817.050023
   },
-  "last_fetch_ts": 1771952306.589129
+  "last_fetch_ts": 1771955821.3684433
 }
