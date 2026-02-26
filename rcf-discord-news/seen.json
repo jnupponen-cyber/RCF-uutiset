@@ -1456,6 +1456,7 @@
     "6e3367ae8ce067e24745122f5e59856f04eca85e3c233c1cb54e2b20b6c1601e",
     "6e4728200502dddf748bac27f3e29fab2cb2418bd129a8f30019bb9642e8eebe",
     "6e4be6a07a1af90a1e0bf15d94d4ac2e736b514ee2dbd40462c5bd8329437dbb",
+    "6e575f34561a0e86ea341fe0660d37a96c27bff9cc7093beb88363716653591a",
     "6ed757cb82c74eb4d08438ab632d3a21ea36f748c0456a71cb3831446e462929",
     "6eef06cb40510a3ee3f990f81a82090f7ff6dadc994bb0b11bce6e4a26eaa63e",
     "6ef80e21bff90a11dc496f2f761b43f4abbe1ab185ef950307e6cf3e655ca5b1",
@@ -2310,6 +2311,7 @@
     "ad9143a56ea055c55dd39135ef94b9e0ca0c4a118ddae610adc898c20466dae3",
     "ad98aacea9dee3c60aa519aa344ebae97ad900b4af06d7db04b80ad66c55ffbc",
     "ad9e9693ef77982e592fcbf5b35ff18f7b5c7b5fb048a5ea284a2088b8383cd7",
+    "adc692c464458698ad71ef912f5492bf56ac0883a5b3a65402016e1a75eb7f85",
     "add9ed89ed0cbc9695045e7412321389d96a79410741faecb27e55c8046b62e7",
     "addfb2993a347ff5c0ba434b35559bd93173ee550108b486e1580e3423f57906",
     "adf4dceead807744b3f4239f3628a571082cfdba2125bc2f6349cf3342285a2e",
@@ -3386,7 +3388,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "answer does freehub halo leave pickup wanting your": 1772023514.5076199,
     "alpecin announced camp premier series team tech workout": 1772028307.7231464,
     "aero captured fabric jersey made miracle race santini science uses": 1772034895.7179267,
     "195 55 advent cassette engagement faster groupset life longer microshift": 1772034899.7693067,
@@ -3394,7 +3395,9 @@
     "000 3 bottom bracket later miles tooths wolf": 1772045746.0613146,
     "back balance core improving kill power workout your": 1772045749.3576126,
     "5 difficulty fits riding trainer videos winter zwift": 1772048833.435006,
-    "5 easier essentials hate indoor make miles outdoor riding these": 1772061732.5275533
+    "5 easier essentials hate indoor make miles outdoor riding these": 1772061732.5275533,
+    "adds chatgpt discovery komoot powered route": 1772068991.1998549,
+    "adjusts aenomaly angle dropper loam more post saddle switchgrade": 1772068995.5902517
   },
-  "last_fetch_ts": 1772061763.1602337
+  "last_fetch_ts": 1772069014.5262964
 }
