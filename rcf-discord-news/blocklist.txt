@@ -595,6 +595,7 @@ shorts
 source=MyWhoosh|shorts
 
 # Ajajanimet (uutiset ja siirtohuhut)
+Van Der Poel
 Demi Vollering
 Juan Ayuso
 Matthew Brennan
