@@ -2017,6 +2017,7 @@
     "8cd34c54b532380363fa36e8c94a2addda086cb2c7777f8163d36ca2364c25a8",
     "8ce2d7d3741b33a844cc58b2025152e4175c39191d59658baab2ccdf0da6e499",
     "8ce851a3c2a23c2622f7f9a08c2ab8e89f7630efc95e6b9268fb82ae35508bbb",
+    "8ce93db3b56ee9e7a0c124e51d0afae86d7094ad5445df6644b18266d9663acb",
     "8d0421b3ece56bf584ef29d498f8443b8096652dfd5e7231f9bae0ec230789ae",
     "8d0a7c63b92050039001b2f723e029709baf5d0ebae7ca484d036a7f148478e4",
     "8d1abc9323f3bede0edb70f057ba5f8ef4ce28a4663b9d0b9da0adbc905d9988",
@@ -3613,7 +3614,8 @@
   "topics": {
     "chip compatible ditches dropouts otso tuning waheela": 1773177824.5379753,
     "aero chinese fitter geometries unusual": 1773191952.2127664,
-    "bicycle future michelin past present tires": 1773201799.9036632
+    "bicycle future michelin past present tires": 1773201799.9036632,
+    "1 16 launcher macos users what windows zwift": 1773214735.9310555
   },
-  "last_fetch_ts": 1773211378.9474192
+  "last_fetch_ts": 1773214740.9164894
 }
