@@ -1157,6 +1157,7 @@
     "525bf4a75200d4bb4883f3fd50d386ea769ba51b1abe0c03d21b8ccf2eddb8ba",
     "526d6bf4ff22d5b1fafe320a740f775f9fb0494e4b0e684d6d4c1990a6796638",
     "526e8c1d85a9d5e922cacad3018c63e86ca2428922eddd2df20bf739e7253eb2",
+    "527201cf26c6c4dd76aa20ac5737fbfa20da26ba4916aeb7b57fb66edd35e693",
     "527b3bc4ba97ffcabfc73f95b3cd8c624b4cd605d9740cf29cd18b743fef8545",
     "527d0515c08dd55198a32bef052c74099e237f86757d0a61c9510be62250cf7c",
     "5286dbc1dc9b71d283a88877f06e6e50018d895ead5f0fbd384b1830240da5fe",
@@ -1336,6 +1337,7 @@
     "5e0d51b8b04505357509a9ac0041e08f235f7bc030780b6abd18a40ab120621f",
     "5e2990df671461469e1897980d55a0e69770182104042d889158bcc619f14452",
     "5e2cc4cc3bf84789b58f8c0c0661e9ca580321424af788af4cf2b1de0b85d48c",
+    "5e393164108b52f34f5bc7a1221023e20a98a6fcb41c44ad124b6f4b343e6f76",
     "5e550b4b41719e932df2571376900b79e200c7d388eed6a07a0d0753d22224ad",
     "5e55a1265e871da05c1a9417832267701ca42d3f0b652da4e4d2bae4c6401f47",
     "5e676b39e77359f67c688a49768fe0dc3316e651156ec7cf3bd365d3f986dd29",
@@ -3654,7 +3656,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "carlton collector machine raced ridden team": 1773297825.5499377,
     "200 discount ever first frame just massive ride smart zwift": 1773311516.8984523,
     "alpine pactimo thermal tights": 1773311529.6900349,
     "aero cheaper gravel more most ride side swiss wheels": 1773314838.6008816,
@@ -3680,7 +3681,9 @@
     "choose effigear gearbox pinion terra want": 1773334394.065571,
     "back finds first four growth industry market report returns time": 1773337398.87089,
     "built chasing gibraltar podium riders stinner trends": 1773340955.5351052,
-    "50 cyclists doing over should spring workouts": 1773340975.591723
+    "50 cyclists doing over should spring workouts": 1773340975.591723,
+    "expands lineup product rustler wild windbreaker": 1773344250.126472,
+    "coach cyclists deliver five gains impressive living most older rules": 1773344253.7172394
   },
-  "last_fetch_ts": 1773340978.070459
+  "last_fetch_ts": 1773344276.0875025
 }
