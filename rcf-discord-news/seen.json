@@ -628,6 +628,7 @@
     "2a05060d9d95d1bf49afc73b4646f726f17a083bfc3791eb7fd0e8fe32cda550",
     "2a058ccfd543d13e0322dc94bbb25b2ab49f463e4c9ccf9a476e437a8de3c21d",
     "2a124df577a6825987713ff9b56d9d928c907db7975f38721a69a7bfb43c8cfd",
+    "2a1286e5a4629e683f02d2acc599237653ebb47beb43f259b34c0afc87da1cfc",
     "2a400f36856035dcfa1e7f708766de66ba1b46c4bff9bb3b3cb85990505288eb",
     "2a4ac77950046f05e1f707e968435062a4c75090b6a1110f428c9ade3e664fa5",
     "2a57dc64bff17978b1d1dc49d3b5b1c313249d7119c1f470f30bc1edc34e2cdc",
@@ -2330,9 +2331,11 @@
     "a0ffd0aac3ec05410e70840ca6aa6e499c9ebdcaaf9415e7beeaf1ff4366b257",
     "a116290178be1f06dcbad18d20d8976f6c2ef7cb3e6acf5a58b55a0e8d9ad734",
     "a1162e8179a3d79c65ad8687919a05d5e39bedc8a77a92921f1b4eee32290081",
+    "a1330c8885ddd1fc428a39314351d908570bec9f6ba18ccda04729e67872aefe",
     "a14555309b5d2c1a55720767b638a19da4b93315d46ee14473d2d286c2a59c25",
     "a14a0c80fb719c3eddf00d832e52d015796bc8b1543d146f83fb73cb9ef2fbe7",
     "a14da3af372b08aa9599b42179216ada5bc34e8795b88849a368e04bcc5e955b",
+    "a164754a8f116ac308ad28f878fd5cfc36e9cc1397a7e60f4ce2ea00c66ba9ed",
     "a173e9ecd17b99870e246f49a52a439943da0c9c2a30af6284b1aa9cc646eefe",
     "a1a2ff3e7b6a49d0959a96015616daa3395d9c98db8b039c57b1126adbbe498c",
     "a1bfd5e84867aba68a015f7e9fb87e221d8d55c3363a9c037ef246b2466a5524",
@@ -2846,6 +2849,7 @@
     "c64f6c6957233d88b0f811be721acd59970bb1a937d66923e43d05f9c5f3551d",
     "c64fc6ac8f154a941a0fee183aff4f557f55bb34fc1891acf8938a1ceb2c04af",
     "c6504a289b0cc36c26d9a077af29437b64ab3832e0ea2088f2818c66a8c2bd7c",
+    "c674484597a0a5919e09ae44bd73197105b50accfd3b4ad03438be7d5a673f3c",
     "c68b506a64f4881ff14aaad0fe905e82136096b3d2b19c1bf596a93e30e35f31",
     "c6a0089243cbfcdfd246249c3564258ff391a56a6be9a7e5afa490a8c6b18288",
     "c6b7d72348dbc944238d1bff96c6e6b85fbacb73b8aa1fc3d821a9774eec7d25",
@@ -3660,10 +3664,12 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "100 anjimile contributes indie life musician percent regular riding songwriting": 1773353907.7821405,
-    "32 adds calculator evolving keep market options pressure radial tire": 1773353920.6343422,
     "adidas anemos attractive clear glasses good light looks price promise": 1773387556.3176343,
-    "bianchi break continental dark energy expanded gear gp5000 infinito light": 1773387562.5332484
+    "bianchi break continental dark energy expanded gear gp5000 infinito light": 1773387562.5332484,
+    "enduro festival gravel introducing newest racing running style": 1773397723.5204043,
+    "category creates maap material ratio steel strength tech tote weight": 1773397726.5906267,
+    "custom roll rory rose shamrock shave townsend": 1773397729.8603802,
+    "topeak turboflow valve": 1773397743.905624
   },
-  "last_fetch_ts": 1773394388.1641319
+  "last_fetch_ts": 1773398082.8273923
 }
