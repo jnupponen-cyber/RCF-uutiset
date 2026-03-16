@@ -218,6 +218,7 @@
     "0e048ba6a74df70b387d958dda9681d20064a3f91ceabafb4b4bad65bbf35e8c",
     "0e1f2039b6d991d41fb7dd98f9105f86c1fc142d8c25830e4b88b17b53edf5de",
     "0e29eca8ea1c34a8489bc2a9984e121b1dc6bd2129493898987ba55c33e88bfa",
+    "0e35f8380e438ad27e5d7a0c97b0c9ad8a68b1e4e6dac6ca7144928d5fa524d5",
     "0e41e7d46c1627917b386df813f0cc80c007c24f669738420e500b967957adc8",
     "0e4587a1022678f5c1bcc9e23a526a5d31457e79f9a6459a8ac5b6fba12dfa48",
     "0e51c50300727f8fb22f34bc85c9682ae1c4e648977eb28ed73aefd24915be38",
@@ -1715,6 +1716,7 @@
     "75921e3f451aa149f124fb2b62c3e365e3a3d0eafac0d5c3b3c79e2357452673",
     "75adcf115f899d02ea74819c4c2867a7e61060d32d1a5470e199018bb26c806b",
     "75c55bbdce0c9ef2d49d76af1dbe6dd4849b09bca0049654dd983c0c65e7bb8a",
+    "75d6456a74428f4e884758f06252887b2f3cd2ae3f0f01c12ab6e46c9f0e42c9",
     "75dd0e6cc9e4290ecdb0e4ef09b480d2c721258f9dfd39cdacd8f7b4c09ba608",
     "7606a35f13c663679ab1069a4bcca6ad50a641f387aecde349efc13df7f2e70f",
     "7619850da2f9ba9613f38608c088aa612f782922aaee90446f6b08105e0dfaca",
@@ -3702,12 +3704,12 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "15 2026 3 club march qualifier race sunday": 1773625756.8266423,
-    "15 2026 3 club march qualifier race sunday women": 1773625761.6639843,
     "aversion bibtight castelli indoor perfect sorpasso those training weather when": 1773655054.7145758,
     "11 exposure sirius": 1773655068.3874474,
     "2026 comeback continues models sidi spring summer": 1773658489.320177,
-    "about rider zwift": 1773665650.1923091
+    "about rider zwift": 1773665650.1923091,
+    "design electric essentials game joins mini portland pump works": 1773670659.8527036,
+    "awesome delaney mike prep travel wilson your": 1773670663.0689013
   },
-  "last_fetch_ts": 1773665676.5042477
+  "last_fetch_ts": 1773670679.9264004
 }
