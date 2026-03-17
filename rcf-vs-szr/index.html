@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RCF vs SZR – Race Format</title>
+  <style>
+    :root{
+      --brand-blue:#0a4da3;
+      --accent-red:#d92323;
+      --paper:#ffffff;
+      --bg:#f8f9fa;
+      --box:#eef5ff;
+    }
+    *{box-sizing:border-box}
+    body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:0;background:var(--bg);color:#222;}
+    .container{max-width:900px;margin:0 auto;padding:2rem;}
+    header{text-align:center;margin-bottom:2rem;}
+    header h1{font-size:2.5rem;margin:0;color:var(--brand-blue);} 
+    header h2{font-size:1.2rem;font-weight:normal;margin-top:.5rem}
+    section{margin-bottom:1.5rem;padding:1rem;background:var(--paper);border-radius:12px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+    h3{margin:0 0 .75rem;color:var(--accent-red)}
+    ul{padding-left:1.2rem;margin:0}
+
+    /* Schedule grid: two columns; Race 3 spans both */
+    .schedule{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .race-box{padding:1rem;background:var(--box);border-radius:10px;text-align:center}
+    .race-box.full-width{grid-column:span 2}
+
+    .highlight{background:var(--brand-blue);color:#fff;padding:.2rem .6rem;border-radius:5px;font-weight:bold}
+
+    /* Small screens: stack to one column */
+    @media (max-width:640px){
+      .schedule{grid-template-columns:1fr}
+      .race-box.full-width{grid-column:auto}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🇫🇮 RCF vs SZR 🇸🇪</h1>
+      <h2>Race Format & Rules – November 1, 2025</h2>
+    </header>
+
+    <section aria-labelledby="schedule-title">
+      <h3 id="schedule-title">Schedule</h3>
+      <div class="schedule">
+        <div class="race-box" aria-label="Race 1">
+          <p><span class="highlight">Race 1</span></p>
+          <p>0–400 ZRS points</p>
+          <p>10:00 🇫🇮 EET / 09:00 🇸🇪 CET</p>
+        </div>
+        <div class="race-box" aria-label="Race 2">
+          <p><span class="highlight">Race 2</span></p>
+          <p>400–540 ZRS points</p>
+          <p>11:00 🇫🇮 EET / 10:00 🇸🇪 CET</p>
+        </div>
+        <div class="race-box full-width" aria-label="Race 3">
+          <p><span class="highlight">Race 3</span></p>
+          <p>540–1000 ZRS points</p>
+          <p>12:00 🇫🇮 EET / 11:00 🇸🇪 CET</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="clubs-title">
+      <h3 id="clubs-title">Clubs & Participants</h3>
+      <ul>
+        <li>Ride Club Finland (RCF) vs Swedish Zwift Riders (SZR)</li>
+        <li>12 riders per category (max). Teams may start with fewer.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="course-title">
+      <h3 id="course-title">Course</h3>
+      <ul>
+        <li>Route: Sand and Sequoias (Watopia)</li>
+        <li>Distance: 22.4 km</li>
+        <li>Elevation: 180 m</li>
+        <li>One lap – <strong>No powerups</strong></li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="points-title">
+      <h3 id="points-title">Points System</h3>
+      <ul>
+        <li>Max 24 riders (12 + 12) per race</li>
+        <li>Winner: 24 pts, 2nd: 23 pts … last finisher gets points based on position</li>
+        <li>Each race: up to 300 pts (if all 24 finish)</li>
+        <li>Total event: up to 900 pts (3 × 300)</li>
+        <li>Club with higher total wins</li>
+        <li>Tiebreaker: most podium finishes (Top 3)</li>
+        <li>DSQ = no points</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="rules-title">
+      <h3 id="rules-title">Other Rules</h3>
+      <ul>
+        <li>Results: Zwiftpower official</li>
+        <li>All riders must be on Zwiftpower & registered under their club</li>
+        <li>Category Enforcement active</li>
+        <li>Powermeter + HR monitor required</li>
+        <li>Correct weight, measured on race day</li>
+        <li>ZPower not eligible</li>
+        <li>Steering not allowed</li>
+        <li>Any rule violation = points disqualified</li>
+      </ul>
+    </section>
+  </div>
+</body>
+</html>
