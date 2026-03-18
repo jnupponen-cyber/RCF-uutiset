@@ -1,4 +1,6 @@
 # Yleiset estot (kaikilta lähteiltä)
+mid south gravel
+tandem
 e-mountain
 Destination guide:
 Destination guide
