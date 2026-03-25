@@ -3280,6 +3280,7 @@
     "d8255bd332121c8c40033f85fa8c632213002f5b6d6fd381cdf0a50f7c697189",
     "d867e05138f531c112feee9ee802163b458cd455df2c3ebeea7fa5ab735be96f",
     "d8696abcc9616d2c9d1c5933073f404b4f6809be582d5e1a221052ca6bf282fd",
+    "d894c4a64c9fcc61e7871ecf86af0fa4865f705d270d90c035c98aa85fa78d79",
     "d8ab32da5dec4ca23983166bde82704e5b836aeb167798a6b78c3aa65c445f21",
     "d8ad3cc198c880d97424f0ce615471353d9931ad84a5bacabb8f08f650146165",
     "d8c13b05097c4ce9b91542587fb737f06a2282897820bd8ce1d79275b41e5914",
@@ -3865,7 +3866,8 @@
   ],
   "topics": {
     "behold cycle decker double first infinity touring world": 1774390961.9319065,
-    "1 110 159921 released version zwift": 1774394705.4976377
+    "1 110 159921 released version zwift": 1774394705.4976377,
+    "astral glasses helmet nytron project rudy sphere": 1774425505.499382
   },
-  "last_fetch_ts": 1774422037.705472
+  "last_fetch_ts": 1774425527.2975557
 }
