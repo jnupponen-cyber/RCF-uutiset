@@ -204,6 +204,7 @@
     "0c1fafa21c336aa74d16e95b8086aefc8de14150de4a75bc7b849988cd6b83fc",
     "0c256a11c78b4d3a46310381510485953ee38b2b3ec0b3951e8aeb253272fe14",
     "0c362b54d24a7795adb9fe29e489faf9a3b1004361b84c5061609c5cf5f77e89",
+    "0c3b2ccea97b7ce943d000489996e7d2cf79d43d2c78c2abad77c5c4d9826521",
     "0c655b687ae5b86e8108f989037ddc0a44012d277e72e6e9b62bfb4983ed17f2",
     "0c9f708dda6e903911b5907b8b52bbdd280288b9c20a5e2b458d8c87988b1ee2",
     "0cab072a1f0f4544dfcd5bc7c6de0b61b197474e72d5223073e2196d08805efa",
@@ -3535,6 +3536,7 @@
     "e4ed08d97d0e4c58a343ef89dbbd32f86770d5b7b3833c67ea3d3aa5407b3f07",
     "e4f01a4cca3fd91ce452e49718ddaba26c02115e6ac8268d5d43b5a69a8c8bbf",
     "e4fbcdd88986f7849bb6d9e6ee87993efb21bcf3fec8a236b66dbfcb866aca28",
+    "e5052d026a958028b914c9014755da75435f8556c67d12cc48d041b57b067a22",
     "e5192f108dde4a36545141da95a4333a61558b5afa8b3144ddec60bda1982f8f",
     "e5375c30cb62af6698c7231c5bd6c8b3463b0cfa33415b6bdaeff48dc2727b8b",
     "e5450cd3cd3c893268e64d7178ee17c5ea2f78562a2b373575503ad8e9bd833b",
@@ -3937,7 +3939,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "aero both flats gravel lighter more prevent roval terra wheels": 1774585720.4057498,
     "2026 best desk efficiently indoor ride riders setups work zwift": 1774604848.8062272,
     "32in lightest polymer seen spokes these they wheels": 1774608021.608817,
     "adds else features homemade nobody podium take thought": 1774608024.7594845,
@@ -3952,7 +3953,9 @@
     "1 custom dollar like looks million road taipei titanium what": 1774615537.915869,
     "000 2 away friends helmet helps metres music plays ride": 1774626268.612808,
     "adjustable lite realistic ride rouvy smart teams": 1774626273.2237358,
-    "ever first gets gravel more only plus races zwift": 1774626279.3698585
+    "ever first gets gravel more only plus races zwift": 1774626279.3698585,
+    "cyclists decay dental energy gels here professor risk says severe": 1774629885.445043,
+    "france gaining hopping recommends tour train weight": 1774629907.1567402
   },
-  "last_fetch_ts": 1774626300.607508
+  "last_fetch_ts": 1774629910.7258737
 }
