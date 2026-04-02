@@ -69,6 +69,7 @@
     "03ef9210cb2539d399888ffc7c1be230fe9f480d7d750e9ed4b83fc2c8658e91",
     "03f61c83a6f848bedc0fc89a99c4d8f39fd8ece6b53ffc8ea68b6f47d0324354",
     "0413c3cc049bfe05193e75bd2a74230abbd33a93a31e4132111fda4cdc20416f",
+    "043dd20780dd2af517961ce1f64c6956a5d0ace12a866c8f6eec12b643437d38",
     "046a6bfbf72403d584945c722f4a8884304a6dfab94144bdca57c5e4e2f44ae0",
     "046c9324829542aaae72e2687f3f74fa23cfb407b1aed444964091fec922ed5d",
     "0484b9ee052fa5e4a6d1ad5a7463aaac70b90af142d7e9dd0fb31259e4b2b64c",
@@ -3741,6 +3742,7 @@
     "ed164f5f8d7d43ba31898281c7064a3ae5d369f6d9fd63079a60d6dac762e20b",
     "ed1ab4ae639893c330c689e9fdb9acd5113566a11425459e8f19e3e235924af7",
     "ed2af27ad82ccdb8e8cd585e8ed436615e0a235664ae4b30375319c581d93ac4",
+    "ed3e4eda507cb77229d60e7c7de1c1b52ef70ae92d0fd4c51c43049fa0f29427",
     "ed56ae8371bfc2c867f384134962d319dbafdb670103964e7eac248dbdae5fff",
     "ed63870ce8d0d4a4e1aba738dd18b156ff36771234c03d7a552ae51651b5154d",
     "ed6f9f696fbfba0d392fb2d7e0a240fb87deb1ad97b1b3965650863a5de2ee88",
@@ -4028,12 +4030,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "aprils best days doing fools other pull rounds stories stupidest": 1775043861.0315976,
-    "ceramic graphene infused ions italian made silver socks these yarns": 1775043874.7232077,
-    "bicycle fair handlebar introduces standard": 1775043879.9666138,
-    "date innovative introduces most prologo saddle": 1775043883.2238426,
-    "1 guide hell league north racing ttt zwift": 1775048524.9794915,
-    "cyclists elite means older racer really strength teaches until what": 1775048537.7045994,
     "accuracy claims here mean meter misleading power really they what": 1775055458.1927345,
     "11 conclusion crankset draws failures recall shimano speed timeline": 1775059601.4709113,
     "cheap faster make three ways your": 1775059608.1037414,
@@ -4043,7 +4039,9 @@
     "every know ride rider road should skills": 1775059631.5789914,
     "5 mallorca races tough videos zwift": 1775069464.083945,
     "behind coast east falling gravel less path racing taken": 1775073227.554208,
-    "27 30 5 industry size wheel wheels will": 1775073240.804871
+    "27 30 5 industry size wheel wheels will": 1775073240.804871,
+    "32 inch riders shorter wheels work": 1775094244.5108464,
+    "best floor improve indoor mats protect stability trainer your": 1775094287.0697784
   },
-  "last_fetch_ts": 1775086207.9031343
+  "last_fetch_ts": 1775094288.1963239
 }
