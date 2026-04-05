@@ -585,6 +585,7 @@
     "229090d36f0f8a12127d17d7d103d43e00315538d0a5bd86e5c6f6aa7e406923",
     "229415efbd3fe8ffe0bd34c635a6e8f7bf0a525edb5671eb3b33e3721d5682e6",
     "22b921e355e02ebc414d2c192cc57df871a37027cb6c8134ee25fce62a2dff83",
+    "22d0dfe7bc3cb4c2b645cafc007145443637e56eb6f0c39b4764b5184bf6d000",
     "22d29e1aeb9275a3e8a0020dc720ee027ed143b1b758793131b2f02b2dc81d3a",
     "22d3d77df7242b00c01c21915f8d799fd69c924f1056fc4c3a267b4a791bf670",
     "22d4f342d163d9bcc133e00ff8c0ee2b0fd00045bc878b3d42624423ca12852d",
@@ -4079,12 +4080,12 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "05 1 2026 april club qualifier race sunday": 1775375520.0280733,
     "airport baggage crushing essentially gauntlet giant hutch machine runs steed": 1775378122.1365516,
     "01 climbing handling match premium price rapid refined supernatural teammachine": 1775381547.6739845,
     "2026 doing pros really training what": 1775381605.0939205,
     "faster modern much paris roubaix superbike": 1775406519.9342265,
-    "carbs debate hour misses problem real": 1775406526.97522
+    "carbs debate hour misses problem real": 1775406526.97522,
+    "05 1 2026 april club qualifier race sunday": 1775420657.741544
   },
-  "last_fetch_ts": 1775417337.168963
+  "last_fetch_ts": 1775420660.8223078
 }
