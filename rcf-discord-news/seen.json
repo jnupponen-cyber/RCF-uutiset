@@ -1210,6 +1210,7 @@
     "4ad2f466a3ef297717c96f00a048d311fef77baab3bdc917962c39d2ce9d4ecf",
     "4ae6a55aff475e47fa62755a914c11d45b285d4ea166917325c9377642df8841",
     "4ae7957f80de694359a7346c0a41767f7ade9e9bfaa24e9f4437454e4b8bc7e0",
+    "4af2433e6de0a936f371ffd973268fcd03f6ea417da9875feb1b1f2cbbea407b",
     "4af2970ccb1cfcddf61984f3bb910d4446954484239a0b9beaa5450eec7949f2",
     "4af46ca0fb820ca4cc094da1a987aad006f0323803b8e82f795afd921029b874",
     "4afda4e2a51e9442269cacd1502d8e620ad1bfe651ae7bf5ece59b25e7562433",
@@ -2922,6 +2923,7 @@
     "b19bbb631c73f49032f1b9e72b67c41e8656b2840c9ae4e3cc4b15a0613a3b64",
     "b1a1609690669fcb53d538332c3a7c0b0049dc7f33fd96a4a9b3fbb1799f142c",
     "b1ae664780fa48165b26dfeff62256665051e974690ef0df351c59ae17d14cab",
+    "b1c8c689fbb0c7ad7fdc34089ad786539ca0b97d60254cff9c9450b7efad65af",
     "b1e64e4cbd896f81b33e1e6c9d3241f9cea1cfe138e488482efb6bd1e7e46cc8",
     "b1ed11d8dc0ba83e8e48f6be2d753eb2fed17413f61e500ddcc62334a27c5928",
     "b1eef8e20f77a21ee1bc5b567dced7a0aa05aed2408dfc8b76f2144c5e0fad9b",
@@ -4172,11 +4174,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "carbon damping fibre made parcours reclaimed revolutionary strade technology vibration": 1775722489.8642488,
-    "ampd behind ever finale launched ligure mountain pivot scenes shuttle": 1775722499.0949082,
-    "170e atherton intense rode": 1775722502.5585194,
-    "about avinox everything know motors need": 1775722505.7698936,
-    "2026 auscycling championships esports national": 1775722524.073213,
     "aerodynamic canyon endurace endurance ever made most": 1775729156.1357913,
     "canyon endurace endurance good think": 1775729159.3026483,
     "blade ceramic look vision": 1775729164.711333,
@@ -4193,7 +4190,9 @@
     "beautiful cranks expensive industries moots some titanium very white": 1775753964.288135,
     "11 april makuri race routes series tiny tour": 1775757692.8336906,
     "feel rested weak": 1775757726.219178,
-    "79 bsc200s budget computer delivers igpsport value": 1775764750.2205188
+    "79 bsc200s budget computer delivers igpsport value": 1775764750.2205188,
+    "about ascend bicycling climb easier expert show these tips": 1775768279.3603742,
+    "build conquer criterium easton fitness help here hometown like races": 1775768282.083108
   },
-  "last_fetch_ts": 1775764767.0519001
+  "last_fetch_ts": 1775768308.703006
 }
