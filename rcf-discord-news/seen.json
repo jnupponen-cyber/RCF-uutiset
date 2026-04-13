@@ -3008,6 +3008,7 @@
     "b45680326aa30fc2261a366ad6bad0f39de256649683ff16fb2311cb060ffbe3",
     "b4827171e1558fb228659b6b3b834a316ef690ca83e139722f15a589a4ab4cc2",
     "b484040a0cc885bc5fa950812c14b2bc145c9c5174e0ac7d51938eec6692a630",
+    "b4a58fc6e54578db92c6e5a0acfce6ca64e349cc8e53dbe1554a54b40d341752",
     "b4abe26d03f7d85328a30d9055108f79dafb81f75663277be8452903a8e36ca0",
     "b4b38c832c40e0ae314e894c7ba97e8f0c0bfcd62281831f8f5fd1f4370970ed",
     "b4c914c8dc6c7144e8237f3278a5311b1db562a7121a1ba6e9f0a6368dded5f0",
@@ -4224,7 +4225,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "groupset hint pedals release saint shimano": 1776066685.9301138,
     "madison rack roam waterproof": 1776072583.5022883,
     "adventure advice embrace exploration need next plan road your": 1776078675.7941844,
     "bags best boxes keep move protected your": 1776078680.5804515,
@@ -4244,7 +4244,8 @@
     "32faction concept experimental kicks labs revel studio": 1776103134.3059525,
     "changes cushcore easy fast inserts make rotary tire tool": 1776103137.026621,
     "fast four hacks temporary wheels zwift": 1776107983.3963747,
-    "effective like race ride routine start stealing super tadej want": 1776107997.270268
+    "effective like race ride routine start stealing super tadej want": 1776107997.270268,
+    "bikewear custom factory inside italy made tour": 1776113098.2285547
   },
-  "last_fetch_ts": 1776108087.8317478
+  "last_fetch_ts": 1776113116.3489795
 }
