@@ -4145,6 +4145,7 @@
     "fb6ebd12869009da6de0a380f528d3888651ec00eebec214f2f17b36b5014aea",
     "fb862dd9a513b9ed9a893e95bee67076fa80541af0c09f137ffca8077467e377",
     "fbdfd70f877f0230a0d3f49e6b16531122ffedc1da1121a43fcaa9ec49a86b0e",
+    "fc1e7790f1facc8e200ed3d35afd916f25db753d3f4e9c2ab6d9f27fcb2c90d8",
     "fc2f8d87416e13e27a17d87888e8d49da0b610d82d3eb61472241583af63aa15",
     "fc3b18074e99cc7a0fb99e91ff651057687b54b17b44b95f9c3aa0fb30fbf60e",
     "fc6450d813ed1aa35d277df782d01a98a098402e6672d120ba14cbd6bd75bd63",
@@ -4204,7 +4205,8 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "groupset hint pedals release saint shimano": 1776066685.9301138
+    "groupset hint pedals release saint shimano": 1776066685.9301138,
+    "madison rack roam waterproof": 1776072583.5022883
   },
-  "last_fetch_ts": 1776066995.9203596
+  "last_fetch_ts": 1776072610.4793785
 }
