@@ -918,6 +918,7 @@
     "37c62cec408182ff45c3aae98b1870e54d7ddc43c85c06ceb22786fabb336463",
     "37d05e3b24042bf563c891f86388135a4b6b7548d0d3023afec29a23c89b3ca5",
     "37d39d192398a167661bcd0739bb1a4c7399ec7cde2f58b5c461a75abf2b4610",
+    "37d6630466431520aea184c071e75d019df127f18cdf60e3e83a2695d1b21d2c",
     "37e506d98485140213af422831a74ec6edc84c9887e94c091235848a0ef44120",
     "37ec7908bdbf54173fd6cd2b0370a1e2299143cd8d9bf06824fbd540b5623bd3",
     "37f896f6ccd5e2454eb6acd08e605be38e93ad9ec7c459242fd9b266a6a3b004",
@@ -1638,6 +1639,7 @@
     "62fc5a6649e6be4183146c53098b9133440726d5e7940c7ed1cb7370c439059d",
     "62ffed1a3552fa002e7fe9e10c907f9988bb16dd8acda807be7cf7d6fb7af017",
     "6315ea838e3e532697a63fdee68cbb288f6f5a76a45c5900c5c534272551ad22",
+    "63189014837aaa119086b4873244f8209b61688ff7357ed91bbd2013ad56029c",
     "631e6333143d2a5a5889d1adf1a1815065c2272cce58f245a5ef8e9d7a460deb",
     "63200f05b527e3c2e2687b4df3ba3d265ef065649b4943e1070dd8574a193f08",
     "6329f6d9f981ffe84d051d8b98488287a3bc42a5a75744b17d794baa3c943862",
@@ -2777,6 +2779,7 @@
     "a5a8efb0d1114d1515859d7f8b29dc62054d549bc76c8a695753cc3c9c12661c",
     "a5b90eb7d4815db9f5192ee74fec65ef9949eacdfb2d07002511b5ff32976360",
     "a5ccf9ab91e7bc0e3efb1a75f4c32d3dc2da65b49ce75cc98d0a66828b16b458",
+    "a5d157693db5d9376b130938cbe98736061f6f3cf6cd3e7a63ec43f7d86781ae",
     "a5d473f0b848e29b911fcd38893d4d8d06693ef80c5e02325ddf24f7842c4ecc",
     "a5f90598d19fce2c91012ce81592fe885cf3548ed796caa1be73f9e1f0400197",
     "a60edf4c04fd1210eaac9bda197b5151fc86a433fd1337befa9a8be6c2db1dfd",
@@ -4225,9 +4228,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "charts frame gravel ranking speed tests wheel zwift": 1776085657.1329749,
-    "beer brewing capture carbon could innovation like market needs santini": 1776085669.5679853,
-    "airline hassle money pick right save your": 1776085675.8954139,
     "1 399 competition could entering frame gloria gravel just over": 1776093000.3590097,
     "adds gravity lines radial redefined romy rounder schwalbe tire trail": 1776093003.4459782,
     "100 around barely bells cancelling changed defeat designed duobell headphones": 1776099387.2196927,
@@ -4242,7 +4242,10 @@
     "changes cushcore easy fast inserts make rotary tire tool": 1776103137.026621,
     "fast four hacks temporary wheels zwift": 1776107983.3963747,
     "effective like race ride routine start stealing super tadej want": 1776107997.270268,
-    "bikewear custom factory inside italy made tour": 1776113098.2285547
+    "bikewear custom factory inside italy made tour": 1776113098.2285547,
+    "design lightweight reinvents rooftop tents thule widesky": 1776131663.7802677,
+    "adjust angle based cobber knog lean lights output reflex speed": 1776131668.7773795,
+    "2026 best better faster guide indoor performance recovery tools": 1776131690.1048408
   },
-  "last_fetch_ts": 1776123437.2889125
+  "last_fetch_ts": 1776131691.1722162
 }
