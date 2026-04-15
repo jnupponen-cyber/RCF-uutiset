@@ -1358,6 +1358,7 @@
     "527b3bc4ba97ffcabfc73f95b3cd8c624b4cd605d9740cf29cd18b743fef8545",
     "527d0515c08dd55198a32bef052c74099e237f86757d0a61c9510be62250cf7c",
     "5286dbc1dc9b71d283a88877f06e6e50018d895ead5f0fbd384b1830240da5fe",
+    "5289245f3fcf1be651624937ac593e4f22af8595c06fd8dd457f934a2707bd0c",
     "528a50da6e01786ab07b94998420489f522118fb7a189ffea3715fc16488a7e5",
     "52a57e84e63069d31695e940664a3272f8b323b4b43721d2095c5eb0845baa67",
     "52a867696a48401df54b88e67e5bbb8aea8f5b6a7d0d6e4db946ff7ad6a6f297",
@@ -3108,6 +3109,7 @@
     "b80951d0ab5016ada06f67acf475ca55453023ccd6ed6dc27b628e7d5cb9b696",
     "b8316653cc82f328c6798cb0e6687aac85fec27d4237a9be09987bb0d4d17177",
     "b83aaf367bdff2db6126b23c8b6a4be80a223b9a2a4e0fff12baef75777f0afa",
+    "b85346dd1583263377c556c103a00a4beca243f096ae3bd56a3fbf736a950828",
     "b8550c5a8a0b3d67a927ac31773c82f8703c4271dd5d3b3e20f0ff989b93faf2",
     "b85c8a7212dc5cc5abc607353dc118168856fd5d1fe54475acf1b736ec6234a0",
     "b85ddc8652cfa44fd0ae23198351288a4e94d829343cb4a98697a06a7fa3843f",
@@ -4214,6 +4216,7 @@
     "fb69eaf4618b4494daeedafa80a058c59ff687177125fda30d1eb8c3399bb68c",
     "fb6ebd12869009da6de0a380f528d3888651ec00eebec214f2f17b36b5014aea",
     "fb862dd9a513b9ed9a893e95bee67076fa80541af0c09f137ffca8077467e377",
+    "fbc871487784e1a756f018d527c4c7af4c2da0bc606cc01af8f9d3f01eaf434e",
     "fbdfd70f877f0230a0d3f49e6b16531122ffedc1da1121a43fcaa9ec49a86b0e",
     "fc1e7790f1facc8e200ed3d35afd916f25db753d3f4e9c2ab6d9f27fcb2c90d8",
     "fc2f8d87416e13e27a17d87888e8d49da0b610d82d3eb61472241583af63aa15",
@@ -4276,7 +4279,6 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "about aero upgrades what wrong": 1776234530.9981904,
     "12 adds chainring crank gravel groupset larger options shimano shorter": 1776241436.6860042,
     "benefit could cues cyclists entry fixes groupset level problem road": 1776241440.9205217,
     "11 cassette cues derailleur does expands groupset lighter range rear": 1776241446.9596884,
@@ -4299,7 +4301,10 @@
     "amstel cyclosportif gold rides": 1776269469.743801,
     "580 city denim free huit include jeans life rapha repairs": 1776276052.3937857,
     "adds affordable bontrager more road tires tougher wider": 1776276056.2091439,
-    "carbon first grip handlebars heat heated hotbars will world": 1776276060.624152
+    "carbon first grip handlebars heat heated hotbars will world": 1776276060.624152,
+    "5 ironman prep results training videos zwift": 1776283111.2071674,
+    "mini monitor outrider pressure shrinks tire wireless": 1776283130.0398617,
+    "7 after back fixes lower pain riding these": 1776283133.0687327
   },
-  "last_fetch_ts": 1776276149.5994868
+  "last_fetch_ts": 1776283227.1301324
 }
