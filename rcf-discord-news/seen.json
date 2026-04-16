@@ -1254,6 +1254,7 @@
     "4be83059ef3927224489970af98b89c676c4ab360f305009e34355d25b985c4f",
     "4bf2f0bf099a818a87c8eea9b40703e672d68bd49843d6dbdb7c4d274a07d313",
     "4bf98bb1954e33e4231388cb2fff553bf59271434be378fd0e31e92d7605e91a",
+    "4c0070ee4b87a4336697e2e60d189d783357cf71cc02ec872807c3ea5594cf43",
     "4c1549bdffda2e23c323a67c900ef41f65cb7e7c0dbff0f56c181a22cf8b1291",
     "4c1e77d796d969deaf2f04f2ea559ebc9346821d0c2c7f061a58668d2ce0df04",
     "4c237f5dbf8511db86ef8a473e2850854d482175ec7bbf9912554e770c65088e",
@@ -2231,6 +2232,7 @@
     "83b0561fa5afac7fb5ed9e3ea2ce584240928e8e1eee2b643bd0852f3bc38188",
     "83c7a43d2dac7c3290cfbe23e66bb10996a5c774a56627bfd554e1ca5f7477c5",
     "83c920f8f65bf3f9c15fdcdcbe84575654561f16fcc17a6f2b14d0621cb9366f",
+    "83cb4c6a8104c2fec70e41d307295b072edbb86c4b48b3df2d51f5e0e564074e",
     "83f0819b29f185299987dc65a3f8ee311202a64521cf480512f55b103ef46080",
     "83f2bcb6d9db4daa9bd6f486b553baefe50cf475df6b1aa99cb376e7ce64f8c3",
     "8403bcf4c10e6429aa91bcd964d11888483e2b943cc52a737a6f5a14fcaef513",
@@ -4286,13 +4288,14 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "55 boyd deep disc goes gravel pinnacle race road wheels": 1776289880.0603676,
     "affordable bars classic drops ergomax kite pedals plus post ritchey": 1776296156.3191447,
     "aero choice design hidden prologo rails repairable saddle wild": 1776296159.3447099,
     "magene meter p715 pedal power": 1776304819.8452885,
     "2026 build cave complete guide indoor pain setup ultimate zwift": 1776304830.6555238,
     "50mm continental dubnital gaping gravel hole plugs range tyre": 1776327858.3268938,
-    "bigger getting little world": 1776328173.4583282
+    "bigger getting little world": 1776328173.4583282,
+    "50mm conti dubnital gravel launches might mountain next rubber tyre": 1776334194.9773629,
+    "gravel launches lightweight riders tune tyres wheels": 1776334203.3099632
   },
-  "last_fetch_ts": 1776328177.0371351
+  "last_fetch_ts": 1776334245.3236907
 }
