@@ -696,6 +696,7 @@
     "26a4ea65389a3a12a0767a8e8450067e6aabed70f221fe19e1c2dd94adcb4125",
     "26acb98eb7cc3fb2908687cf74becf47b66bb3473a70f9ac6cc67021b8873ff8",
     "26baae4b6894091ad6fb8aa63eae34e867f1f50989708c6ce17af48f8f1644eb",
+    "26d195efa67606433c39fe92b8a58b47958999a9fc4b7ae5b332e2468f4eba77",
     "26d40b68a02182d2a08b5b8d59643b0120f8fd4aed3e9f1ef69e65c73d7d72b4",
     "26d507d6ae7d11ebed97c2e5da1d3d36ea994143b0ff0ee7e1795c95e5507cc6",
     "26f662b33dced29b1ccc303c012aaec26bdee805e08eec4256210bef897ff245",
@@ -983,6 +984,7 @@
     "38cd88de20ccd5da62fb2375d6ac543e705818365734f0481a0f90351e8cec03",
     "38da8028378a5ffdd4a60100816f266a7f8fdcd930076835ee7dcb9fbd5c7ef0",
     "38efabcc7ab185df314d41cef0afbf17b3c40140f63b974e485f30d606fe4786",
+    "38fd2dbfbe23baebb572d35d74e02357017b68ad3f218e136ea2b99e965a7001",
     "391d6d4016a512f8ea594269627bc55f27a688a98e334add0f37ea145ac3cb03",
     "3920ddd8c3bfde56fbaeea449117522bceb03ce212dbeaa238fe07027da1ed09",
     "3926c2f050c779f04abfef7b097935e1f2a842e2299ba00ab29636a41c93e66d",
@@ -3614,6 +3616,7 @@
     "cfa87b887d375d8234f03f3fba0b49281b9326d85b675a50b0d42b0ed37afd38",
     "cfb963a0c67834c823d0045a5d2abe4af7a40e8ef10abd758d7165a2da3bd354",
     "cfc8213a9ce209ad6c09a47492b54d3da93bdf246ed8fe39bc0a997839d6f699",
+    "cfd43a250a3f248327547bde90cbf9822ee4c76584ac9b50c98dda01cc736a43",
     "cfde185842c7f5db36f4e4edab06166d084703a4d17edf131f798ef88d18eb53",
     "cffb1bd531b9e538a9a6264a28dc148e67e6b4a5f7907765229690d7c4005cf5",
     "cffb71ad5b9a3930d5fc0b9135d46430d9b6e268703877ef9871ed4e1ee6b2b1",
@@ -4432,13 +4435,11 @@
     "ffe086c8c937263385394859118bb7b0e35bb3a47b127d5fc7837021dc927b5c"
   ],
   "topics": {
-    "10 wheelsets zwift": 1776884728.819206,
-    "8 better just made wahoo years": 1776884773.8696537,
-    "just little mountain often otter some spotted wacky": 1776890690.6139226,
-    "dunlop enters geomax launched market otter range tire": 1776890695.3128817,
-    "50 beyond cyclists expert over ride strong tips": 1776890699.0553918,
     "32 cannondale here inch prototype race reveal rode they what": 1776901198.245118,
-    "aero apparel black izumi launches line pearl premium road": 1776909527.539853
+    "aero apparel black izumi launches line pearl premium road": 1776909527.539853,
+    "daring food force further meet much only ride there women": 1776934403.5475066,
+    "32 coming inch like revolution wheel whether": 1776934408.2326736,
+    "assessed budget carbon compete find offerings points premium price race": 1776934420.650957
   },
-  "last_fetch_ts": 1776927596.164887
+  "last_fetch_ts": 1776934452.692627
 }
